@@ -312,12 +312,11 @@
   /* Alles wat mee moet schalen/verschuiven bij het zoomen zit in deze laag,
      zodat kaarttegels, appellationvlakken en markers altijd exact uitlijnen. */
   .map-zoomable{ position:absolute; inset:0; transform-origin:50% 50%; will-change: transform; }
-  /* Echte, gratis OpenTopoMap-tegels (reliëf + contourlijnen, data © OpenStreetMap-
-     bijdragers en SRTM) als kaartbodem, via een kleurfilter naar de Provençaalse
-     paletsfeer van de site getrokken. */
+  /* Echte, gratis OpenStreetMap-tegels (© OpenStreetMap-bijdragers) als kaartbodem,
+     via een kleurfilter naar de Provençaalse paletsfeer van de site getrokken. */
   .tile-grid{
-    position:absolute; inset:0; display:grid;
-    grid-template-columns: repeat(14, 1fr); grid-template-rows: repeat(10, 1fr);
+    position:absolute; inset:0; display:grid; background: var(--paper);
+    grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(5, 1fr);
     filter: sepia(.6) saturate(1.6) hue-rotate(-10deg) contrast(1.08) brightness(1.04);
   }
   .tile-grid img{ width:100%; height:100%; display:block; object-fit:cover; }
@@ -473,7 +472,14 @@
 
   @media (max-width: 720px){
     .topnav, .filterbar, .hero, .appellation-section, .map-wrap, footer, .compare-tray{ padding-left:18px; padding-right:18px; }
-    .filterbar{ top:58px; }
+    /* Op telefoon blijft alleen de smalle topnav vastgeplakt; de appellatie-knoppen
+       scrollen gewoon mee weg, anders blijft er nauwelijks ruimte over voor de
+       wijnkaarten zelf. De topnav wordt ook zelf compacter. */
+    .topnav{ padding-top:10px; padding-bottom:10px; }
+    .brand .top{ font-size:8.5px; }
+    .brand .bottom{ font-size:17px; }
+    .view-toggle button{ padding:6px 13px; font-size:10px; }
+    .filterbar{ position:static; padding-top:12px; padding-bottom:12px; backdrop-filter:none; }
     h1.hero-title{ font-size: 38px; }
     .landscape-strip{ grid-template-columns: 1fr; height:auto; }
     .landscape-tile{ height:130px; }
@@ -574,7 +580,7 @@
   </main>
 
   <footer>
-    <p style="margin:0 0 6px;">Reliëfkaart: <a href="https://opentopomap.org/" target="_blank" rel="noopener">OpenTopoMap</a> (CC-BY-SA), kaartgegevens © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-bijdragers (ODbL) en SRTM-hoogtedata. De appellationvlakken, wijnhuis-markeringen en kleurstijl zijn eigen toevoegingen — ter vergelijking, niet kadastraal nauwkeurig.</p>
+    <p style="margin:0 0 6px;">Kaartgegevens © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-bijdragers, beschikbaar onder de Open Database License (ODbL). De appellationvlakken, wijnhuis-markeringen en kleurstijl zijn eigen toevoegingen — ter vergelijking, niet kadastraal nauwkeurig.</p>
     <p style="margin:0; opacity:.8;">Sfeerbeelden: Vincent van Gogh, <em>The Green Vineyard</em> (1888) &amp; <em>Wheat Field with Cypresses</em> (1889, The Met) — publiek domein, via Wikimedia Commons. Lavendelveld-foto © Wikimedia Commons-bijdrager, vrij te gebruiken (zie licentie op de bestandspagina).</p>
   </footer>
 
@@ -1180,12 +1186,14 @@ const MASSIFS = [
   { name:"Massif des Maures", cx:2592, cy:1626 },
 ];
 
-/* Reliëfkaart van OpenTopoMap (kaartstijl CC-BY-SA OpenTopoMap, kaartgegevens
-   © OpenStreetMap-bijdragers + SRTM-hoogtedata) — 14×10 tegels op zoom 11,
-   exact dezelfde bounding box als voorheen maar met dubbele resolutie: meer
-   wegen, gehuchten en reliëf zichtbaar, handig voor het uitstippelen van de wijnroute. */
-const TILE_CONFIG = { z:11, xStart:1050, yStart:744, cols:14, rows:10 };
-const TILE_SUBDOMAINS = ["a","b","c"];
+/* Rasterkaart van OpenStreetMap (© OpenStreetMap-bijdragers, ODbL) — 7×5 tegels
+   op zoom 10, exact de bounding box van de Provence-rosé-appellations.
+   (We gebruiken bewust standaard-OSM i.p.v. OpenTopoMap: dat laatste bleek op
+   sommige mobiele netwerken tegels te weigeren/blokkeren bij dit aantal
+   gelijktijdige verzoeken, met kapotte "?"-vlakken tot gevolg. Dezelfde
+   SVG-coördinaten (wijnhuizen, zones, massieven) blijven gewoon werken, want
+   die staan los van de onderliggende tegel-resolutie.) */
+const TILE_CONFIG = { z:10, xStart:525, yStart:372, cols:7, rows:5 };
 
 function buildTileGrid(){
   const grid = document.getElementById("tile-grid");
@@ -1193,8 +1201,7 @@ function buildTileGrid(){
   let html = "";
   for(let row=0; row<rows; row++){
     for(let col=0; col<cols; col++){
-      const sub = TILE_SUBDOMAINS[(col + row) % TILE_SUBDOMAINS.length];
-      html += `<img src="https://${sub}.tile.opentopomap.org/${z}/${xStart+col}/${yStart+row}.png" alt="" loading="lazy">`;
+      html += `<img src="https://tile.openstreetmap.org/${z}/${xStart+col}/${yStart+row}.png" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`;
     }
   }
   grid.innerHTML = html;
@@ -1283,7 +1290,7 @@ function buildMap(){
 }
 
 /* ---------- WIJNROUTE-SUGGESTIE ---------- */
-const PX_TO_KM = 0.05562; // ≈55,6 m/pixel op deze breedtegraad (zoom 11 OpenTopoMap-mozaïek)
+const PX_TO_KM = 0.05562; // ≈55,6 m/pixel in de SVG-coördinatenruimte (3584px breed) — los van de onderliggende tegel-bron
 function distancePx(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
 
 function nearestNeighborOrder(stopIds){
