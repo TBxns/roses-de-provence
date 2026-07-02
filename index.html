@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Rosés de Provence — Wijnhuizen &amp; Terroirs</title>
+<style>
+  :root{
+    --stone:#E9D8C6;
+    --rose:#E4AFA0;
+    --facade:#C07068;
+    --lavender:#9B92C0;
+    --shadow:#2C1E18;
+    --stone-70: rgba(233,216,198,.7);
+    --paper: #FBF4EC;
+    --font-display: 'Didot','Hoefler Text','Palatino Linotype', Georgia, 'Times New Roman', serif;
+    --font-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --zone-cdp: var(--rose);
+    --zone-bandol: var(--facade);
+    --zone-palette: var(--lavender);
+    --zone-lesbaux: #EFCBC0;
+    --zone-coteaux: #DCC6AC;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family: var(--font-ui);
+    background: var(--paper);
+    color: var(--shadow);
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color:inherit; }
+  button{ font-family: var(--font-ui); cursor:pointer; }
+
+  /* ---------- TOP NAV ---------- */
+  .topnav{
+    position: sticky; top:0; z-index: 40;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 40px;
+    background: var(--shadow);
+    color: var(--stone);
+    border-bottom: 1px solid rgba(233,216,198,.15);
+  }
+  .brand{
+    font-family: var(--font-display);
+    font-style: italic;
+    line-height: 1;
+  }
+  .brand .top{ font-family: var(--font-ui); font-style:normal; letter-spacing:.18em; font-size:10px; opacity:.75; display:block; margin-bottom:2px; }
+  .brand .bottom{ font-size:22px; }
+  .view-toggle{ display:flex; gap:8px; }
+  .view-toggle button{
+    background: transparent; border:1px solid rgba(233,216,198,.4);
+    color: var(--stone); padding:8px 18px; border-radius:999px;
+    font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    transition: all .2s ease;
+  }
+  .view-toggle button.active{ background: var(--rose); color: var(--shadow); border-color: var(--rose); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    padding: 70px 40px 40px;
+    background: var(--stone);
+    overflow: hidden;
+    background-image:
+      linear-gradient(115deg, transparent 46%, rgba(44,30,24,.05) 47%, rgba(44,30,24,.05) 49%, transparent 50%),
+      linear-gradient(115deg, transparent 60%, rgba(44,30,24,.04) 61%, rgba(44,30,24,.04) 63%, transparent 64%),
+      linear-gradient(65deg, transparent 20%, rgba(44,30,24,.05) 21%, rgba(44,30,24,.05) 23%, transparent 24%),
+      linear-gradient(65deg, transparent 34%, rgba(44,30,24,.04) 35%, rgba(44,30,24,.04) 37%, transparent 38%),
+      linear-gradient(65deg, transparent 74%, rgba(44,30,24,.05) 75%, rgba(44,30,24,.05) 77%, transparent 78%),
+      linear-gradient(115deg, transparent 8%, rgba(44,30,24,.04) 9%, rgba(44,30,24,.04) 11%, transparent 12%),
+      linear-gradient(200deg, rgba(155,146,192,.08), transparent 55%),
+      linear-gradient(100deg, rgba(233,216,198,.95) 0%, rgba(233,216,198,.8) 42%, rgba(233,216,198,.42) 72%, rgba(233,216,198,.12) 100%),
+      url("https://commons.wikimedia.org/wiki/Special:FilePath/Farmhouse_in_Provence,_1888,_Vincent_van_Gogh,_NGA.jpg?width=1600");
+    background-size: 340px 340px, 260px 260px, 300px 300px, 220px 220px, 380px 380px, 200px 200px, 100% 100%, 100% 100%, cover;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, center 38%;
+    background-repeat: repeat, repeat, repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat;
+  }
+  .hero-eyebrow{
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase; color: var(--facade);
+    display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  }
+  .hero-eyebrow::before{ content:''; width:22px; height:1px; background: var(--facade); display:inline-block; }
+  h1.hero-title{
+    font-family: var(--font-display); font-style: italic; font-weight:400;
+    font-size: clamp(38px, 6vw, 66px); line-height: 1.04; margin: 0 0 18px; max-width: 720px;
+  }
+  .hero-sub{
+    font-size:15px; line-height:1.6; max-width:520px; color: rgba(44,30,24,.75);
+  }
+
+  /* ---------- LANDSCAPE STRIP ---------- */
+  .landscape-strip{ display:grid; grid-template-columns: repeat(3,1fr); height:210px; }
+  .landscape-tile{ position:relative; background-size:cover; background-position:center; overflow:hidden; }
+  .landscape-tile::before{ content:''; position:absolute; inset:0; background: var(--facade); mix-blend-mode:multiply; opacity:.14; }
+  .landscape-tile::after{ content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(44,30,24,0) 50%, rgba(44,30,24,.62) 100%); }
+  .landscape-caption{ position:absolute; left:18px; bottom:14px; z-index:2; color:#F5EAE0; font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-family: var(--font-ui); text-shadow:0 1px 4px rgba(0,0,0,.55); }
+  .landscape-caption b{ display:block; font-family: var(--font-display); font-style:italic; text-transform:none; letter-spacing:0; font-size:16px; margin-top:2px; }
+
+  /* ---------- FILTER BAR ---------- */
+  .filterbar{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    padding: 20px 40px; background: var(--stone-70);
+    border-bottom: 1px solid rgba(44,30,24,.08);
+    position: sticky; top: 65px; z-index: 30;
+    backdrop-filter: blur(4px);
+  }
+  .filterbar .label{ font-size:10px; letter-spacing:.18em; text-transform:uppercase; color: rgba(44,30,24,.5); margin-right:6px; }
+  .pill{
+    border:1px solid rgba(44,30,24,.2); background: transparent; color: var(--shadow);
+    padding:9px 18px; border-radius:999px; font-size:13px; letter-spacing:.02em;
+    transition: all .18s ease;
+  }
+  .pill:hover{ border-color: var(--shadow); }
+  .pill.active{ background: var(--shadow); color: var(--stone); border-color: var(--shadow); }
+
+  /* ---------- REFINE BAR (zoek + druiven + smaak) ---------- */
+  .refinebar{
+    padding: 18px 40px 22px; background: var(--paper);
+    border-bottom: 1px solid rgba(44,30,24,.08);
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .refine-row{ display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+  .refine-row .label{ font-size:10px; letter-spacing:.18em; text-transform:uppercase; color: rgba(44,30,24,.5); margin-right:4px; flex-shrink:0; }
+  .search-row{ justify-content:space-between; }
+  #search-input{
+    flex:1; min-width:220px; max-width:420px;
+    border:1px solid rgba(44,30,24,.22); border-radius:999px; background: var(--stone-70);
+    padding:10px 18px; font-size:13px; color: var(--shadow); font-family: var(--font-ui);
+    outline:none; transition: border-color .18s ease;
+  }
+  #search-input:focus{ border-color: var(--facade); }
+  .text-btn{
+    background:none; border:none; color: var(--facade); font-size:12px; letter-spacing:.03em;
+    text-decoration: underline; text-underline-offset:3px; padding:6px 4px; flex-shrink:0;
+  }
+  .text-btn:hover{ color: var(--shadow); }
+  .tag-pill{
+    border:1px solid rgba(44,30,24,.2); background: transparent; color: var(--shadow);
+    padding:6px 14px; border-radius:999px; font-size:12px; letter-spacing:.01em;
+    transition: all .16s ease;
+  }
+  .tag-pill:hover{ border-color: var(--facade); }
+  .tag-pill.active{ background: var(--facade); color: var(--paper); border-color: var(--facade); }
+  .result-count{ font-size:11.5px; color: rgba(44,30,24,.55); font-style:italic; font-family: var(--font-display); }
+  .empty-state{ padding: 60px 40px; text-align:center; color: rgba(44,30,24,.55); font-size:14px; }
+  .empty-state .big{ font-family: var(--font-display); font-style:italic; font-size:26px; color: var(--shadow); display:block; margin-bottom:10px; }
+  .sort-label{ font-size:11px; letter-spacing:.05em; color: rgba(44,30,24,.55); display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .sort-label select{
+    border:1px solid rgba(44,30,24,.22); border-radius:999px; background: var(--stone-70);
+    padding:8px 14px; font-size:12.5px; color: var(--shadow); font-family: var(--font-ui); outline:none;
+  }
+  .pill.fav-pill.active{ background: var(--facade); border-color: var(--facade); }
+
+  /* ---------- HART / FAVORIET ---------- */
+  .fav-heart{
+    background:none; border:none; font-size:17px; line-height:1; color: rgba(44,30,24,.3);
+    display:inline-flex; align-items:center; justify-content:center; padding:8px;
+    transition: color .15s ease, transform .15s ease; flex-shrink:0;
+  }
+  .fav-heart svg{ width:1em; height:1em; display:block; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition: fill .15s ease, stroke .15s ease; }
+  .fav-heart:hover{ transform: scale(1.15); }
+  .fav-heart.active{ color: var(--facade); }
+  .fav-heart.active svg{ fill: currentColor; }
+  /* padding vergroot het tikgebied (fijn voor telefoon) zonder het icoontje zelf groter te maken;
+     top/right zijn gecompenseerd zodat de visuele positie op laptop gelijk blijft. */
+  .wine-card .fav-heart{ position:absolute; top:2px; right:2px; z-index:2; }
+  .sidebar-wine .cuvee-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .sidebar-wine .cuvee-row .fav-heart{ font-size:15px; }
+
+  /* ---------- VERGELIJKEN ---------- */
+  .compare-toggle{
+    background: var(--paper); border:1px solid rgba(44,30,24,.25); border-radius:999px;
+    font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:5px 10px; color: rgba(44,30,24,.6);
+    transition: all .15s ease;
+  }
+  .compare-toggle:hover{ border-color: var(--facade); color: var(--facade); }
+  .compare-toggle.active{ background: var(--shadow); color: var(--stone); border-color: var(--shadow); }
+  .wine-card .compare-toggle{ width:100%; box-sizing:border-box; text-align:center; margin-top:12px; }
+  .sidebar-wine .compare-toggle{ margin-top:8px; }
+
+  .compare-tray{
+    position: fixed; left:0; right:0; bottom:0; z-index:55;
+    background: var(--shadow); color: var(--stone);
+    display:flex; align-items:center; gap:16px; padding:14px 40px;
+    transform: translateY(100%); transition: transform .3s ease;
+  }
+  .compare-tray.open{ transform: translateY(0); }
+  .compare-tray .chips{ display:flex; gap:8px; flex-wrap:wrap; flex:1; }
+  .compare-tray .chip{
+    background: rgba(233,216,198,.12); border:1px solid rgba(233,216,198,.3); border-radius:999px;
+    padding:6px 12px 6px 14px; font-size:12px; display:flex; align-items:center; gap:8px;
+  }
+  .compare-tray .chip button{ background:none; border:none; color: var(--stone); opacity:.6; font-size:14px; }
+  .compare-tray .chip button:hover{ opacity:1; }
+  .compare-tray .go-btn{
+    background: var(--facade); color: var(--paper); border:none; border-radius:999px;
+    padding:10px 22px; font-size:13px; letter-spacing:.02em; flex-shrink:0;
+  }
+  .compare-tray .go-btn:hover{ background: var(--rose); }
+  .compare-tray .clear-btn{ background:none; border:none; color: rgba(233,216,198,.6); font-size:12px; text-decoration:underline; flex-shrink:0; }
+
+  .compare-modal{
+    position: fixed; top:50%; left:50%; z-index:61;
+    width:min(920px, 94vw); max-height:88vh; overflow:auto;
+    background: var(--paper); border-radius:6px; box-shadow: 0 30px 70px rgba(0,0,0,.4);
+    transform: translate(-50%,-50%) scale(.94); opacity:0; pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease; padding:40px 34px 30px;
+  }
+  .compare-modal.open{ opacity:1; pointer-events:auto; transform: translate(-50%,-50%) scale(1); }
+  .compare-table{ display:grid; gap:0 22px; }
+  .compare-col{ border-left:1px solid rgba(44,30,24,.1); padding-left:22px; }
+  .compare-col:first-child{ border-left:none; padding-left:0; }
+  .compare-col .bottle-icon{ width:70px; height:auto; margin-bottom:10px; }
+  .compare-col h4{ font-family: var(--font-display); font-style:italic; font-size:19px; margin:0 0 4px; }
+  .compare-col .house{ font-size:11px; color: rgba(44,30,24,.55); margin-bottom:14px; }
+  .compare-row{ padding:10px 0; border-top:1px solid rgba(44,30,24,.08); font-size:12px; }
+  .compare-row .k{ font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color: rgba(44,30,24,.5); display:block; margin-bottom:3px; }
+
+  /* ---------- STERREN & NOTITIE ---------- */
+  .rating-stars{ display:flex; gap:4px; margin-bottom:6px; }
+  .rating-stars button{ background:none; border:none; font-size:20px; color: rgba(44,30,24,.25); }
+  .rating-stars button.filled{ color: var(--facade); }
+  .personal-note{
+    width:100%; box-sizing:border-box; border:1px solid rgba(44,30,24,.2); border-radius:4px;
+    background: var(--stone-70); padding:8px 10px; font-family: var(--font-ui); font-size:12px;
+    color: var(--shadow); resize:vertical; min-height:44px;
+  }
+
+  /* ---------- ROUTE ---------- */
+  .route-toggle{
+    position:absolute; left:14px; bottom:14px; z-index:6;
+    background: var(--paper); border:1px solid rgba(44,30,24,.25); border-radius:999px;
+    padding:8px 16px; font-size:12px; color: var(--shadow); box-shadow:0 2px 8px rgba(44,30,24,.18);
+  }
+  .route-toggle.active{ background: var(--facade); color: var(--paper); border-color: var(--facade); }
+  .route-panel{
+    position:absolute; left:14px; bottom:58px; z-index:6; max-width:min(260px, calc(100% - 28px));
+    background: var(--paper); border:1px solid rgba(44,30,24,.18); border-radius:6px;
+    padding:12px 14px; font-size:12px; box-shadow:0 6px 18px rgba(44,30,24,.18); display:none;
+  }
+  .route-panel.show{ display:block; }
+  .route-panel .title{ font-family: var(--font-display); font-style:italic; font-size:14px; margin-bottom:6px; }
+  .route-panel ol{ margin:0 0 8px; padding-left:18px; }
+  .route-panel .dist{ color: rgba(44,30,24,.6); font-style:italic; margin-bottom:8px; }
+  .route-panel button{ background:none; border:none; color: var(--facade); font-size:11.5px; text-decoration:underline; }
+  .route-stop-label{ font-family: var(--font-ui); font-weight:bold; font-size:18px; fill: var(--paper); text-anchor:middle; pointer-events:none; }
+  .route-line{ fill:none; stroke: var(--facade); stroke-width:3; stroke-dasharray:10 8; opacity:.75; }
+
+  /* ---------- MAIN ---------- */
+  main{ position:relative; }
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  /* ---------- LIST VIEW ---------- */
+  .appellation-section{ padding: 46px 40px 10px; border-top: 1px solid rgba(44,30,24,.08); }
+  .appellation-section:first-child{ border-top:none; }
+  .appellation-tag{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--facade);
+    display:flex; align-items:center; gap:8px; margin-bottom:8px;
+  }
+  .appellation-tag .dot{ width:7px; height:7px; border-radius:50%; background: var(--facade); display:inline-block; }
+  .appellation-title{ font-family: var(--font-display); font-style:italic; font-size:30px; margin:0 0 10px; }
+  .appellation-desc{ max-width: 640px; font-size:14px; line-height:1.6; color: rgba(44,30,24,.72); margin-bottom: 30px; }
+
+  .card-grid{
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap:26px;
+    padding-bottom: 42px;
+  }
+
+  .wine-card{
+    position:relative; background: var(--paper);
+    border: 1.5px solid var(--card-color, var(--rose));
+    box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 6px var(--card-color, var(--rose));
+    padding: 22px 16px 20px;
+    aspect-ratio: 3/6;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    cursor:pointer;
+    transition: transform .22s ease, box-shadow .22s ease;
+  }
+  .wine-card::before{
+    content:''; position:absolute; inset:9px;
+    background: var(--card-color, var(--rose)); opacity:.04; pointer-events:none;
+  }
+  .wine-card:hover{ transform: translateY(-4px); }
+  .wine-card .house{ font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color: rgba(44,30,24,.55); margin-bottom:10px; }
+  .bottle-icon{ display:block; flex-shrink:0; }
+  .wine-card .bottle-icon{ width:58px; height:143px; margin-bottom:10px; filter: drop-shadow(0 4px 7px rgba(44,30,24,.16)); }
+  .wine-card .strip{ width:36px; height:5px; border-radius:2px; background: var(--card-color, var(--rose)); margin-bottom:12px; }
+  .wine-card .cuvee{ font-family: var(--font-display); font-style:italic; font-size:19px; line-height:1.2; margin: 0 0 10px; }
+  .wine-card .ornament{ font-size:10px; color: var(--card-color, var(--rose)); margin: 2px 0 10px; letter-spacing:.4em; }
+  .wine-card .appellation-mini{ font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color: rgba(44,30,24,.5); margin-bottom:12px; }
+  .wine-card .notes{ font-size:11.5px; line-height:1.5; color: rgba(44,30,24,.68); margin-bottom: auto; flex-grow:1; }
+  .wine-card .meta{ width:100%; margin-top:14px; padding-top:12px; border-top: 1px solid rgba(44,30,24,.12); font-size:10px; color: rgba(44,30,24,.6); display:flex; flex-direction:column; gap:5px; }
+  .wine-card .meta .row{ display:flex; justify-content:space-between; gap:6px; }
+  .wine-card .meta .price .filled{ color: var(--facade); }
+  .wine-card .meta .price .empty{ color: rgba(44,30,24,.2); }
+
+  /* ---------- MAP VIEW ---------- */
+  /* Vaste, gangbare kaartformaat i.p.v. randloos meeschalen met heel brede vensters —
+     op laptop dus een nette, herkenbare kaartgrootte; inzoomen doe je met de +/− knoppen. */
+  .map-wrap{ position:relative; padding: 30px 40px 60px; max-width: 900px; margin: 0 auto; }
+  .map-legend{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom:18px; font-size:11px; color: rgba(44,30,24,.7); }
+  .map-legend .item{ display:flex; align-items:center; gap:7px; }
+  .map-legend .swatch{ width:12px; height:12px; border-radius:3px; display:inline-block; border:1px solid rgba(44,30,24,.2); }
+  .map-stage{
+    position:relative; background: var(--paper); border:1px solid rgba(44,30,24,.12); border-radius:4px;
+    overflow:hidden; aspect-ratio: 1792/1280; cursor:grab; touch-action:none; user-select:none;
+  }
+  .map-stage.dragging{ cursor:grabbing; }
+  /* Alles wat mee moet schalen/verschuiven bij het zoomen zit in deze laag,
+     zodat kaarttegels, appellationvlakken en markers altijd exact uitlijnen. */
+  .map-zoomable{ position:absolute; inset:0; transform-origin:50% 50%; will-change: transform; }
+  /* Echte, gratis OpenTopoMap-tegels (reliëf + contourlijnen, data © OpenStreetMap-
+     bijdragers en SRTM) als kaartbodem, via een kleurfilter naar de Provençaalse
+     paletsfeer van de site getrokken. */
+  .tile-grid{
+    position:absolute; inset:0; display:grid;
+    grid-template-columns: repeat(14, 1fr); grid-template-rows: repeat(10, 1fr);
+    filter: sepia(.6) saturate(1.6) hue-rotate(-10deg) contrast(1.08) brightness(1.04);
+  }
+  .tile-grid img{ width:100%; height:100%; display:block; object-fit:cover; }
+  .map-wash{ position:absolute; inset:0; background: var(--facade); opacity:.08; mix-blend-mode:multiply; pointer-events:none; }
+  svg#provence-map{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+  .map-controls{
+    position:absolute; right:14px; bottom:14px; z-index:6;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .map-controls button{
+    width:34px; height:34px; border-radius:50%; border:1px solid rgba(44,30,24,.25);
+    background: var(--paper); color: var(--shadow); font-size:18px; line-height:1;
+    box-shadow: 0 2px 8px rgba(44,30,24,.18); transition: background .15s ease, color .15s ease;
+  }
+  .map-controls button:hover{ background: var(--facade); color: var(--paper); border-color: var(--facade); }
+  .map-controls #zoom-reset{ font-size:13px; }
+  .zone{ stroke: rgba(44,30,24,.3); stroke-width:4.4; stroke-dasharray: 10 14; opacity:.5; transition: opacity .2s; }
+  .zone:hover{ opacity:.7; }
+  .zone-label{ font-family: var(--font-ui); font-size:44px; letter-spacing:.1em; text-transform:uppercase; fill: rgba(44,30,24,.6); pointer-events:none; paint-order:stroke; stroke: var(--paper); stroke-width:10px; }
+  .massif-label{ font-family: var(--font-display); font-style:italic; font-size:40px; fill: rgba(44,30,24,.5); pointer-events:none; paint-order:stroke; stroke: var(--paper); stroke-width:8px; }
+  .compass text{ font-family: var(--font-display); font-style:italic; font-size:48px; fill: var(--shadow); }
+  .compass line, .compass path{ stroke: var(--shadow); }
+  .scale-bar line{ stroke: var(--shadow); stroke-opacity:.6; }
+  .scale-bar text{ font-family: var(--font-ui); font-size:34px; fill: rgba(44,30,24,.6); }
+  .map-frame{ fill:none; stroke: rgba(44,30,24,.35); }
+  .map-tick{ stroke: rgba(44,30,24,.25); stroke-width:4; }
+
+  .marker{ cursor:pointer; transition: opacity .2s ease; }
+  /* Onzichtbare, ruimere tikcirkel rond elke speld — vergroot het treffiegebied
+     voor muis én vinger zonder dat het zichtbare speldje groter oogt. */
+  .marker circle.hit{ fill:transparent; pointer-events:all; }
+  /* "Oplicht"-ring: verschijnt en zwelt op zodra je over het bolletje zweeft of
+     het geselecteerd is — geeft duidelijk zichtbaar aan welke plek oplicht. */
+  .marker circle.glow{
+    fill:none; stroke: var(--facade); stroke-width:6; opacity:0; pointer-events:none;
+    transition: opacity .25s ease, r .3s ease;
+  }
+  .marker:hover circle.glow, .marker.selected circle.glow{ opacity:.55; r:58; }
+  .marker circle.pin{
+    fill: var(--paper); stroke: var(--shadow); stroke-width:7.2;
+    transition: r .15s ease, fill .15s ease;
+  }
+  .marker:hover circle.pin, .marker.selected circle.pin{ fill: var(--facade); stroke: var(--shadow); r:34; }
+  .marker text{
+    font-family: var(--font-display); font-style:italic; font-size:46px; fill: var(--shadow);
+    paint-order: stroke; stroke: var(--paper); stroke-width: 12px; pointer-events:none;
+    opacity:0; transition: opacity .15s ease;
+  }
+  .marker text .marker-commune{
+    font-style:normal; font-size:.58em; letter-spacing:.05em; text-transform:uppercase; opacity:.85;
+  }
+  .marker:hover text, .marker.selected text{ opacity:1; }
+  .marker.dimmed{ opacity:.16; pointer-events:none; }
+  .zone{ transition: opacity .25s ease, stroke-width .25s ease; }
+  .zone.dimmed{ opacity:.08; }
+  .zone.active-filter{ opacity:.68; stroke-width:6.8; }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    position: fixed; top:0; right:-420px; width:400px; max-width:92vw; height:100vh;
+    background: var(--shadow); color: var(--stone);
+    box-shadow: -12px 0 40px rgba(0,0,0,.25);
+    transition: right .32s ease;
+    z-index: 50; overflow-y:auto;
+  }
+  .sidebar.open{ right:0; }
+  .sidebar-head{ padding: 26px 26px 18px; border-bottom:1px solid rgba(233,216,198,.15); position:relative; }
+  .sidebar-close{
+    position:absolute; top:20px; right:20px; background:none; border:none; color: var(--stone);
+    font-size:20px; line-height:1; opacity:.7;
+  }
+  .sidebar-close:hover{ opacity:1; }
+  .sidebar-eyebrow{ font-size:10px; letter-spacing:.16em; text-transform:uppercase; color: var(--rose); margin-bottom:8px; }
+  .sidebar-title{ font-family: var(--font-display); font-style:italic; font-size:28px; margin:0 0 8px; max-width:300px; }
+  .sidebar-commune{ font-size:12px; color: rgba(233,216,198,.65); margin-bottom:14px; }
+  .sidebar-desc{ font-size:13px; line-height:1.6; color: rgba(233,216,198,.8); }
+  .sidebar-wines{ padding: 8px 26px 30px; }
+  .sidebar-wine{ padding:18px 0; border-bottom:1px solid rgba(233,216,198,.12); display:flex; gap:16px; }
+  .sidebar-wine:last-child{ border-bottom:none; }
+  .sidebar-wine .bottle-icon{ width:38px; height:93px; flex-shrink:0; margin-top:2px; }
+  .sidebar-wine .wine-text{ flex:1; min-width:0; }
+  .sidebar-wine .cuvee{ font-family: var(--font-display); font-style:italic; font-size:18px; margin:0 0 6px; }
+  .sidebar-wine .strip{ width:28px; height:4px; border-radius:2px; margin-bottom:8px; }
+  .sidebar-wine .notes{ font-size:12px; line-height:1.55; color: rgba(233,216,198,.75); margin-bottom:10px; }
+  .sidebar-wine .meta{ display:flex; flex-wrap:wrap; gap:10px 16px; font-size:10.5px; color: rgba(233,216,198,.65); }
+  .sidebar-wine .meta b{ color: var(--stone); font-weight:600; }
+  .sidebar-backdrop{
+    position: fixed; inset:0; background: rgba(44,30,24,.35); opacity:0; pointer-events:none;
+    transition: opacity .3s ease; z-index:45;
+  }
+  .sidebar-backdrop.open{ opacity:1; pointer-events:auto; }
+
+  .sidebar-wine{ cursor:pointer; transition: background .15s ease; }
+  .sidebar-wine:hover{ background: rgba(233,216,198,.06); }
+  .sidebar-wine .clickhint{ font-size:10px; letter-spacing:.06em; color: var(--rose); margin-top:8px; display:inline-block; }
+
+  /* ---------- WINE DETAIL MODAL (doorklikken vanuit de zijbalk) ---------- */
+  .detail-backdrop{
+    position: fixed; inset:0; background: rgba(44,30,24,.55); backdrop-filter: blur(2px);
+    opacity:0; pointer-events:none; transition: opacity .28s ease; z-index:60;
+  }
+  .detail-backdrop.open{ opacity:1; pointer-events:auto; }
+  .detail-modal{
+    position: fixed; top:50%; left:50%; z-index:61;
+    width:min(640px, 90vw); max-height:86vh; overflow-y:auto;
+    background: var(--paper); border-radius:6px; box-shadow: 0 30px 70px rgba(0,0,0,.4);
+    transform: translate(-50%,-50%) scale(.94); opacity:0; pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  .detail-modal.open{ opacity:1; pointer-events:auto; transform: translate(-50%,-50%) scale(1); }
+  .detail-close{
+    position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px;
+    color: rgba(44,30,24,.55); line-height:1; z-index:2;
+  }
+  .detail-close:hover{ color: var(--shadow); }
+  .detail-body{ display:flex; gap:28px; padding:36px 34px; }
+  .detail-bottle{ flex-shrink:0; }
+  .detail-bottle .bottle-icon{ width:110px; height:auto; filter: drop-shadow(0 8px 14px rgba(44,30,24,.2)); }
+  .detail-info{ flex:1; min-width:0; }
+  .detail-eyebrow{ font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color: var(--facade); margin-bottom:8px; }
+  .detail-title{ font-family: var(--font-display); font-style:italic; font-size:28px; margin:0 0 6px; }
+  .detail-house{ font-size:12px; color: rgba(44,30,24,.6); margin-bottom:16px; }
+  .detail-notes{ font-size:13.5px; line-height:1.6; color: rgba(44,30,24,.75); margin:0 0 18px; }
+  .detail-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px 18px; margin-bottom:22px; }
+  .detail-grid .item{ font-size:12px; }
+  .detail-grid .item .k{ display:block; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color: rgba(44,30,24,.5); margin-bottom:3px; }
+  .detail-grid .item .v{ color: var(--shadow); }
+  .detail-grid .item .v .price-euro{ display:block; font-size:10.5px; color: rgba(44,30,24,.55); margin-top:2px; font-style:italic; }
+  .detail-links{ display:flex; flex-wrap:wrap; gap:10px; }
+  .detail-link{
+    display:inline-block; background: var(--shadow); color: var(--stone) !important; text-decoration:none;
+    padding:11px 22px; border-radius:999px; font-size:12.5px; letter-spacing:.03em; transition: background .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .detail-link:hover{ background: var(--facade); }
+  /* Secundaire link (Gall & Gall) — subtieler dan de hoofd-CTA naar de website van het wijnhuis. */
+  .detail-link.secondary{
+    background: transparent; color: var(--shadow) !important; border:1px solid rgba(44,30,24,.3);
+    padding:10px 21px;
+  }
+  .detail-link.secondary:hover{ background: rgba(44,30,24,.06); border-color: var(--shadow); }
+
+  @media (max-width:560px){
+    .detail-body{ flex-direction:column; align-items:flex-start; padding:26px 22px; }
+    .detail-bottle .bottle-icon{ width:90px; }
+    .compare-modal{ padding:30px 20px 22px; }
+    .compare-table{ grid-template-columns: 1fr !important; gap:0; }
+    .compare-col{ border-left:none !important; padding-left:0 !important; border-top:1px solid rgba(44,30,24,.1); padding-top:20px; margin-top:20px; }
+    .compare-col:first-child{ border-top:none; padding-top:0; margin-top:0; }
+  }
+
+  footer{ padding: 30px 40px 50px; font-size:11px; color: rgba(44,30,24,.5); border-top:1px solid rgba(44,30,24,.08); }
+
+  @media (max-width: 720px){
+    .topnav, .filterbar, .hero, .appellation-section, .map-wrap, footer, .compare-tray{ padding-left:18px; padding-right:18px; }
+    .filterbar{ top:58px; }
+    h1.hero-title{ font-size: 38px; }
+    .landscape-strip{ grid-template-columns: 1fr; height:auto; }
+    .landscape-tile{ height:130px; }
+    /* Grotere tikgebieden op telefoon/tablet-formaat: kaartknoppen en de vergelijk-knop
+       blijven op laptop compact, maar worden hier ruimer om makkelijker aan te tikken. */
+    .map-controls button{ width:44px; height:44px; font-size:20px; }
+    .map-controls #zoom-reset{ font-size:15px; }
+    .wine-card .compare-toggle{ padding:10px 10px; }
+  }
+
+  @media (max-width:600px){
+    .compare-tray{ flex-direction:column; align-items:stretch; gap:10px; padding-top:14px; padding-bottom:14px; }
+    .compare-tray .go-btn, .compare-tray .clear-btn{ text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <div class="brand">
+      <span class="top">Rosés de</span>
+      <span class="bottom">Provence</span>
+    </div>
+    <div class="view-toggle">
+      <button id="btn-list" class="active" data-view="list">Lijst</button>
+      <button id="btn-map" data-view="map">Kaart</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-eyebrow">Uitsluitend · Provence</div>
+    <h1 class="hero-title">Les Rosés<br>de Provence</h1>
+    <p class="hero-sub">Zeventien wijnhuizen, vijf appellations, één regio die de wereld leerde hoe rosé gemaakt moet worden. Vergelijk terroirs, druiven en karakter — van de Alpilles tot de Golf van Saint-Tropez.</p>
+  </header>
+
+  <section class="landscape-strip" aria-hidden="true">
+    <div class="landscape-tile" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Vincent_Van_Gogh_-_The_Green_Vineyard_(1888).jpg?width=900')">
+      <span class="landscape-caption">Wijnvelden<b>Côtes de Provence</b></span>
+    </div>
+    <div class="landscape-tile" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Lavender_Field_Provence_France_021.JPG?width=900')">
+      <span class="landscape-caption">Lavendel &amp; mas provençal<b>Haute-Provence</b></span>
+    </div>
+    <div class="landscape-tile" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Wheat-Field-with-Cypresses-(1889)-Vincent-van-Gogh-Met.jpg?width=900')">
+      <span class="landscape-caption">Cipressen &amp; korenvelden<b>Saint-Rémy</b></span>
+    </div>
+  </section>
+
+  <div class="filterbar" id="filterbar">
+    <span class="label">Appellation</span>
+    <button class="pill active" data-filter="alle">Alle</button>
+  </div>
+
+  <div class="refinebar" id="refinebar">
+    <div class="refine-row search-row">
+      <input type="search" id="search-input" placeholder="Zoek op huis, cuvée of smaak…" aria-label="Zoeken in rosés">
+      <label class="sort-label">Sorteren
+        <select id="sort-select" aria-label="Sorteren">
+          <option value="appellation">Appellation (standaard)</option>
+          <option value="price-asc">Prijs: laag → hoog</option>
+          <option value="price-desc">Prijs: hoog → laag</option>
+          <option value="abv-asc">Alcohol: laag → hoog</option>
+          <option value="aging-desc">Bewaarpotentieel: lang → kort</option>
+        </select>
+      </label>
+      <button class="text-btn" id="reset-filters">Wis filters</button>
+    </div>
+    <div class="refine-row" id="grape-filters"><span class="label">Druiven</span></div>
+    <div class="refine-row" id="style-filters"><span class="label">Smaak</span></div>
+    <div class="result-count" id="result-count"></div>
+  </div>
+
+  <main>
+    <section class="view active" id="view-list"></section>
+    <section class="view" id="view-map">
+      <div class="map-wrap">
+        <div class="map-legend" id="map-legend"></div>
+        <div class="map-stage" id="map-stage">
+          <div class="map-zoomable" id="map-zoomable">
+            <div class="tile-grid" id="tile-grid"></div>
+            <div class="map-wash"></div>
+            <svg id="provence-map" viewBox="0 0 3584 2560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"></svg>
+          </div>
+          <div class="map-controls">
+            <button id="zoom-in" type="button" title="Inzoomen">+</button>
+            <button id="zoom-out" type="button" title="Uitzoomen">−</button>
+            <button id="zoom-reset" type="button" title="Weergave herstellen">⤢</button>
+          </div>
+          <button class="route-toggle" id="route-toggle" type="button">Route plannen</button>
+          <div class="route-panel" id="route-panel">
+            <div class="title">Voorgestelde proefroute</div>
+            <ol id="route-list"></ol>
+            <div class="dist" id="route-dist"></div>
+            <button id="route-clear" type="button">Route wissen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p style="margin:0 0 6px;">Reliëfkaart: <a href="https://opentopomap.org/" target="_blank" rel="noopener">OpenTopoMap</a> (CC-BY-SA), kaartgegevens © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-bijdragers (ODbL) en SRTM-hoogtedata. De appellationvlakken, wijnhuis-markeringen en kleurstijl zijn eigen toevoegingen — ter vergelijking, niet kadastraal nauwkeurig.</p>
+    <p style="margin:0; opacity:.8;">Sfeerbeelden: Vincent van Gogh, <em>The Green Vineyard</em> (1888) &amp; <em>Wheat Field with Cypresses</em> (1889, The Met) — publiek domein, via Wikimedia Commons. Lavendelveld-foto © Wikimedia Commons-bijdrager, vrij te gebruiken (zie licentie op de bestandspagina).</p>
+  </footer>
+
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <button class="sidebar-close" id="sidebar-close">&times;</button>
+      <button class="text-btn" id="sb-share" style="position:absolute; top:22px; right:52px; color:var(--rose);">Deel link</button>
+      <div class="sidebar-eyebrow" id="sb-eyebrow">Wijnhuis</div>
+      <h3 class="sidebar-title" id="sb-title"></h3>
+      <div class="sidebar-commune" id="sb-commune"></div>
+      <div class="sidebar-desc" id="sb-desc"></div>
+    </div>
+    <div class="sidebar-wines" id="sb-wines"></div>
+  </aside>
+
+  <div class="detail-backdrop" id="detail-backdrop"></div>
+  <div class="detail-modal" id="detail-modal" role="dialog" aria-modal="true">
+    <button class="detail-close" id="detail-close">&times;</button>
+    <button class="text-btn" id="detail-share" style="position:absolute; top:20px; right:52px;">Deel link</button>
+    <div class="detail-body">
+      <div class="detail-bottle" id="detail-bottle"></div>
+      <div class="detail-info">
+        <div class="detail-eyebrow" id="detail-eyebrow"></div>
+        <div class="cuvee-row"><h3 class="detail-title" id="detail-title"></h3><button class="fav-heart" id="detail-fav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button></div>
+        <div class="detail-house" id="detail-house"></div>
+        <p class="detail-notes" id="detail-notes"></p>
+        <div class="detail-grid" id="detail-grid"></div>
+        <div class="detail-links">
+          <a class="detail-link" id="detail-link" href="#" target="_blank" rel="noopener">Bezoek het wijnhuis →</a>
+          <a class="detail-link secondary" id="detail-gall-link" href="#" target="_blank" rel="noopener">Zoek bij Gall &amp; Gall (NL) →</a>
+        </div>
+        <div style="margin-top:22px; padding-top:18px; border-top:1px solid rgba(44,30,24,.1);">
+          <div class="rating-stars" id="detail-stars">
+            <button type="button" data-star="1">★</button><button type="button" data-star="2">★</button><button type="button" data-star="3">★</button><button type="button" data-star="4">★</button><button type="button" data-star="5">★</button>
+          </div>
+          <textarea class="personal-note" id="detail-note" placeholder="Jouw eigen proefnotitie…"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare-backdrop detail-backdrop" id="compare-backdrop"></div>
+  <div class="compare-modal" id="compare-modal" role="dialog" aria-modal="true">
+    <button class="detail-close" id="compare-close">&times;</button>
+    <h3 style="font-family:var(--font-display); font-style:italic; font-size:26px; margin:0 0 20px;">Vergelijk rosés</h3>
+    <div class="compare-table" id="compare-table"></div>
+  </div>
+
+  <div class="compare-tray" id="compare-tray">
+    <div class="chips" id="compare-chips"></div>
+    <button class="clear-btn" id="compare-clear-tray">Wis selectie</button>
+    <button class="go-btn" id="compare-go">Vergelijk</button>
+  </div>
+
+<script>
+/* =====================================================================
+   DATA
+===================================================================== */
+const APPELLATIONS = {
+  cdp:     { name:"Côtes de Provence",            tag:"AOC Côtes de Provence",            zoneColor:"var(--zone-cdp)",     desc:"Veruit de grootste appellation — ruim 80% van alle Provence-rosé. Van kust tot binnenland, kalksteen tot garrigue. Enorme diversiteit, alle met de kenmerkende bleek-blush kleur." },
+  bandol:  { name:"Bandol",                       tag:"AOC Bandol",                       zoneColor:"var(--zone-bandol)",  desc:"Kleine, felle appellation aan de kust bij Toulon. Mourvèdre geeft de rosé hier meer kleur, structuur en bewaarpotentieel dan elders in de Provence." },
+  palette: { name:"Palette",                      tag:"AOC Palette",                      zoneColor:"var(--zone-palette)", desc:"Microscopisch kleine appellation rond Aix-en-Provence — nog geen veertig hectare. Traditionele, bijna ambré stijl met een uitgesproken, kruidig karakter." },
+  lesbaux: { name:"Les Baux-de-Provence",         tag:"AOC Les Baux-de-Provence",          zoneColor:"var(--zone-lesbaux)", desc:"Biologisch bolwerk tussen de kalkrotsen van de Alpilles. Droge, winderige hellingen rond het middeleeuwse Les Baux geven kruidige, mediterrane rosés." },
+  coteaux: { name:"Coteaux d'Aix-en-Provence",    tag:"AOC Coteaux d'Aix-en-Provence",     zoneColor:"var(--zone-coteaux)", desc:"Uitgestrekt gebied rond Aix-en-Provence, van kalksteenplateaus tot rivierdalen. Historische domeinen naast eigentijdse, design-gedreven wijnhuizen." },
+};
+
+// x/y in de 800x600 kaart-viewBox, ruwweg geografisch gepositioneerd
+const HOUSES = [
+  { id:"esclans", name:"Château d'Esclans", appellation:"cdp", commune:"La Motte", x:2876, y:1114, website:"https://www.esclans.com",
+    desc:"Sacha Lichine's iconische domein dat rosé wereldwijd naar de premium categorie tilde. Van fris en licht tot houtgerijpt en gastronomisch.",
+    wines:[
+      { cuvee:"Whispering Angel", color:"#F2E2DB", grapes:["Grenache","Cinsault","Rolle"], abv:13, price:2, aging:"Nu – 1 jaar", notes:"Bleek, luchtig en fruitig — de referentie voor toegankelijke Provence-rosé. Perzik, citrus, minerale afdronk." },
+      { cuvee:"Rock Angel", color:"#ECD2C7", grapes:["Grenache","Rolle","Cinsault"], abv:13.5, price:3, aging:"Nu – 2 jaar", notes:"Iets geconcentreerder en romiger dan Whispering Angel, met witbloesem en gekonfijte citrus." },
+      { cuvee:"Garrus", color:"#C9847A", grapes:["Grenache","Rolle"], abv:14, price:4, aging:"Nu – 6 jaar", notes:"Vergist en gerijpt op nieuwe eiken vaten. Rijk, kruidig, met noten van gebrande hazelnoot en witte perzik." },
+    ]},
+  { id:"ott", name:"Domaine Ott", appellation:"cdp", commune:"Taradeau / La Londe", x:2626, y:1272, website:"https://www.domaines-ott.com",
+    desc:"Sinds 1912 een van de grondleggers van de moderne Provence-rosé, herkenbaar aan de amfoorvormige fles. Twee zusterdomeinen, één filosofie.",
+    wines:[
+      { cuvee:"Clos Mireille", color:"#F0E0D8", grapes:["Rolle","Sémillon"], abv:13, price:3, aging:"Nu – 3 jaar", notes:"Van het kustdomein bij La Londe. Zilte mineraliteit, witte bloemen en een lange, zoute afdronk." },
+      { cuvee:"Château de Selle", color:"#E9CFC3", grapes:["Grenache","Cinsault","Syrah"], abv:13, price:3, aging:"Nu – 3 jaar", notes:"Het oorspronkelijke domein bij Taradeau. Elegant, droog, met rode bosvruchten en garrigue-kruiden." },
+    ]},
+  { id:"minuty", name:"Château Minuty", appellation:"cdp", commune:"Gassin", x:2958, y:1726, website:"https://minuty.com",
+    desc:"Familiedomein met uitzicht over de golf van Saint-Tropez, bekend van de herkenbare gouden fles en constante, verfijnde stijl.",
+    wines:[
+      { cuvee:"M de Minuty", color:"#EEDCD3", grapes:["Grenache","Cinsault","Tibouren"], abv:12.5, price:2, aging:"Nu – 1 jaar", notes:"Toegankelijk en fruitig, met rode bes, grapefruit en een frisse, droge finale." },
+      { cuvee:"Cuvée 281", color:"#DDAE9E", grapes:["Grenache","Tibouren","Cinsault"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Genoemd naar de 281 percelen van het domein. Geconcentreerder, met steenfruit en een kruidige ondertoon." },
+    ]},
+  { id:"saintemarguerite", name:"Château Sainte-Marguerite", appellation:"cdp", commune:"La Londe-les-Maures", x:2414, y:1910, website:"https://www.chateausaintemarguerite.com",
+    desc:"Kustdomein op schisteus terroir bij La Londe, gerund door de familie Fayard. Bekend voor precisie en een fijne, zoute signatuur.",
+    wines:[
+      { cuvee:"Symphonie", color:"#ECD5C9", grapes:["Grenache","Cinsault","Rolle"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Sierlijk en bloemig, met witte perzik en een subtiele minerale ondergrond van het schisteterroir." },
+      { cuvee:"Fantastique", color:"#D49C8D", grapes:["Grenache","Tibouren"], abv:13.5, price:4, aging:"Nu – 4 jaar", notes:"Topcuvée met meer diepgang: rood fruit, kruidnagel en een lange, gestructureerde afdronk." },
+    ]},
+  { id:"tempier", name:"Domaine Tempier", appellation:"bandol", commune:"Le Plan-du-Castellet", x:1662, y:1790, website:"https://www.domainetempier.com",
+    desc:"Het referentiedomein van Bandol, gesticht door de familie Peyraud. Mourvèdre van oude, ongeënte stokken geeft hun rosé ongeëvenaarde diepgang.",
+    wines:[
+      { cuvee:"Bandol Rosé", color:"#C07068", grapes:["Mourvèdre","Cinsault","Grenache"], abv:13.5, price:3, aging:"Nu – 5 jaar", notes:"Vol, kruidig en gestructureerd. Framboos, tijm en een zilte, kruidige afdronk — rosé die om eten vraagt." },
+    ]},
+  { id:"begude", name:"Domaine de la Bégude", appellation:"bandol", commune:"Le Beausset", x:1710, y:1800, website:"https://domainedelabegude.fr",
+    desc:"Hoog gelegen, biodynamisch domein in het amfitheater van Bandol. Frisheid door hoogte, karakter door Mourvèdre.",
+    wines:[
+      { cuvee:"Rosé Tradition", color:"#BB6E60", grapes:["Mourvèdre","Cinsault","Grenache"], abv:13, price:3, aging:"Nu – 4 jaar", notes:"Kruidig en mineraal, met wilde aardbei en garrigue. Levendige zuren dankzij de hoogteligging." },
+    ]},
+  { id:"simone", name:"Château Simone", appellation:"palette", commune:"Meyreuil", x:1362, y:1180, website:"https://chateau-simone.fr",
+    desc:"Al sinds de 16e eeuw vrijwel synoniem met de appellation Palette. Ongebruikelijke druivenassemblages en een licht oxidatieve, tijdloze stijl.",
+    wines:[
+      { cuvee:"Palette Rosé", color:"#D8A597", grapes:["Grenache","Mourvèdre","Muscat de Hambourg"], abv:13, price:4, aging:"Nu – 8 jaar", notes:"Uitzonderlijk bewaarrosé: gedroogd steenfruit, noten en specerijen. Weinig gemeen met lichtvoetige Provence-rosé." },
+    ]},
+  { id:"masdeladame", name:"Mas de la Dame", appellation:"lesbaux", commune:"Les Baux-de-Provence", x:328, y:694, website:"https://www.masdeladame.com",
+    desc:"Biologisch familiedomein aan de voet van de Alpilles, sinds 1995 gerund door twee nichtjes. Poëtische etiketten, precieze wijnen.",
+    wines:[
+      { cuvee:"Coin Caché Rosé", color:"#DCA898", grapes:["Grenache","Cinsault","Syrah"], abv:13, price:3, aging:"Nu – 3 jaar", notes:"Kruidig en droog, met rood fruit en tijm van de garrigue rond de Alpilles. Zilte, lange afdronk." },
+    ]},
+  { id:"lacoste", name:"Château La Coste", appellation:"coteaux", commune:"Le Puy-Sainte-Réparade", x:1148, y:824, website:"https://chateau-la-coste.com",
+    desc:"Wijndomein, architectuur- en kunstpark in één, met gebouwen van Ando, Gehry en Foster tussen de biologische wijngaarden.",
+    wines:[
+      { cuvee:"Rosé de La Coste", color:"#E8D2C6", grapes:["Grenache","Cinsault","Rolle"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Strak en mineraal, met witte bloesem en rode bes. Moderne, precieze stijl uit biologische wijngaarden." },
+    ]},
+  { id:"miraval", name:"Miraval", appellation:"cdp", commune:"Correns", x:2300, y:982, website:"https://www.miraval.com",
+    desc:"Historisch domein in het meest biologische dorp van Frankrijk, wereldwijd bekend geworden dankzij Perrin &amp; Fils en zijn beroemde eigenaren.",
+    wines:[
+      { cuvee:"Miraval Rosé", color:"#EFDDD5", grapes:["Cinsault","Grenache","Rolle"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Zeer bleek en verfijnd, met witte perzik, rozenblaadjes en een zijdezachte, droge afdronk." },
+      { cuvee:"Studio by Miraval", color:"#E6C8BC", grapes:["Cinsault","Grenache"], abv:12.5, price:2, aging:"Nu – 1 jaar", notes:"De toegankelijke tweede lijn: fruitig, licht en makkelijk drinkbaar, met rood fruit en citrus." },
+    ]},
+  { id:"taradeau", name:"Vignerons de Taradeau", appellation:"cdp", commune:"Taradeau", x:2636, y:1298, website:"https://www.vigneronsdetaradeau.fr",
+    desc:"Coöperatief wijnhuis sinds 1924, gebouwd rond het oppidum van Taradeau. Herplant met edele rassen vanaf de jaren '70.",
+    wines:[
+      { cuvee:"L'Oppidum Rosé", color:"#DFAE9F", grapes:["Grenache","Cinsault","Syrah"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Genoemd naar de Romeinse heuveltop boven het domein. Sappig, met rood fruit en een kruidig randje." },
+      { cuvee:"Prestige Rosé", color:"#ECD6CA", grapes:["Grenache","Cinsault"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Fris en toegankelijk, met witte perzik en ananas. Klassiek terrasrosé uit het hart van de Var." },
+    ]},
+  { id:"roubine", name:"Château Roubine", appellation:"cdp", commune:"Lorgues", x:2606, y:1216, website:"https://www.vignoblesderoubine.com",
+    desc:"Cru Classé sinds 1955 op een oude Romeinse weg, ooit eigendom van de Tempeliers. Dertien druivenrassen op 72 hectare, geleid door Valérie Rousselle.",
+    wines:[
+      { cuvee:"Cru Classé Rosé", color:"#E3C4B7", grapes:["Cinsault","Grenache","Rolle"], abv:13, price:3, aging:"Nu – 3 jaar", notes:"Het klassieke Cru Classé profiel: rond, elegant, met witte bloemen en gedroogde abrikoos." },
+      { cuvee:"La Vie en Rose", color:"#D2988A", grapes:["Tibouren","Cinsault"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Tibouren geeft kruidigheid en een tikje meer kleur: rode bes, venkelzaad, levendige afdronk." },
+    ]},
+  { id:"berne", name:"Château de Berne", appellation:"cdp", commune:"Lorgues", x:2584, y:1266, website:"https://www.chateauberne.com",
+    desc:"18e-eeuws domein op het kruispunt van de Via Aurelia, tegenwoordig ook een Relais &amp; Châteaux-hotel midden in 600 hectare bos en wijngaarden.",
+    wines:[
+      { cuvee:"Terres de Berne", color:"#EBD7CC", grapes:["Grenache","Cinsault","Rolle","Syrah"], abv:12.5, price:2, aging:"Nu – 1 jaar", notes:"Heldere perzikkleur, met grapefruit, perzik en mango. Fruitig, fris en meteen klaar om te drinken." },
+      { cuvee:"Romance", color:"#EEDBD0", grapes:["Grenache","Cinsault"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Zachter en ronder dan Terres de Berne, met witte bloesem en een romige, lange afdronk." },
+    ]},
+  { id:"crostes", name:"Château les Crostes", appellation:"cdp", commune:"Lorgues", x:2664, y:1246, website:"https://chateau-les-crostes.com",
+    desc:"17e-eeuws kasteel verscholen in dicht bos, met glooiende wijngaarden die afdalen richting Lorgues. Meermaals onderscheiden rosés.",
+    wines:[
+      { cuvee:"Cuvée Château Rosé", color:"#E9D3C7", grapes:["Grenache","Cinsault"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Helder en stralend, met perzik van de wijngaard en een fijne, minerale afdronk." },
+      { cuvee:"Amalia", color:"#DEA898", grapes:["Grenache","Rolle","Cinsault"], abv:13.5, price:3, aging:"Nu – 3 jaar", notes:"85% Grenache met een vleugje Rolle. Diaphaan maar geconcentreerd, met steenfruit en witte kruiden." },
+    ]},
+  { id:"martinette", name:"Château de la Martinette", appellation:"cdp", commune:"Lorgues", x:2562, y:1186, website:"https://www.chateaulamartinette.com",
+    desc:"Een van de oudste wijndomeinen van de Provence, actief sinds 1620. Traditie gecombineerd met een eigentijdse, moderne wijnkelder.",
+    wines:[
+      { cuvee:"Cuvée Tradition Rosé", color:"#D9A897", grapes:["Grenache","Cinsault","Syrah"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Robuuste, kruidige stijl met rood fruit en garrigue — een rosé die eeuwen terroir verraadt." },
+    ]},
+  { id:"estello", name:"Domaine Estello", appellation:"cdp", commune:"Lorgues", x:2592, y:1246, website:"https://www.domaine-estello.com",
+    desc:"Veertig hectare biologisch domein bij Lorgues, met vijfentwintig hectare gecertificeerde AOP-wijngaarden en verkoop rechtstreeks aan huis.",
+    wines:[
+      { cuvee:"Rosé Bio", color:"#E7D0C4", grapes:["Grenache","Cinsault","Rolle"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Eenvoudig en eerlijk biologisch rosé: citrus, rood fruit en een frisse, droge afdronk." },
+    ]},
+  { id:"rosetremiere", name:"Domaine de la Rose Trémière", appellation:"cdp", commune:"Lorgues / Saint-Antonin-du-Var", x:2490, y:1286, website:"https://www.domainelarosetremiere.fr",
+    desc:"Sinds 1986 twintig hectare wijngaard tussen Lorgues en Saint-Antonin-du-Var. Klein, authentiek domein met een persoonlijke stijl.",
+    wines:[
+      { cuvee:"Cuvée Rosé", color:"#E8D3C8", grapes:["Cinsault","Grenache"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Licht en bloemig, met rode bes en een vlotte, verfrissende afdronk. Authentiek en zonder omwegen." },
+    ]},
+];
+
+/* =====================================================================
+   STATE + RENDER
+===================================================================== */
+let currentFilter = "alle";
+let selectedHouseId = null;
+let bottleUid = 0;
+let selectedGrapes = new Set();
+let selectedStyles = new Set();
+let searchQuery = "";
+
+/* Leidt 1-3 smaaktags per cuvée af uit de proefnotities en het bewaarvenster —
+   zo hoeft elke wijn niet handmatig gelabeld te worden en blijft alles in
+   dezelfde woordkeuze als de kaarten zelf. */
+function deriveStyles(wine){
+  const text = wine.notes.toLowerCase();
+  const tags = new Set();
+  if(/fris|luchtig|toegankelijk|makkelijk drinkbaar|levendige zuren|frisse/.test(text)) tags.add("Fris & licht");
+  if(/fruit|perzik|citrus|\bbes\b|grapefruit|ananas|framboos|abrikoos|mango|steenfruit/.test(text)) tags.add("Fruitig");
+  if(/bloe|rozenblaad/.test(text)) tags.add("Bloemig");
+  if(/kruid|tijm|garrigue|venkelzaad|specerij|hazelnoot|peper/.test(text)) tags.add("Kruidig");
+  if(/mineraal|ziltig|zilte|schist|minerale|zoute afdronk/.test(text)) tags.add("Mineraal");
+  if(/\bvol\b|rijk,|romig|romige|structuur|geconcentreerd/.test(text)) tags.add("Vol & structuurrijk");
+  const m = wine.aging.match(/(\d+)\s*jaar/);
+  if(m && parseInt(m[1],10) >= 3) tags.add("Bewaarrosé");
+  if(tags.size===0) tags.add("Fruitig");
+  return [...tags];
+}
+/* Prijsniveau (●●○○) omgezet naar een indicatieve winkelprijs, zodat de dots
+   ook echt iets betekenen in plaats van een abstracte schaal. */
+const PRICE_LEGEND = {
+  1: "± €10 – 16 per fles",
+  2: "± €17 – 25 per fles",
+  3: "± €26 – 40 per fles",
+  4: "± €45 en hoger per fles",
+};
+
+function derivePairing(house, wine){
+  if(house.appellation === "bandol") return "Bouillabaisse, gegrilde lamskoteletjes of andere stevige grillgerechten.";
+  if(house.appellation === "palette") return "Belegen comté, wild gevogelte of een herfstige paddenstoelenschotel.";
+  if(wine.style.includes("Bewaarrosé") || wine.style.includes("Vol & structuurrijk")) return "Gegrilde vis, kreeft of Provençaalse kruidenkip.";
+  if(wine.style.includes("Mineraal")) return "Verse oesters, ceviche of een salade niçoise.";
+  return "Aperitief, geitenkaas of een lichte visschotel.";
+}
+function deriveServingTemp(wine){
+  return (wine.style.includes("Bewaarrosé") || wine.style.includes("Vol & structuurrijk")) ? "10 – 12°C" : "8 – 10°C";
+}
+
+HOUSES.forEach(h=> h.wines.forEach(w=>{
+  w.style = deriveStyles(w);
+  w.pairing = derivePairing(h, w);
+  w.servingTemp = deriveServingTemp(w);
+  w.id = h.id + "::" + w.cuvee.replace(/\s+/g,"_");
+  w.houseId = h.id;
+}));
+
+const ALL_GRAPES = [...new Set(HOUSES.flatMap(h=>h.wines.flatMap(w=>w.grapes)))].sort();
+const ALL_STYLES = ["Fris & licht","Fruitig","Bloemig","Kruidig","Mineraal","Vol & structuurrijk","Bewaarrosé"];
+
+/* Vlakke opzoektabel wine.id -> {house, wine}, handig voor favorieten, delen en vergelijken. */
+const WINE_INDEX = {};
+HOUSES.forEach(h=> h.wines.forEach(w=>{ WINE_INDEX[w.id] = { house:h, wine:w }; }));
+
+/* ---------- PERSOONLIJKE PROEFLIJST (localStorage) ---------- */
+const LS_FAV = "rosesDeProvence.favorites";
+const LS_NOTES = "rosesDeProvence.notes";
+function loadFavorites(){ try{ return new Set(JSON.parse(localStorage.getItem(LS_FAV) || "[]")); } catch(e){ return new Set(); } }
+function saveFavorites(){ try{ localStorage.setItem(LS_FAV, JSON.stringify([...favorites])); } catch(e){} }
+function loadNotes(){ try{ return JSON.parse(localStorage.getItem(LS_NOTES) || "{}"); } catch(e){ return {}; } }
+function saveNotes(){ try{ localStorage.setItem(LS_NOTES, JSON.stringify(notes)); } catch(e){} }
+
+let favorites = loadFavorites();
+let notes = loadNotes();
+let sortMode = "appellation";
+let compareSet = new Set();
+let routeMode = false;
+let routeStops = [];
+
+function hexToRgb(hex){
+  const c = hex.replace('#','');
+  return { r: parseInt(c.substring(0,2),16), g: parseInt(c.substring(2,4),16), b: parseInt(c.substring(4,6),16) };
+}
+function lighten(hex, amt){
+  const { r, g, b } = hexToRgb(hex);
+  const mix = v => Math.round(v + (255-v)*amt);
+  return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
+}
+function darken(hex, amt){
+  const { r, g, b } = hexToRgb(hex);
+  const mix = v => Math.round(v * (1-amt));
+  return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
+}
+
+/* Verdeelt de cuvéenaam over maximaal 3 regels zodat hij op het flesetiket past. */
+function wrapLabel(name, maxChars){
+  const words = name.split(" ");
+  const lines = [];
+  let cur = "";
+  words.forEach(word=>{
+    const test = (cur + " " + word).trim();
+    if(test.length > maxChars && cur){ lines.push(cur.trim()); cur = word; }
+    else { cur = test; }
+  });
+  if(cur) lines.push(cur.trim());
+  if(lines.length > 3){
+    lines.length = 3;
+    lines[2] = lines[2].replace(/.{0,2}$/, "") + "…";
+  }
+  return lines;
+}
+
+/* Hartje-icoon (proeflijst/favoriet) als losstaande inline SVG — vervangt het
+   platte "♥"-tekstteken zodat het contour/gevuld-effect overal netjes meeschaalt. */
+const HEART_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+
+/* Genereert een inline SVG-fles met een realistischer, getailleerde silhouet
+   (hals, schouder, romp, stootrand), gevuld met de exacte wijnkleur van de
+   betreffende cuvée en met de productnaam op een eigen etiket — geen
+   externe afbeeldingen, alles vector en zelfstandig. */
+function bottleSVG(hex, name){
+  const uid = "b" + (bottleUid++);
+  const top = lighten(hex, .24);
+  const deep = darken(hex, .14);
+  const lines = wrapLabel(name || "", 13);
+  const lineH = 10.5;
+  const startY = 118 - (lines.length-1) * (lineH/2);
+  const tspans = lines.map((ln,i)=>`<tspan x="35" y="${startY + i*lineH}">${ln}</tspan>`).join("");
+  return `
+  <svg class="bottle-icon" viewBox="0 0 70 172" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fles ${name || ''}">
+    <defs>
+      <linearGradient id="liq-${uid}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="${top}"/>
+        <stop offset="45%" stop-color="${hex}"/>
+        <stop offset="100%" stop-color="${deep}"/>
+      </linearGradient>
+    </defs>
+    <!-- glas + wijn (getailleerde Provence-fles: hals, schouder, romp, stootbodem) -->
+    <path d="M29,4 L41,4 L41,35 C41,45 54,49 54,61 L54,146 C54,154 48,159 40,159 L30,159 C22,159 16,154 16,146 L16,61 C16,49 29,45 29,35 Z"
+          fill="url(#liq-${uid})" stroke="#2C1E18" stroke-width="1.3" stroke-opacity=".55"/>
+    <!-- capsule / folie -->
+    <rect x="27" y="2" width="16" height="15" rx="1.6" fill="#2C1E18" opacity=".84"/>
+    <rect x="27" y="15" width="16" height="2.6" fill="#2C1E18" opacity=".32"/>
+    <!-- schouderlijn -->
+    <path d="M17,63 C17,52 29,48 29,36" fill="none" stroke="#2C1E18" stroke-opacity=".16" stroke-width="1"/>
+    <!-- etiket -->
+    <rect x="17.5" y="${startY - lineH - 4}" width="35" height="${lines.length*lineH + 12}" fill="#FBF4EC" opacity=".95" stroke="#2C1E18" stroke-opacity=".24" stroke-width=".6"/>
+    <line x1="20" y1="${startY - lineH - 1}" x2="50" y2="${startY - lineH - 1}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
+    <line x1="20" y1="${startY + lines.length*lineH - lineH/2 + 5}" x2="50" y2="${startY + lines.length*lineH - lineH/2 + 5}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
+    <text text-anchor="middle" font-family="'Didot','Hoefler Text',Georgia,'Times New Roman',serif" font-style="italic" font-size="8.6" fill="#2C1E18">${tspans}</text>
+    <!-- glans op het glas -->
+    <path d="M20,66 L20,144" stroke="#ffffff" stroke-opacity=".4" stroke-width="2" stroke-linecap="round"/>
+    <path d="M50,70 L50,140" stroke="#2C1E18" stroke-opacity=".08" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function priceDots(level){
+  let out = "";
+  for(let i=1;i<=4;i++){ out += `<span class="${i<=level?'filled':'empty'}">●</span>`; }
+  return out;
+}
+
+function renderFilterbar(){
+  const bar = document.getElementById("filterbar");
+  Object.entries(APPELLATIONS).forEach(([id, a])=>{
+    const btn = document.createElement("button");
+    btn.className = "pill";
+    btn.dataset.filter = id;
+    btn.textContent = a.name;
+    bar.appendChild(btn);
+  });
+  const favBtn = document.createElement("button");
+  favBtn.className = "pill fav-pill";
+  favBtn.dataset.filter = "favorieten";
+  favBtn.textContent = "♥ Mijn proeflijst";
+  bar.appendChild(favBtn);
+
+  bar.addEventListener("click", (e)=>{
+    const btn = e.target.closest(".pill");
+    if(!btn) return;
+    currentFilter = btn.dataset.filter;
+    bar.querySelectorAll(".pill").forEach(p=>p.classList.toggle("active", p===btn));
+    renderList();
+    updateMapFilterState();
+  });
+}
+
+/* Koppelt de appellation-filter (bovenaan) aan de kaart: bij "Alle" lichten
+   alle wijnhuizen en zones normaal op, bij een specifieke appellation blijven
+   alleen de bijbehorende markers klikbaar en helder zichtbaar. */
+function updateMapFilterState(){
+  document.querySelectorAll(".marker").forEach(m=>{
+    const h = HOUSES.find(x=>x.id===m.dataset.houseId);
+    let match;
+    if(currentFilter==="alle") match = true;
+    else if(currentFilter==="favorieten") match = h && h.wines.some(w=>favorites.has(w.id));
+    else match = h && h.appellation===currentFilter;
+    m.classList.toggle("dimmed", !match);
+  });
+  const isAppellationFilter = APPELLATIONS.hasOwnProperty(currentFilter);
+  document.querySelectorAll(".zone").forEach(z=>{
+    const app = z.dataset.app;
+    z.classList.toggle("dimmed", isAppellationFilter && app!==currentFilter);
+    z.classList.toggle("active-filter", isAppellationFilter && app===currentFilter);
+  });
+}
+
+function houseCardsForAppellation(appId){
+  return HOUSES.filter(h=>h.appellation===appId);
+}
+
+/* Combineert alle actieve filters: appellation (uit de bovenste filterbar),
+   druiven en smaak (uit de refine-bar) en de vrije zoektekst. Alles binnen
+   één categorie werkt als OF, tussen categorieën als EN. */
+function wineMatches(house, wine){
+  if(currentFilter==="favorieten"){ if(!favorites.has(wine.id)) return false; }
+  else if(currentFilter!=="alle" && house.appellation!==currentFilter) return false;
+  if(selectedGrapes.size>0 && !wine.grapes.some(g=>selectedGrapes.has(g))) return false;
+  if(selectedStyles.size>0 && !wine.style.some(s=>selectedStyles.has(s))) return false;
+  if(searchQuery){
+    const haystack = [house.name, wine.cuvee, wine.notes, house.commune, ...wine.grapes, ...wine.style].join(" ").toLowerCase();
+    if(!haystack.includes(searchQuery)) return false;
+  }
+  return true;
+}
+
+/* ---------- FAVORIETEN & VERGELIJKEN: gedeelde acties ---------- */
+function toggleFavorite(id){
+  if(favorites.has(id)) favorites.delete(id); else favorites.add(id);
+  saveFavorites();
+  document.querySelectorAll(`.fav-heart[data-wine-id="${id}"]`).forEach(b=> b.classList.toggle("active", favorites.has(id)));
+  if(currentFilter==="favorieten") renderList();
+  updateMapFilterState();
+}
+
+function toggleCompare(id){
+  if(compareSet.has(id)) compareSet.delete(id);
+  else {
+    if(compareSet.size>=3) return;
+    compareSet.add(id);
+  }
+  syncCompareUI();
+}
+
+function syncCompareUI(){
+  document.querySelectorAll(`.compare-toggle`).forEach(b=>{
+    b.classList.toggle("active", compareSet.has(b.dataset.wineId));
+  });
+  const tray = document.getElementById("compare-tray");
+  tray.classList.toggle("open", compareSet.size>0);
+  const chips = document.getElementById("compare-chips");
+  chips.innerHTML = [...compareSet].map(id=>{
+    const entry = WINE_INDEX[id];
+    if(!entry) return "";
+    return `<span class="chip">${entry.wine.cuvee}<button type="button" data-remove="${id}">&times;</button></span>`;
+  }).join("");
+  chips.querySelectorAll("button[data-remove]").forEach(b=>{
+    b.addEventListener("click", ()=> toggleCompare(b.dataset.remove));
+  });
+  document.getElementById("compare-go").disabled = compareSet.size < 2;
+}
+
+function sortWines(list, mode){
+  const arr = [...list];
+  const agingYears = a => parseInt((a.w.aging.match(/(\d+)/)||[0,"0"])[1], 10);
+  if(mode==="price-asc") arr.sort((a,b)=> a.w.price-b.w.price);
+  else if(mode==="price-desc") arr.sort((a,b)=> b.w.price-a.w.price);
+  else if(mode==="abv-asc") arr.sort((a,b)=> a.w.abv-b.w.abv);
+  else if(mode==="aging-desc") arr.sort((a,b)=> agingYears(b)-agingYears(a));
+  return arr;
+}
+
+function wineCardHTML(h, app, w){
+  return `
+    <button class="fav-heart ${favorites.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button" title="Favoriet">${HEART_ICON}</button>
+    <div class="house">${h.name}</div>
+    ${bottleSVG(w.color, w.cuvee)}
+    <div class="strip"></div>
+    <h3 class="cuvee">${w.cuvee}</h3>
+    <div class="ornament">◆</div>
+    <div class="appellation-mini">${app.name} · ${h.commune}</div>
+    <div class="notes">${w.notes}</div>
+    <div class="meta">
+      <div class="row"><span>Druiven</span><span>${w.grapes.join(", ")}</span></div>
+      <div class="row"><span>Alcohol</span><span>${w.abv}% vol.</span></div>
+      <div class="row"><span>Prijs</span><span class="price">${priceDots(w.price)}</span></div>
+      <div class="row"><span>Bewaren</span><span>${w.aging}</span></div>
+    </div>
+    <button class="compare-toggle ${compareSet.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">+ Vergelijk</button>
+  `;
+}
+
+function makeWineCard(h, app, w){
+  const card = document.createElement("article");
+  card.className = "wine-card";
+  card.style.setProperty("--card-color", w.color);
+  card.dataset.houseId = h.id;
+  card.innerHTML = wineCardHTML(h, app, w);
+  card.addEventListener("click", (e)=>{
+    if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle")) return;
+    switchView("map");
+    selectHouse(h.id);
+  });
+  card.querySelector(".fav-heart").addEventListener("click", (e)=>{ e.stopPropagation(); toggleFavorite(w.id); });
+  card.querySelector(".compare-toggle").addEventListener("click", (e)=>{ e.stopPropagation(); toggleCompare(w.id); });
+  return card;
+}
+
+function renderList(){
+  const root = document.getElementById("view-list");
+  root.innerHTML = "";
+  const allAppIds = Object.keys(APPELLATIONS);
+  let totalMatches = 0;
+
+  // Verzamel eerst alle matches (met bijbehorende appellation), onafhankelijk van sortering.
+  const allMatches = [];
+  allAppIds.forEach(appId=>{
+    const app = APPELLATIONS[appId];
+    houseCardsForAppellation(appId).forEach(h=>{
+      h.wines.forEach(w=>{
+        if(wineMatches(h, w)) allMatches.push({h, app, w});
+      });
+    });
+  });
+  totalMatches = allMatches.length;
+
+  if(sortMode==="appellation"){
+    allAppIds.forEach(appId=>{
+      const app = APPELLATIONS[appId];
+      const rows = allMatches.filter(r=>r.app===app);
+      if(rows.length===0) return;
+      const section = document.createElement("section");
+      section.className = "appellation-section";
+      section.innerHTML = `
+        <div class="appellation-tag"><span class="dot"></span>${app.tag}</div>
+        <h2 class="appellation-title">${app.name}</h2>
+        <p class="appellation-desc">${app.desc}</p>
+        <div class="card-grid"></div>
+      `;
+      const grid = section.querySelector(".card-grid");
+      rows.forEach(({h, app, w})=> grid.appendChild(makeWineCard(h, app, w)));
+      root.appendChild(section);
+    });
+  } else {
+    const sorted = sortWines(allMatches, sortMode);
+    const sortLabelMap = { "price-asc":"prijs (laag → hoog)", "price-desc":"prijs (hoog → laag)", "abv-asc":"alcohol (laag → hoog)", "aging-desc":"bewaarpotentieel (lang → kort)" };
+    const section = document.createElement("section");
+    section.className = "appellation-section";
+    section.innerHTML = `
+      <div class="appellation-tag"><span class="dot"></span>Gesorteerd</div>
+      <h2 class="appellation-title">Op ${sortLabelMap[sortMode]}</h2>
+      <p class="appellation-desc">Alle appellations gecombineerd, gesorteerd op ${sortLabelMap[sortMode]}.</p>
+      <div class="card-grid"></div>
+    `;
+    const grid = section.querySelector(".card-grid");
+    sorted.forEach(({h, app, w})=> grid.appendChild(makeWineCard(h, app, w)));
+    root.appendChild(section);
+  }
+
+  if(totalMatches===0){
+    root.innerHTML = `
+      <div class="empty-state">
+        <span class="big">Geen rosés gevonden</span>
+        Pas je zoekterm, druiven- of smaakfilter aan — of klik op "Wis filters".
+      </div>`;
+  }
+
+  const totalAll = HOUSES.reduce((sum,h)=>sum+h.wines.length, 0);
+  document.getElementById("result-count").textContent = `${totalMatches} van ${totalAll} rosés`;
+}
+
+function renderRefineBar(){
+  const grapeWrap = document.getElementById("grape-filters");
+  ALL_GRAPES.forEach(g=>{
+    const btn = document.createElement("button");
+    btn.className = "tag-pill";
+    btn.textContent = g;
+    btn.dataset.grape = g;
+    btn.addEventListener("click", ()=>{
+      if(selectedGrapes.has(g)) selectedGrapes.delete(g); else selectedGrapes.add(g);
+      btn.classList.toggle("active", selectedGrapes.has(g));
+      renderList();
+    });
+    grapeWrap.appendChild(btn);
+  });
+
+  const styleWrap = document.getElementById("style-filters");
+  ALL_STYLES.forEach(s=>{
+    const btn = document.createElement("button");
+    btn.className = "tag-pill";
+    btn.textContent = s;
+    btn.dataset.style = s;
+    btn.addEventListener("click", ()=>{
+      if(selectedStyles.has(s)) selectedStyles.delete(s); else selectedStyles.add(s);
+      btn.classList.toggle("active", selectedStyles.has(s));
+      renderList();
+    });
+    styleWrap.appendChild(btn);
+  });
+
+  document.getElementById("search-input").addEventListener("input", (e)=>{
+    searchQuery = e.target.value.trim().toLowerCase();
+    renderList();
+  });
+
+  document.getElementById("reset-filters").addEventListener("click", ()=>{
+    selectedGrapes.clear();
+    selectedStyles.clear();
+    searchQuery = "";
+    document.getElementById("search-input").value = "";
+    document.querySelectorAll(".tag-pill").forEach(b=>b.classList.remove("active"));
+    currentFilter = "alle";
+    document.querySelectorAll("#filterbar .pill").forEach(p=>p.classList.toggle("active", p.dataset.filter==="alle"));
+    renderList();
+  });
+}
+
+/* ---------- MAP ---------- */
+function renderMapLegend(){
+  const legend = document.getElementById("map-legend");
+  legend.innerHTML = Object.values(APPELLATIONS).map(a=>`
+    <div class="item"><span class="swatch" style="background:${a.zoneColor}"></span>${a.name}</div>
+  `).join("");
+}
+
+/* Zone- en massiefposities zijn herberekend uit echte lengte-/breedtegraad
+   (Web Mercator, zoom 11) zodat ze precies over de echte kaarttegels vallen. */
+const ZONES = [
+  { app:"lesbaux",  d:"M-92,488 C222,340 580,360 714,574 C804,744 670,980 400,1022 C132,1064 -136,916 -160,702 Z" },
+  { app:"coteaux",  d:"M710,656 C1068,484 1516,570 1606,826 C1696,1060 1472,1338 1158,1424 C844,1488 576,1338 576,1082 C576,890 620,762 710,656 Z" },
+  { app:"palette",  d:"M1250,1080 C1362,1036 1498,1066 1528,1164 C1556,1262 1466,1336 1340,1322 C1224,1310 1152,1220 1180,1144 C1192,1104 1216,1092 1250,1080 Z" },
+  { app:"bandol",   d:"M1462,1696 C1642,1632 1866,1676 1956,1804 C2022,1910 1910,2016 1732,2038 C1574,2056 1440,1974 1426,1868 C1418,1794 1426,1740 1462,1696 Z" },
+  { app:"cdp",      d:"M2000,578 C2224,450 2538,578 2628,748 C2808,706 3032,792 3210,962 C3390,1112 3456,1346 3344,1560 C3434,1688 3390,1858 3256,1944 C3120,2050 2942,2114 2762,2092 C2628,2242 2360,2200 2270,2050 C2090,2072 1912,1986 1844,1836 C1732,1688 1754,1474 1912,1346 C1822,1218 1844,1048 1978,940 C1912,792 1912,684 2000,578 Z" },
+];
+
+const MASSIFS = [
+  { name:"Alpilles", cx:408, cy:722 },
+  { name:"Massif de la Sainte-Baume", cx:1718, cy:1526 },
+  { name:"Massif des Maures", cx:2592, cy:1626 },
+];
+
+/* Reliëfkaart van OpenTopoMap (kaartstijl CC-BY-SA OpenTopoMap, kaartgegevens
+   © OpenStreetMap-bijdragers + SRTM-hoogtedata) — 14×10 tegels op zoom 11,
+   exact dezelfde bounding box als voorheen maar met dubbele resolutie: meer
+   wegen, gehuchten en reliëf zichtbaar, handig voor het uitstippelen van de wijnroute. */
+const TILE_CONFIG = { z:11, xStart:1050, yStart:744, cols:14, rows:10 };
+const TILE_SUBDOMAINS = ["a","b","c"];
+
+function buildTileGrid(){
+  const grid = document.getElementById("tile-grid");
+  const { z, xStart, yStart, cols, rows } = TILE_CONFIG;
+  let html = "";
+  for(let row=0; row<rows; row++){
+    for(let col=0; col<cols; col++){
+      const sub = TILE_SUBDOMAINS[(col + row) % TILE_SUBDOMAINS.length];
+      html += `<img src="https://${sub}.tile.opentopomap.org/${z}/${xStart+col}/${yStart+row}.png" alt="" loading="lazy">`;
+    }
+  }
+  grid.innerHTML = html;
+}
+
+function buildMap(){
+  buildTileGrid();
+  const svg = document.getElementById("provence-map");
+  let inner = "";
+
+  // AOP zones, als transparante vlakken over de echte kaart
+  ZONES.forEach(z=>{
+    const color = APPELLATIONS[z.app].zoneColor;
+    inner += `<path class="zone" data-app="${z.app}" d="${z.d}" fill="${color}"/>`;
+  });
+
+  // massief-namen, ter oriëntatie
+  MASSIFS.forEach(m=>{
+    inner += `<text class="massif-label" x="${m.cx}" y="${m.cy}" text-anchor="middle">${m.name}</text>`;
+  });
+
+  // zone labels
+  const zoneLabelPos = { lesbaux:[200,520], coteaux:[840,760], palette:[1410,1050], bandol:[1520,1760], cdp:[3100,640] };
+  Object.entries(zoneLabelPos).forEach(([app,[x,y]])=>{
+    inner += `<text class="zone-label" x="${x}" y="${y}">${APPELLATIONS[app].name}</text>`;
+  });
+
+  // kompasroos, rechtsboven
+  inner += `
+    <g class="compass" transform="translate(3460,120)">
+      <circle r="60" fill="var(--paper)" fill-opacity=".75" stroke="rgba(44,30,24,.3)" stroke-width="2.8"/>
+      <line x1="0" y1="-46" x2="0" y2="46" stroke-width="2.8"/>
+      <line x1="-46" y1="0" x2="46" y2="0" stroke-width="2.8"/>
+      <path d="M0,-46 L10,-8 L0,-16 L-10,-8 Z" fill="var(--shadow)"/>
+      <text x="0" y="-60" text-anchor="middle">N</text>
+    </g>`;
+
+  // schaalbalk — op de echte kaartschaal van zoom 11 (≈55,6 m/px op deze breedtegraad)
+  inner += `
+    <g class="scale-bar" transform="translate(100,2460)">
+      <line x1="0" y1="0" x2="360" y2="0"/>
+      <line x1="0" y1="-10" x2="0" y2="10"/>
+      <line x1="180" y1="-8" x2="180" y2="8"/>
+      <line x1="360" y1="-10" x2="360" y2="10"/>
+      <text x="0" y="36">0</text>
+      <text x="160" y="36">10 km</text>
+      <text x="316" y="36">20 km</text>
+    </g>`;
+
+  // decoratief dubbel kaartkader met kleine schaalstreepjes, antieke-kaart-sfeer
+  inner += `<rect class="map-frame" x="10" y="10" width="3564" height="2540" stroke-width="4"/>`;
+  inner += `<rect class="map-frame" x="24" y="24" width="3536" height="2512" stroke-width="1.6"/>`;
+  for(let x=10; x<=3574; x+=178.2){
+    inner += `<line class="map-tick" x1="${x}" y1="10" x2="${x}" y2="24"/><line class="map-tick" x1="${x}" y1="2536" x2="${x}" y2="2550"/>`;
+  }
+  for(let y=10; y<=2550; y+=177.2){
+    inner += `<line class="map-tick" x1="10" y1="${y}" x2="24" y2="${y}"/><line class="map-tick" x1="3560" y1="${y}" x2="3574" y2="${y}"/>`;
+  }
+
+  // house markers
+  HOUSES.forEach(h=>{
+    inner += `<g class="marker" data-house-id="${h.id}" transform="translate(${h.x},${h.y})">
+      <circle class="glow" r="40"></circle>
+      <circle class="hit" r="40"></circle>
+      <circle class="pin" r="24"></circle>
+      <text x="34" y="10">
+        <tspan x="34">${h.name}</tspan>
+        <tspan class="marker-commune" x="34" dy="1.15em">${h.commune}</tspan>
+      </text>
+    </g>`;
+  });
+
+  svg.innerHTML = inner;
+
+  svg.querySelectorAll(".marker").forEach(m=>{
+    m.addEventListener("click", ()=>{
+      if(dragMoved) return;
+      if(routeMode) toggleRouteStop(m.dataset.houseId);
+      else selectHouse(m.dataset.houseId);
+    });
+  });
+
+  updateMapFilterState();
+  applyMapTransform();
+  renderRouteOverlay();
+}
+
+/* ---------- WIJNROUTE-SUGGESTIE ---------- */
+const PX_TO_KM = 0.05562; // ≈55,6 m/pixel op deze breedtegraad (zoom 11 OpenTopoMap-mozaïek)
+function distancePx(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+
+function nearestNeighborOrder(stopIds){
+  const pts = stopIds.map(id=> HOUSES.find(h=>h.id===id)).filter(Boolean);
+  if(pts.length<=2) return pts.map(p=>p.id);
+  const remaining = pts.slice(1);
+  const order = [pts[0]];
+  let current = pts[0];
+  while(remaining.length){
+    let bestIdx=0, bestDist=Infinity;
+    remaining.forEach((p,i)=>{ const d=distancePx(current,p); if(d<bestDist){ bestDist=d; bestIdx=i; } });
+    current = remaining.splice(bestIdx,1)[0];
+    order.push(current);
+  }
+  return order.map(p=>p.id);
+}
+
+function toggleRouteStop(houseId){
+  const idx = routeStops.indexOf(houseId);
+  if(idx>=0) routeStops.splice(idx,1);
+  else routeStops.push(houseId);
+  routeStops = nearestNeighborOrder(routeStops);
+  renderRouteOverlay();
+  renderRoutePanel();
+}
+
+function renderRouteOverlay(){
+  const svg = document.getElementById("provence-map");
+  if(!svg) return;
+  const old = svg.querySelector("#route-layer");
+  if(old) old.remove();
+  if(routeStops.length===0) return;
+  const pts = routeStops.map(id=> HOUSES.find(h=>h.id===id)).filter(Boolean);
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.id = "route-layer";
+  const d = "M" + pts.map(p=>`${p.x},${p.y}`).join(" L ");
+  g.innerHTML = `<path class="route-line" d="${d}"/>` +
+    pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="13" fill="var(--facade)" stroke="var(--paper)" stroke-width="2.5"/><text class="route-stop-label" x="${p.x}" y="${p.y+6}">${i+1}</text>`).join("");
+  svg.appendChild(g);
+}
+
+function renderRoutePanel(){
+  const list = document.getElementById("route-list");
+  list.innerHTML = routeStops.map(id=>{ const h=HOUSES.find(x=>x.id===id); return h ? `<li>${h.name}</li>` : ""; }).join("");
+  let totalKm = 0;
+  for(let i=0;i<routeStops.length-1;i++){
+    const a = HOUSES.find(h=>h.id===routeStops[i]);
+    const b = HOUSES.find(h=>h.id===routeStops[i+1]);
+    if(a && b) totalKm += distancePx(a,b) * PX_TO_KM;
+  }
+  document.getElementById("route-dist").textContent = routeStops.length>1
+    ? `≈ ${totalKm.toFixed(0)} km rijden (indicatief)`
+    : "Klik wijnhuizen aan op de kaart om een route te bouwen.";
+  document.getElementById("route-panel").classList.toggle("show", routeMode && routeStops.length>0);
+}
+
+function clearRoute(){
+  routeStops = [];
+  renderRouteOverlay();
+  renderRoutePanel();
+  document.getElementById("route-panel").classList.remove("show");
+}
+
+function toggleRouteMode(){
+  routeMode = !routeMode;
+  document.getElementById("route-toggle").classList.toggle("active", routeMode);
+  document.getElementById("route-panel").classList.toggle("show", routeMode && routeStops.length>0);
+}
+
+/* ---------- KAART: ZOOMEN & SLEPEN ---------- */
+let mapZoom = 1, mapPanX = 0, mapPanY = 0;
+let isDragging = false, dragMoved = false, dragStart = {x:0,y:0}, panStart = {x:0,y:0};
+/* Kaartbox is nu compacter neergezet, dus is het zoombereik vergroot zodat je
+   verder kunt inzoomen tot de dorpsnamen bij elk wijnhuis goed leesbaar zijn. */
+const MAP_ZOOM_MIN = 1, MAP_ZOOM_MAX = 6, MAP_ZOOM_STEP = 0.5;
+
+function clampNum(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+function clampMapPan(){
+  const stage = document.getElementById("map-stage");
+  const maxPanX = (mapZoom-1) * stage.clientWidth / 2;
+  const maxPanY = (mapZoom-1) * stage.clientHeight / 2;
+  mapPanX = clampNum(mapPanX, -maxPanX, maxPanX);
+  mapPanY = clampNum(mapPanY, -maxPanY, maxPanY);
+}
+
+function applyMapTransform(){
+  const el = document.getElementById("map-zoomable");
+  if(!el) return;
+  el.style.transform = `translate(${mapPanX}px, ${mapPanY}px) scale(${mapZoom})`;
+}
+
+function setMapZoom(z){
+  mapZoom = clampNum(z, MAP_ZOOM_MIN, MAP_ZOOM_MAX);
+  clampMapPan();
+  applyMapTransform();
+}
+
+function initMapZoomPan(){
+  const stage = document.getElementById("map-stage");
+
+  stage.addEventListener("wheel", (e)=>{
+    e.preventDefault();
+    setMapZoom(mapZoom + (e.deltaY > 0 ? -MAP_ZOOM_STEP : MAP_ZOOM_STEP));
+  }, { passive:false });
+
+  stage.addEventListener("pointerdown", (e)=>{
+    isDragging = true; dragMoved = false;
+    dragStart = { x:e.clientX, y:e.clientY };
+    panStart = { x:mapPanX, y:mapPanY };
+    stage.classList.add("dragging");
+  });
+  window.addEventListener("pointermove", (e)=>{
+    if(!isDragging) return;
+    const dx = e.clientX - dragStart.x, dy = e.clientY - dragStart.y;
+    if(Math.abs(dx) > 3 || Math.abs(dy) > 3) dragMoved = true;
+    mapPanX = panStart.x + dx;
+    mapPanY = panStart.y + dy;
+    clampMapPan();
+    applyMapTransform();
+  });
+  window.addEventListener("pointerup", ()=>{
+    isDragging = false;
+    stage.classList.remove("dragging");
+  });
+
+  document.getElementById("zoom-in").addEventListener("click", ()=> setMapZoom(mapZoom + MAP_ZOOM_STEP));
+  document.getElementById("zoom-out").addEventListener("click", ()=> setMapZoom(mapZoom - MAP_ZOOM_STEP));
+  document.getElementById("zoom-reset").addEventListener("click", ()=>{
+    mapPanX = 0; mapPanY = 0;
+    setMapZoom(1);
+  });
+}
+
+let currentSidebarHouse = null;
+let currentDetailHouse = null, currentDetailWine = null;
+
+function selectHouse(houseId){
+  selectedHouseId = houseId;
+  document.querySelectorAll(".marker").forEach(m=>{
+    m.classList.toggle("selected", m.dataset.houseId === houseId);
+  });
+  const h = HOUSES.find(x=>x.id===houseId);
+  if(!h) return;
+  currentSidebarHouse = h;
+  const app = APPELLATIONS[h.appellation];
+
+  document.getElementById("sb-eyebrow").textContent = app.tag;
+  document.getElementById("sb-title").textContent = h.name;
+  document.getElementById("sb-commune").textContent = h.commune;
+  document.getElementById("sb-desc").textContent = h.desc;
+
+  const wines = document.getElementById("sb-wines");
+  wines.innerHTML = h.wines.map(w=>`
+    <div class="sidebar-wine" data-wine="${w.cuvee}">
+      ${bottleSVG(w.color, w.cuvee)}
+      <div class="wine-text">
+        <div class="cuvee-row">
+          <h4 class="cuvee">${w.cuvee}</h4>
+          <button class="fav-heart ${favorites.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">${HEART_ICON}</button>
+        </div>
+        <div class="strip" style="background:${w.color}"></div>
+        <p class="notes">${w.notes}</p>
+        <div class="meta">
+          <span><b>Druiven</b> ${w.grapes.join(", ")}</span>
+          <span><b>Alcohol</b> ${w.abv}%</span>
+          <span><b>Prijs</b> ${priceDots(w.price)}</span>
+          <span><b>Bewaren</b> ${w.aging}</span>
+        </div>
+        <button class="compare-toggle ${compareSet.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">+ Vergelijk</button>
+        <span class="clickhint">Klik voor prijs, temperatuur &amp; food pairing →</span>
+      </div>
+    </div>
+  `).join("");
+
+  wines.querySelectorAll(".sidebar-wine").forEach((el, i)=>{
+    el.addEventListener("click", (e)=>{
+      if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle")) return;
+      openWineDetail(h, h.wines[i]);
+    });
+    el.querySelector(".fav-heart").addEventListener("click", (e)=>{ e.stopPropagation(); toggleFavorite(h.wines[i].id); });
+    el.querySelector(".compare-toggle").addEventListener("click", (e)=>{ e.stopPropagation(); toggleCompare(h.wines[i].id); });
+  });
+
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("sidebar-backdrop").classList.add("open");
+}
+
+/* ---------- WINE DETAIL MODAL ---------- */
+function renderStars(score){
+  document.querySelectorAll("#detail-stars button").forEach(b=>{
+    b.classList.toggle("filled", parseInt(b.dataset.star,10) <= score);
+  });
+}
+
+/* Zoeklink naar Gall & Gall (NL) i.p.v. een vast productlinkje — het assortiment van een
+   slijterij wisselt continu, dus een zoekopdracht op huis + cuvée blijft altijd kloppen,
+   ook als een fles (tijdelijk) niet op voorraad is. */
+function gallSearchUrl(house, wine){
+  const q = `${house.name} ${wine.cuvee}`;
+  return `https://www.gall.nl/zoeken/?lang=nl_NL&q=${encodeURIComponent(q)}`;
+}
+
+function openWineDetail(house, wine){
+  currentDetailHouse = house;
+  currentDetailWine = wine;
+
+  document.getElementById("detail-bottle").innerHTML = bottleSVG(wine.color, wine.cuvee);
+  document.getElementById("detail-eyebrow").textContent = `${APPELLATIONS[house.appellation].name} · ${house.commune}`;
+  document.getElementById("detail-title").textContent = wine.cuvee;
+  document.getElementById("detail-house").textContent = house.name;
+  document.getElementById("detail-notes").textContent = wine.notes;
+  document.getElementById("detail-fav").classList.toggle("active", favorites.has(wine.id));
+
+  document.getElementById("detail-grid").innerHTML = `
+    <div class="item"><span class="k">Druiven</span><span class="v">${wine.grapes.join(", ")}</span></div>
+    <div class="item"><span class="k">Alcohol</span><span class="v">${wine.abv}% vol.</span></div>
+    <div class="item"><span class="k">Prijsniveau</span><span class="v">${priceDots(wine.price)}<span class="price-euro">${PRICE_LEGEND[wine.price]}</span></span></div>
+    <div class="item"><span class="k">Bewaren</span><span class="v">${wine.aging}</span></div>
+    <div class="item"><span class="k">Serveertemperatuur</span><span class="v">${wine.servingTemp}</span></div>
+    <div class="item"><span class="k">Smaakt goed bij</span><span class="v">${wine.pairing}</span></div>
+  `;
+
+  const link = document.getElementById("detail-link");
+  link.href = house.website;
+  link.textContent = `Bezoek ${house.name} →`;
+
+  const gallLink = document.getElementById("detail-gall-link");
+  gallLink.href = gallSearchUrl(house, wine);
+
+  const saved = notes[wine.id] || {};
+  renderStars(saved.score || 0);
+  document.getElementById("detail-note").value = saved.text || "";
+
+  document.getElementById("detail-modal").classList.add("open");
+  document.getElementById("detail-backdrop").classList.add("open");
+}
+
+function closeWineDetail(){
+  document.getElementById("detail-modal").classList.remove("open");
+  document.getElementById("detail-backdrop").classList.remove("open");
+}
+
+/* ---------- DELEN (deep links) ---------- */
+function buildShareUrl(house, wine){
+  const base = location.origin + location.pathname;
+  let hash = `#huis=${encodeURIComponent(house.id)}`;
+  if(wine) hash += `&wijn=${encodeURIComponent(wine.cuvee)}`;
+  return base + hash;
+}
+
+function shareLink(house, wine, btn){
+  const url = buildShareUrl(house, wine);
+  const done = ()=>{
+    if(!btn) return;
+    const original = btn.textContent;
+    btn.textContent = "Link gekopieerd!";
+    setTimeout(()=>{ btn.textContent = original; }, 1800);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done).catch(done);
+  } else {
+    done();
+  }
+}
+
+/* Opent bij het laden de kaart en (optioneel) een specifieke fles, als de URL
+   een deel-link is, bv. #huis=esclans&wijn=Garrus */
+function applyDeepLinkFromHash(){
+  const hash = location.hash.replace(/^#/, "");
+  if(!hash) return;
+  const params = new URLSearchParams(hash);
+  const houseId = params.get("huis");
+  if(!houseId) return;
+  const h = HOUSES.find(x=>x.id===houseId);
+  if(!h) return;
+  switchView("map");
+  selectHouse(houseId);
+  const wijnNaam = params.get("wijn");
+  if(wijnNaam){
+    const w = h.wines.find(x=>x.cuvee===wijnNaam);
+    if(w) setTimeout(()=> openWineDetail(h, w), 350);
+  }
+}
+
+function closeSidebar(){
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebar-backdrop").classList.remove("open");
+}
+
+/* ---------- VIEW SWITCH ---------- */
+function switchView(view){
+  document.querySelectorAll(".view-toggle button").forEach(b=>b.classList.toggle("active", b.dataset.view===view));
+  document.getElementById("view-list").classList.toggle("active", view==="list");
+  document.getElementById("view-map").classList.toggle("active", view==="map");
+}
+
+/* ---------- INIT ---------- */
+document.getElementById("btn-list").addEventListener("click", ()=>switchView("list"));
+document.getElementById("btn-map").addEventListener("click", ()=>switchView("map"));
+document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
+document.getElementById("sidebar-backdrop").addEventListener("click", closeSidebar);
+document.getElementById("detail-close").addEventListener("click", closeWineDetail);
+document.getElementById("detail-backdrop").addEventListener("click", closeWineDetail);
+document.addEventListener("keydown", (e)=>{
+  if(e.key==="Escape"){ closeWineDetail(); closeCompareModal(); }
+});
+
+document.getElementById("detail-fav").addEventListener("click", ()=>{
+  if(!currentDetailWine) return;
+  toggleFavorite(currentDetailWine.id);
+  document.getElementById("detail-fav").classList.toggle("active", favorites.has(currentDetailWine.id));
+});
+document.querySelectorAll("#detail-stars button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    if(!currentDetailWine) return;
+    const score = parseInt(b.dataset.star, 10);
+    notes[currentDetailWine.id] = notes[currentDetailWine.id] || {};
+    notes[currentDetailWine.id].score = score;
+    saveNotes();
+    renderStars(score);
+  });
+});
+document.getElementById("detail-note").addEventListener("input", (e)=>{
+  if(!currentDetailWine) return;
+  notes[currentDetailWine.id] = notes[currentDetailWine.id] || {};
+  notes[currentDetailWine.id].text = e.target.value;
+  saveNotes();
+});
+document.getElementById("detail-share").addEventListener("click", (e)=>{
+  if(currentDetailHouse) shareLink(currentDetailHouse, currentDetailWine, e.target);
+});
+document.getElementById("sb-share").addEventListener("click", (e)=>{
+  if(currentSidebarHouse) shareLink(currentSidebarHouse, null, e.target);
+});
+
+/* ---------- SORTEREN ---------- */
+document.getElementById("sort-select").addEventListener("change", (e)=>{
+  sortMode = e.target.value;
+  renderList();
+});
+
+/* ---------- VERGELIJKEN: tray + modal ---------- */
+function closeCompareModal(){
+  document.getElementById("compare-modal").classList.remove("open");
+  document.getElementById("compare-backdrop").classList.remove("open");
+}
+function openCompareModal(){
+  const table = document.getElementById("compare-table");
+  const ids = [...compareSet];
+  table.style.gridTemplateColumns = `repeat(${ids.length}, 1fr)`;
+  table.innerHTML = ids.map(id=>{
+    const { house, wine } = WINE_INDEX[id];
+    return `
+      <div class="compare-col">
+        ${bottleSVG(wine.color, wine.cuvee)}
+        <h4>${wine.cuvee}</h4>
+        <div class="house">${house.name} · ${APPELLATIONS[house.appellation].name}</div>
+        <div class="compare-row"><span class="k">Druiven</span>${wine.grapes.join(", ")}</div>
+        <div class="compare-row"><span class="k">Alcohol</span>${wine.abv}% vol.</div>
+        <div class="compare-row"><span class="k">Prijs</span>${priceDots(wine.price)} · ${PRICE_LEGEND[wine.price]}</div>
+        <div class="compare-row"><span class="k">Bewaren</span>${wine.aging}</div>
+        <div class="compare-row"><span class="k">Serveertemperatuur</span>${wine.servingTemp}</div>
+        <div class="compare-row"><span class="k">Smaakt goed bij</span>${wine.pairing}</div>
+      </div>`;
+  }).join("");
+  document.getElementById("compare-modal").classList.add("open");
+  document.getElementById("compare-backdrop").classList.add("open");
+}
+document.getElementById("compare-go").addEventListener("click", ()=>{ if(compareSet.size>=2) openCompareModal(); });
+document.getElementById("compare-clear-tray").addEventListener("click", ()=>{ compareSet.clear(); syncCompareUI(); });
+document.getElementById("compare-close").addEventListener("click", closeCompareModal);
+document.getElementById("compare-backdrop").addEventListener("click", closeCompareModal);
+
+/* ---------- ROUTE ---------- */
+document.getElementById("route-toggle").addEventListener("click", toggleRouteMode);
+document.getElementById("route-clear").addEventListener("click", clearRoute);
+
+renderFilterbar();
+renderRefineBar();
+renderMapLegend();
+renderList();
+buildMap();
+initMapZoomPan();
+syncCompareUI();
+applyDeepLinkFromHash();
+</script>
+</body>
+</html>
