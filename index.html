@@ -334,8 +334,11 @@
   }
   .map-controls button:hover{ background: var(--facade); color: var(--paper); border-color: var(--facade); }
   .map-controls #zoom-reset{ font-size:13px; }
-  .zone{ stroke: rgba(44,30,24,.3); stroke-width:4.4; stroke-dasharray: 10 14; opacity:.5; transition: opacity .2s; }
-  .zone:hover{ opacity:.7; }
+  /* Lagere dekking + multiply-blend zodat de (bij benadering getekende) appellatievlakken
+     zachter in elkaar overvloeien waar ze elkaar overlappen, i.p.v. als harde,
+     los van elkaar staande gekleurde blokken op de kaart te liggen. */
+  .zone{ stroke: rgba(44,30,24,.25); stroke-width:4.4; stroke-dasharray: 10 14; opacity:.26; mix-blend-mode: multiply; transition: opacity .2s; }
+  .zone:hover{ opacity:.4; }
   .zone-label{ font-family: var(--font-ui); font-size:44px; letter-spacing:.1em; text-transform:uppercase; fill: rgba(44,30,24,.6); pointer-events:none; paint-order:stroke; stroke: var(--paper); stroke-width:10px; }
   .massif-label{ font-family: var(--font-display); font-style:italic; font-size:40px; fill: rgba(44,30,24,.5); pointer-events:none; paint-order:stroke; stroke: var(--paper); stroke-width:8px; }
   .compass text{ font-family: var(--font-display); font-style:italic; font-size:48px; fill: var(--shadow); }
@@ -372,8 +375,8 @@
   .marker:hover text, .marker.selected text{ opacity:1; }
   .marker.dimmed{ opacity:.16; pointer-events:none; }
   .zone{ transition: opacity .25s ease, stroke-width .25s ease; }
-  .zone.dimmed{ opacity:.08; }
-  .zone.active-filter{ opacity:.68; stroke-width:6.8; }
+  .zone.dimmed{ opacity:.06; }
+  .zone.active-filter{ opacity:.5; stroke-width:6.8; }
 
   /* ---------- SIDEBAR ---------- */
   .sidebar{
