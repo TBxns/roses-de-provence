@@ -322,8 +322,16 @@
        verschil tot een zichtbaar schaakbord van "vlakken". Een lichte filter + een
        stevigere, egale kleurwas (.map-wash hieronder) camoufleert dat verschil juist. */
     filter: sepia(.22) saturate(1.05) hue-rotate(-4deg);
+    transform: translateZ(0);
   }
-  .tile-grid img{ width:100%; height:100%; display:block; object-fit:cover; }
+  /* Safari/WebKit tekent een kleurfilter over losse grid-afbeeldingen net iets anders
+     dan Chrome/Firefox, waardoor er haarfijne naden tussen de tegels zichtbaar worden
+     (ook al staat de grid-gap op 0). Elke tegel iets laten overlappen met zijn buren
+     overschildert die naad, zonder dat het kaartbeeld zelf merkbaar vervormt. */
+  .tile-grid img{
+    width:100%; height:100%; display:block; object-fit:cover;
+    transform: scale(1.035); backface-visibility: hidden;
+  }
   .map-wash{ position:absolute; inset:0; background: var(--facade); opacity:.2; mix-blend-mode:multiply; pointer-events:none; }
   svg#provence-map{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
@@ -1193,18 +1201,23 @@ const MASSIFS = [
   { name:"Massif des Maures", cx:2592, cy:1626 },
 ];
 
-/* Rasterkaart van OpenStreetMap (© OpenStreetMap-bijdragers, ODbL) — 7×5 tegels
-   op zoom 10, exact de bounding box van de Provence-rosé-appellations.
-   (We gebruiken bewust standaard-OSM i.p.v. OpenTopoMap: dat laatste bleek op
-   sommige mobiele netwerken tegels te weigeren/blokkeren bij dit aantal
-   gelijktijdige verzoeken, met kapotte "?"-vlakken tot gevolg. Dezelfde
-   SVG-coördinaten (wijnhuizen, zones, massieven) blijven gewoon werken, want
-   die staan los van de onderliggende tegel-resolutie.) */
-const TILE_CONFIG = { z:10, xStart:525, yStart:372, cols:7, rows:5 };
+/* Rasterkaart van OpenStreetMap (© OpenStreetMap-bijdragers, ODbL).
+   Twee resolutieniveaus van exact dezelfde bounding box: bij het laden krijg je
+   de lichte 7×5-tegelset (35 tegels, zoom 10) voor een snelle eerste weergave.
+   Zodra je met de +/− knoppen of scroll ver genoeg inzoomt, wordt automatisch
+   eenmalig overgeschakeld naar de fijnere 14×10-tegelset (140 tegels, zoom 11,
+   dubbele resolutie) zodat het beeld scherp blijft in plaats van wazig
+   opgerekt. Dezelfde SVG-coördinaten (wijnhuizen, zones, massieven) blijven
+   gewoon werken op beide niveaus, want die staan los van de tegel-resolutie. */
+const TILE_CONFIG_LOW  = { z:10, xStart:525,  yStart:372, cols:7,  rows:5  };
+const TILE_CONFIG_HIGH = { z:11, xStart:1050, yStart:744, cols:14, rows:10 };
+let tileResolution = "low";
 
-function buildTileGrid(){
+function buildTileGrid(config){
   const grid = document.getElementById("tile-grid");
-  const { z, xStart, yStart, cols, rows } = TILE_CONFIG;
+  const { z, xStart, yStart, cols, rows } = config;
+  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
   let html = "";
   for(let row=0; row<rows; row++){
     for(let col=0; col<cols; col++){
@@ -1214,8 +1227,18 @@ function buildTileGrid(){
   grid.innerHTML = html;
 }
 
+/* Wordt aangeroepen bij elke zoomstap; schakelt precies één keer over naar de
+   scherpere tegelset zodra je ver genoeg bent ingezoomd, en blijft daarna op
+   scherp staan (geen heen-en-weer geschakel). */
+function maybeUpgradeTileResolution(){
+  if(tileResolution==="low" && mapZoom >= 2){
+    tileResolution = "high";
+    buildTileGrid(TILE_CONFIG_HIGH);
+  }
+}
+
 function buildMap(){
-  buildTileGrid();
+  buildTileGrid(TILE_CONFIG_LOW);
   const svg = document.getElementById("provence-map");
   let inner = "";
 
@@ -1394,6 +1417,7 @@ function setMapZoom(z){
   mapZoom = clampNum(z, MAP_ZOOM_MIN, MAP_ZOOM_MAX);
   clampMapPan();
   applyMapTransform();
+  maybeUpgradeTileResolution();
 }
 
 function initMapZoomPan(){
