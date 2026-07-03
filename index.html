@@ -312,27 +312,21 @@
   /* Alles wat mee moet schalen/verschuiven bij het zoomen zit in deze laag,
      zodat kaarttegels, appellationvlakken en markers altijd exact uitlijnen. */
   .map-zoomable{ position:absolute; inset:0; transform-origin:50% 50%; will-change: transform; }
-  /* Echte, gratis OpenStreetMap-tegels (© OpenStreetMap-bijdragers) als kaartbodem,
-     via een kleurfilter naar de Provençaalse paletsfeer van de site getrokken. */
+  /* Echte, gratis OpenStreetMap-tegels (© OpenStreetMap-bijdragers) als kaartbodem.
+     Belangrijk: hier zit bewust GEEN CSS filter (sepia/saturate/etc.) meer op — Safari/
+     WebKit blijkt een kleurfilter over een raster van losse <img>'s onbetrouwbaar te
+     tekenen (zichtbare, verschillend gekleurde "vlakken" per tegel, ook na diverse
+     work-arounds). De Provençaalse warme tint komt nu volledig van .map-wash hieronder,
+     een simpele gekleurde laag met mix-blend-mode — dat rendert in elke browser gelijk. */
   .tile-grid{
     position:absolute; inset:0; display:grid; background: var(--paper);
     grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(5, 1fr);
-    /* Bewust een veel zachtere filter dan voorheen: elke losse OSM-tegel heeft van
-       nature een iets andere helderheid, en contrast()/brightness() versterkten dat
-       verschil tot een zichtbaar schaakbord van "vlakken". Een lichte filter + een
-       stevigere, egale kleurwas (.map-wash hieronder) camoufleert dat verschil juist. */
-    filter: sepia(.22) saturate(1.05) hue-rotate(-4deg);
-    transform: translateZ(0);
   }
-  /* Safari/WebKit tekent een kleurfilter over losse grid-afbeeldingen net iets anders
-     dan Chrome/Firefox, waardoor er haarfijne naden tussen de tegels zichtbaar worden
-     (ook al staat de grid-gap op 0). Elke tegel iets laten overlappen met zijn buren
-     overschildert die naad, zonder dat het kaartbeeld zelf merkbaar vervormt. */
   .tile-grid img{
     width:100%; height:100%; display:block; object-fit:cover;
-    transform: scale(1.035); backface-visibility: hidden;
+    transform: scale(1.015);
   }
-  .map-wash{ position:absolute; inset:0; background: var(--facade); opacity:.2; mix-blend-mode:multiply; pointer-events:none; }
+  .map-wash{ position:absolute; inset:0; background: var(--facade); opacity:.28; mix-blend-mode:multiply; pointer-events:none; }
   svg#provence-map{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
   .map-controls{
