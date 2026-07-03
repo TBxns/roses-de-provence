@@ -313,19 +313,14 @@
      zodat kaarttegels, appellationvlakken en markers altijd exact uitlijnen. */
   .map-zoomable{ position:absolute; inset:0; transform-origin:50% 50%; will-change: transform; }
   /* Echte, gratis OpenStreetMap-tegels (© OpenStreetMap-bijdragers) als kaartbodem.
-     Belangrijk: hier zit bewust GEEN CSS filter (sepia/saturate/etc.) meer op — Safari/
-     WebKit blijkt een kleurfilter over een raster van losse <img>'s onbetrouwbaar te
-     tekenen (zichtbare, verschillend gekleurde "vlakken" per tegel, ook na diverse
-     work-arounds). De Provençaalse warme tint komt nu volledig van .map-wash hieronder,
-     een simpele gekleurde laag met mix-blend-mode — dat rendert in elke browser gelijk. */
-  .tile-grid{
-    position:absolute; inset:0; display:grid; background: var(--paper);
-    grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(5, 1fr);
-  }
-  .tile-grid img{
-    width:100%; height:100%; display:block; object-fit:cover;
-    transform: scale(1.015);
-  }
+     Deze worden niet meer als losse <img>'s in een CSS-grid geplaatst (Safari/WebKit
+     bleek zo'n raster — met of zonder CSS-filter erop — onbetrouwbaar samen te stellen,
+     met zichtbare, verschillend gekleurde "vlakken" per tegel tot gevolg). In plaats
+     daarvan tekenen we alle tegels rechtstreeks, pixel voor pixel, op één <canvas>.
+     Dat is in elke browser identiek, want er is geen CSS-laag per tegel meer die anders
+     gecomponeerd kan worden. De Provençaalse warme tint komt van .map-wash hieronder,
+     een simpele gekleurde laag met mix-blend-mode over het geheel. */
+  .tile-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; background: var(--paper); }
   .map-wash{ position:absolute; inset:0; background: var(--facade); opacity:.28; mix-blend-mode:multiply; pointer-events:none; }
   svg#provence-map{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
@@ -567,7 +562,7 @@
         <div class="map-legend" id="map-legend"></div>
         <div class="map-stage" id="map-stage">
           <div class="map-zoomable" id="map-zoomable">
-            <div class="tile-grid" id="tile-grid"></div>
+            <canvas class="tile-canvas" id="tile-canvas"></canvas>
             <div class="map-wash"></div>
             <svg id="provence-map" viewBox="0 0 3584 2560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"></svg>
           </div>
@@ -1208,17 +1203,25 @@ const TILE_CONFIG_HIGH = { z:11, xStart:1050, yStart:744, cols:14, rows:10 };
 let tileResolution = "low";
 
 function buildTileGrid(config){
-  const grid = document.getElementById("tile-grid");
+  const canvas = document.getElementById("tile-canvas");
+  if(!canvas) return;
   const { z, xStart, yStart, cols, rows } = config;
-  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-  grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-  let html = "";
+  const TILE_PX = 256;
+  canvas.width = cols * TILE_PX;
+  canvas.height = rows * TILE_PX;
+  const ctx = canvas.getContext && canvas.getContext("2d");
+  if(!ctx) return; // defensief: canvas 2D is in elke echte browser beschikbaar
   for(let row=0; row<rows; row++){
     for(let col=0; col<cols; col++){
-      html += `<img src="https://tile.openstreetmap.org/${z}/${xStart+col}/${yStart+row}.png" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`;
+      const img = new Image();
+      img.onload = () => {
+        // Iets breder/hoger tekenen dan het tegelvak zelf voorkomt haarfijne
+        // afrondingsnaadjes tussen tegels op sommige schermen/browsers.
+        ctx.drawImage(img, col*TILE_PX - 0.5, row*TILE_PX - 0.5, TILE_PX + 1, TILE_PX + 1);
+      };
+      img.src = `https://tile.openstreetmap.org/${z}/${xStart+col}/${yStart+row}.png`;
     }
   }
-  grid.innerHTML = html;
 }
 
 /* Wordt aangeroepen bij elke zoomstap; schakelt precies één keer over naar de
