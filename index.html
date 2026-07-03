@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Les Rosés de Provence — Wijnhuizen &amp; Terroirs</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#2C1E18">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rosés Provence">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFH0lEQVR4nO3czVncSBSGUTVRsCICAnE23joEb52NAyECVmTBbKbtpq3u1k+VSqrvnNUsDEjivrcE9jOnYWdeX54/W18D9by9f5xaX8Olphdj2GkdxOZf3NBzS4sYNvuCBp85toqh+hcx+KxRO4Rqn9zgU1KtEIp/UoNPTaVDeCr5yQw/tZWesSI1GXxaKHEarP4Ehv++379+rvr4b99/FLqSPq2NYNUHG/6/1g76XML4a00Eiz8wffi3HvhH0oNYGsGiD0od/r0N/S2pMSyJYPYHpA3/UYb+lrQY5kYw6w8nDf/RB/9aUghzIpj8B1OGv7fBv5YSwtQIJv1FmOHvR8I9DsP0mX1YScLwpwzFtYTT4NFJUPSfQhxR6vAPQ/a9n90NoPftbwD6fwaPZvhmAIY/R+/P4t4sR74C9f4NXyL1mYwG0PP2T/1GT9Hzs7k101EnQM/f4FLSntE/AfS8/ck2NtsxJ0DaZlsj6Vl9CcD2p3fXMx5zAsCYPwH0vP2TjvRSen5ml7PuBCCaAIj2NAx9v/4MQ8a/eiyt92d2nnknANFiAuh9o5WU9KxiAoAxUQEkbbal0p7RU+8/AMMtry/Pn1EnwDDkbbg5Ep9NXABwKTKAxE33SOoziQwAzmIDSN14Y5KfRWwAMAzhASRvvrP0ZxAdAMQHkLwBk+/9LD4AsglgyNyEifc8RgBEE8D/kjZi0r0+IgCiCeBCwmZMuMc5BEA0AVzpeUP2fG9LCYBoAhjR46bs8Z5KEADRBHBDTxuzp3spTQBEE8AdPWzOHu6hJgEQTQAPHHmDHvnatyIAoglggiNu0iNecwsCmOhIA3Wka21NAEQTwAxH2KxHuMY9EQDRBDDTnjfsnq9trwRANAEssMdNu8drOgIBEE0AC+1p4+7pWo5GAEQTwAp72Lx7uIYjEwDRBLBSyw1s+68nAKIJoIAWm9j2L0MARBNAIVtuZNu/HAEQTQAFbbGZbf+yBEA0ARRWc0Pb/uUJgGgCqKDGprb96xAA0QRQScmNbfvXIwCiCaCiEpvb9q9LAEQTQGVrNrjtX58AiCaADSzZ5Lb/NgRANAFsZM5Gt/23IwCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiDa6fXl+bP1RezR718/W19Ccd++/2h9CbsjgCs9Dv4lEXzlFShM74HPJYALKcORcp9TCIBoAiCaAIgmAGK9vX+cnt7eP06tL2QvUn5FmHKfUzgBrvQ+HL3f31wCGNHrkPR6X2uchmEY/G0wid7eP05P5/9ofTGwpfPMewUimgCI9icAr0GkuJx1JwDRBEC0LwF4DaJ31zPuBCDaPwE4BejV2Gw7AYg2GoBTgN7cmmknANFuBuAUoBf3ZvnuCSACju7RDHsFoltTFvjDAJwC9GzSCSACjmbqzE5+BRIBRzFnVmf9DCAC9m7ujM7+IVgE7NWS2Vz0WyARsDdLZ3Lxr0FFwF6smcVVfw8gAlpbO4NFBtj/V4itlVq+RTe4ENhCyTePov8UwisRtZWesWoD6zSgpFrLtfrGFgJr1H6r2OyVRQjMsdXr9Obv7ELglhY/Qzb9oVUMtP7Fye5+ayOKfrUe9jH/AZb1eKQ0QedwAAAAAElFTkSuQmCC">
 <style>
   :root{
     --stone:#E9D8C6;
@@ -245,6 +251,8 @@
   .route-panel ol{ margin:0 0 8px; padding-left:18px; }
   .route-panel .dist{ color: rgba(44,30,24,.6); font-style:italic; margin-bottom:8px; }
   .route-panel button{ background:none; border:none; color: var(--facade); font-size:11.5px; text-decoration:underline; }
+  #route-gmaps{ display:block; margin-bottom:8px; font-size:11.5px; color: var(--shadow); text-decoration:none; font-weight:600; }
+  #route-gmaps:hover{ color: var(--facade); }
   .route-stop-label{ font-family: var(--font-ui); font-weight:bold; font-size:18px; fill: var(--paper); text-anchor:middle; pointer-events:none; }
   .route-line{ fill:none; stroke: var(--facade); stroke-width:3; stroke-dasharray:10 8; opacity:.75; }
 
@@ -301,6 +309,23 @@
   /* Vaste, gangbare kaartformaat i.p.v. randloos meeschalen met heel brede vensters —
      op laptop dus een nette, herkenbare kaartgrootte; inzoomen doe je met de +/− knoppen. */
   .map-wrap{ position:relative; padding: 30px 40px 60px; max-width: 900px; margin: 0 auto; }
+
+  /* ---------- KLEURENWAAIER ---------- */
+  .color-wrap{ padding: 40px 40px 60px; }
+  .color-intro{ font-size:14px; color: rgba(44,30,24,.65); margin: 0 0 26px; max-width:560px; }
+  .color-strip{ display:flex; flex-wrap:wrap; gap:18px 14px; align-items:flex-end; }
+  .color-swatch{
+    display:flex; flex-direction:column; align-items:center; gap:8px; width:76px;
+    background:none; border:none; cursor:pointer; padding:0; text-align:center;
+    transition: transform .15s ease;
+  }
+  .color-swatch:hover{ transform: translateY(-4px); }
+  .color-swatch .chip{
+    width:44px; height:60px; border-radius:6px 6px 3px 3px;
+    border:1px solid rgba(44,30,24,.18); box-shadow: 0 3px 8px rgba(44,30,24,.14);
+  }
+  .color-swatch .cuvee{ font-family: var(--font-display); font-style:italic; font-size:11.5px; color: var(--shadow); line-height:1.2; }
+  .color-swatch .house{ font-size:8.5px; letter-spacing:.06em; text-transform:uppercase; color: rgba(44,30,24,.5); }
   .map-legend{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom:18px; font-size:11px; color: rgba(44,30,24,.7); }
   .map-legend .item{ display:flex; align-items:center; gap:7px; }
   .map-legend .swatch{ width:12px; height:12px; border-radius:3px; display:inline-block; border:1px solid rgba(44,30,24,.2); }
@@ -510,6 +535,7 @@
     <div class="view-toggle">
       <button id="btn-list" class="active" data-view="list">Lijst</button>
       <button id="btn-map" data-view="map">Kaart</button>
+      <button id="btn-color" data-view="color">Kleur</button>
     </div>
   </nav>
 
@@ -549,6 +575,7 @@
         </select>
       </label>
       <button class="text-btn" id="reset-filters">Wis filters</button>
+      <button class="text-btn" id="export-tastinglist">Proeflijst exporteren</button>
     </div>
     <div class="refine-row" id="grape-filters"><span class="label">Druiven</span></div>
     <div class="refine-row" id="style-filters"><span class="label">Smaak</span></div>
@@ -576,9 +603,16 @@
             <div class="title">Voorgestelde proefroute</div>
             <ol id="route-list"></ol>
             <div class="dist" id="route-dist"></div>
+            <a id="route-gmaps" href="#" target="_blank" rel="noopener" style="display:none;">Open route in Google Maps →</a>
             <button id="route-clear" type="button">Route wissen</button>
           </div>
         </div>
+      </div>
+    </section>
+    <section class="view" id="view-color">
+      <div class="color-wrap">
+        <p class="color-intro">Alle rosés op een rij, van bleekst tot diepst van kleur — klik een fles voor de details.</p>
+        <div class="color-strip" id="color-strip"></div>
       </div>
     </section>
   </main>
@@ -1359,6 +1393,22 @@ function renderRouteOverlay(){
   svg.appendChild(g);
 }
 
+/* Bouwt een echte, rijdbare Google Maps-routelink. We gebruiken bewust naam + plaats
+   (i.p.v. onze eigen kaart-pixelcoördinaten terug te rekenen naar lengte-/breedtegraad)
+   zodat Google Maps het exacte, echte adres van elk wijnhuis opzoekt en er een kloppende
+   routebeschrijving met echte wegen uit rolt — niet onze eigen hemelsbrede-afstandslijn. */
+function buildGoogleMapsRouteUrl(stopIds){
+  const pts = stopIds.map(id=> HOUSES.find(h=>h.id===id)).filter(Boolean);
+  if(pts.length<2) return "";
+  const asQuery = h => encodeURIComponent(`${h.name}, ${h.commune}, France`);
+  const origin = asQuery(pts[0]);
+  const destination = asQuery(pts[pts.length-1]);
+  const waypoints = pts.slice(1,-1).map(asQuery).join("|");
+  let url = `https://www.google.com/maps/dir/?api=1&travelmode=driving&origin=${origin}&destination=${destination}`;
+  if(waypoints) url += `&waypoints=${waypoints}`;
+  return url;
+}
+
 function renderRoutePanel(){
   const list = document.getElementById("route-list");
   list.innerHTML = routeStops.map(id=>{ const h=HOUSES.find(x=>x.id===id); return h ? `<li>${h.name}</li>` : ""; }).join("");
@@ -1369,8 +1419,17 @@ function renderRoutePanel(){
     if(a && b) totalKm += distancePx(a,b) * PX_TO_KM;
   }
   document.getElementById("route-dist").textContent = routeStops.length>1
-    ? `≈ ${totalKm.toFixed(0)} km rijden (indicatief)`
+    ? `≈ ${totalKm.toFixed(0)} km hemelsbreed (indicatief) — echte route hieronder`
     : "Klik wijnhuizen aan op de kaart om een route te bouwen.";
+
+  const gmapsLink = document.getElementById("route-gmaps");
+  if(routeStops.length>1){
+    gmapsLink.href = buildGoogleMapsRouteUrl(routeStops);
+    gmapsLink.style.display = "block";
+  } else {
+    gmapsLink.style.display = "none";
+  }
+
   document.getElementById("route-panel").classList.toggle("show", routeMode && routeStops.length>0);
 }
 
@@ -1609,16 +1668,165 @@ function closeSidebar(){
   document.getElementById("sidebar-backdrop").classList.remove("open");
 }
 
+/* ---------- KLEURENWAAIER ---------- */
+/* Waargenomen helderheid (perceptual luminance) van een hex-kleur — gebruikt om
+   alle rosés te sorteren van bleekst (hoge luminantie) naar diepst (lage luminantie). */
+function perceivedLuminance(hex){
+  const { r, g, b } = hexToRgb(hex);
+  return 0.299*r + 0.587*g + 0.114*b;
+}
+
+function renderColorPalette(){
+  const strip = document.getElementById("color-strip");
+  const all = [];
+  HOUSES.forEach(h=> h.wines.forEach(w=> all.push({ h, w })));
+  all.sort((a,b)=> perceivedLuminance(b.w.color) - perceivedLuminance(a.w.color));
+  strip.innerHTML = all.map(({h,w})=>`
+    <button class="color-swatch" data-house-id="${h.id}" data-wine-id="${w.id}" type="button" title="${w.cuvee} — ${h.name}">
+      <span class="chip" style="background:${w.color}"></span>
+      <span class="cuvee">${w.cuvee}</span>
+      <span class="house">${h.name}</span>
+    </button>
+  `).join("");
+  strip.querySelectorAll(".color-swatch").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const house = HOUSES.find(h=>h.id===btn.dataset.houseId);
+      const wine = house && house.wines.find(w=>w.id===btn.dataset.wineId);
+      if(house && wine) openWineDetail(house, wine);
+    });
+  });
+}
+
+/* ---------- PROEFLIJST EXPORTEREN ALS AFBEELDING ---------- */
+function roundRectPath(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y, x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r);
+  ctx.arcTo(x, y, x+w, y, r);
+  ctx.closePath();
+}
+
+function wrapCanvasText(ctx, text, maxWidth){
+  const words = text.split(" ");
+  const lines = [];
+  let line = "";
+  words.forEach(word=>{
+    const test = line ? line + " " + word : word;
+    if(ctx.measureText(test).width > maxWidth && line){
+      lines.push(line); line = word;
+    } else {
+      line = test;
+    }
+  });
+  if(line) lines.push(line);
+  return lines;
+}
+
+function exportTastingListImage(){
+  const favWines = [...favorites].map(id => WINE_INDEX[id]).filter(Boolean);
+  if(favWines.length===0){
+    alert("Je proeflijst is nog leeg — voeg eerst rosés toe met het hartje-icoon.");
+    return;
+  }
+
+  const width = 800;
+  const rowHeight = 92;
+  const headerHeight = 130;
+  const footerHeight = 44;
+  const height = headerHeight + favWines.length*rowHeight + footerHeight;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width; canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if(!ctx) return;
+
+  ctx.fillStyle = "#FBF4EC";
+  ctx.fillRect(0,0,width,height);
+
+  ctx.fillStyle = "#2C1E18";
+  ctx.font = "italic 32px Georgia, 'Times New Roman', serif";
+  ctx.fillText("Mijn Provence Rosé Proeflijst", 40, 58);
+
+  const dateStr = new Date().toLocaleDateString("nl-NL", { day:"numeric", month:"long", year:"numeric" });
+  ctx.fillStyle = "rgba(44,30,24,.6)";
+  ctx.font = "12px Helvetica, Arial, sans-serif";
+  ctx.fillText(`${favWines.length} ${favWines.length===1 ? "rosé" : "rosés"} · ${dateStr}`, 40, 82);
+
+  ctx.strokeStyle = "rgba(44,30,24,.15)";
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(40, 102); ctx.lineTo(width-40, 102); ctx.stroke();
+
+  favWines.forEach(({house, wine}, i)=>{
+    const y = headerHeight + i*rowHeight;
+
+    ctx.fillStyle = wine.color;
+    ctx.strokeStyle = "rgba(44,30,24,.22)";
+    roundRectPath(ctx, 40, y+12, 46, 60, 6);
+    ctx.fill(); ctx.stroke();
+
+    ctx.fillStyle = "#2C1E18";
+    ctx.font = "italic 20px Georgia, 'Times New Roman', serif";
+    ctx.fillText(wine.cuvee, 104, y+32);
+
+    ctx.fillStyle = "rgba(44,30,24,.55)";
+    ctx.font = "11px Helvetica, Arial, sans-serif";
+    ctx.fillText(`${house.name} · ${house.commune}`, 104, y+50);
+
+    const saved = notes[wine.id] || {};
+    const score = saved.score || 0;
+    let starX = 104;
+    ctx.font = "15px Arial, sans-serif";
+    for(let s=1; s<=5; s++){
+      ctx.fillStyle = s<=score ? "#C07068" : "rgba(44,30,24,.22)";
+      ctx.fillText("★", starX, y+70);
+      starX += 17;
+    }
+
+    if(saved.text){
+      ctx.fillStyle = "rgba(44,30,24,.7)";
+      ctx.font = "italic 11.5px Georgia, 'Times New Roman', serif";
+      const lines = wrapCanvasText(ctx, saved.text, width - 260 - 40);
+      lines.slice(0,2).forEach((line, li)=> ctx.fillText(line, 260, y+34+li*15));
+    }
+
+    ctx.strokeStyle = "rgba(44,30,24,.08)";
+    ctx.beginPath(); ctx.moveTo(40, y+rowHeight-6); ctx.lineTo(width-40, y+rowHeight-6); ctx.stroke();
+  });
+
+  ctx.fillStyle = "rgba(44,30,24,.45)";
+  ctx.font = "10.5px Helvetica, Arial, sans-serif";
+  ctx.fillText("Gemaakt met Rosés de Provence", 40, height-18);
+
+  canvas.toBlob(blob=>{
+    if(!blob) return;
+    const file = new File([blob], "mijn-proeflijst.png", { type:"image/png" });
+    if(navigator.canShare && navigator.canShare({ files:[file] })){
+      navigator.share({ files:[file], title:"Mijn Provence Rosé Proeflijst" }).catch(()=>{});
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "mijn-proeflijst.png";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=> URL.revokeObjectURL(url), 4000);
+    }
+  }, "image/png");
+}
+
 /* ---------- VIEW SWITCH ---------- */
 function switchView(view){
   document.querySelectorAll(".view-toggle button").forEach(b=>b.classList.toggle("active", b.dataset.view===view));
   document.getElementById("view-list").classList.toggle("active", view==="list");
   document.getElementById("view-map").classList.toggle("active", view==="map");
+  document.getElementById("view-color").classList.toggle("active", view==="color");
 }
 
 /* ---------- INIT ---------- */
 document.getElementById("btn-list").addEventListener("click", ()=>switchView("list"));
 document.getElementById("btn-map").addEventListener("click", ()=>switchView("map"));
+document.getElementById("btn-color").addEventListener("click", ()=>switchView("color"));
+document.getElementById("export-tastinglist").addEventListener("click", exportTastingListImage);
 document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
 document.getElementById("sidebar-backdrop").addEventListener("click", closeSidebar);
 document.getElementById("detail-close").addEventListener("click", closeWineDetail);
@@ -1701,10 +1909,18 @@ renderFilterbar();
 renderRefineBar();
 renderMapLegend();
 renderList();
+renderColorPalette();
 buildMap();
 initMapZoomPan();
 syncCompareUI();
 applyDeepLinkFromHash();
+
+/* ---------- PWA / OFFLINE ---------- */
+if("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  });
+}
 </script>
 </body>
 </html>
