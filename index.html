@@ -311,6 +311,7 @@
   .map-wrap{ position:relative; padding: 30px 40px 60px; max-width: 900px; margin: 0 auto; }
 
   /* ---------- KLEURENWAAIER ---------- */
+  /* Mobiel / smal scherm: eenvoudig, goed aantikbaar rooster (fallback). */
   .color-wrap{ padding: 40px 40px 60px; }
   .color-intro{ font-size:14px; color: rgba(44,30,24,.65); margin: 0 0 26px; max-width:560px; }
   .color-strip{ display:flex; flex-wrap:wrap; gap:18px 14px; align-items:flex-end; }
@@ -326,6 +327,48 @@
   }
   .color-swatch .cuvee{ font-family: var(--font-display); font-style:italic; font-size:11.5px; color: var(--shadow); line-height:1.2; }
   .color-swatch .house{ font-size:8.5px; letter-spacing:.06em; text-transform:uppercase; color: rgba(44,30,24,.5); }
+
+  /* Vanaf tablet/laptop-breedte: echte waaier, zoals een verf-/kleurenwaaier bij de
+     schilder — alle kaartjes draaien vanuit één gedeeld scharnierpunt onderin en
+     overlappen elkaar; hover trekt er eentje naar voren, net als bij een fysieke waaier. */
+  @media (min-width: 860px){
+    .color-wrap{ display:flex; flex-direction:column; align-items:center; }
+    .color-intro{ text-align:center; }
+    .color-strip{
+      position:relative; display:block;
+      width:100%; max-width:900px; height:250px;
+      margin: 6px 0 10px;
+    }
+    .color-swatch{
+      position:absolute; left:50%; bottom:0; width:32px; gap:6px;
+      transform-origin: 50% 100%;
+      transform: translateX(-50%) rotate(var(--angle,0deg)) scale(1);
+      transition: transform .16s ease-out, filter .16s ease-out;
+      filter: saturate(.9) brightness(.98);
+    }
+    .color-swatch .chip{
+      width:26px; height:190px; border-radius:13px 13px 5px 5px;
+    }
+    .color-swatch .cuvee, .color-swatch .house{
+      opacity:0; transition: opacity .15s ease; white-space:nowrap;
+    }
+    .color-swatch:hover, .color-swatch:focus-visible{
+      /* Bewust geen rotatie- of positieverandering: alleen uitvergroten rond
+         dezelfde as, zodat het kaartje niet onder de cursor vandaan "wegschiet"
+         en je 'm rustig kunt raken en aanklikken. */
+      transition-delay: .09s;
+      transform: translateX(-50%) rotate(var(--angle,0deg)) scale(1.16);
+      z-index: 999 !important;
+      filter: none;
+    }
+    .color-swatch:hover .chip, .color-swatch:focus-visible .chip{
+      box-shadow: 0 14px 24px rgba(44,30,24,.38);
+    }
+    .color-swatch:hover .cuvee, .color-swatch:focus-visible .cuvee,
+    .color-swatch:hover .house, .color-swatch:focus-visible .house{
+      opacity:1;
+    }
+  }
   .map-legend{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom:18px; font-size:11px; color: rgba(44,30,24,.7); }
   .map-legend .item{ display:flex; align-items:center; gap:7px; }
   .map-legend .swatch{ width:12px; height:12px; border-radius:3px; display:inline-block; border:1px solid rgba(44,30,24,.2); }
@@ -611,7 +654,7 @@
     </section>
     <section class="view" id="view-color">
       <div class="color-wrap">
-        <p class="color-intro">Alle rosés op een rij, van bleekst tot diepst van kleur — klik een fles voor de details.</p>
+        <p class="color-intro">Alle rosés in één waaier, van bleekst tot diepst van kleur — trek er eentje naar voren (hover) en klik voor de details.</p>
         <div class="color-strip" id="color-strip"></div>
       </div>
     </section>
@@ -1676,18 +1719,29 @@ function perceivedLuminance(hex){
   return 0.299*r + 0.587*g + 0.114*b;
 }
 
+/* Totale spreiding van de waaier in graden (alleen relevant vanaf tablet/laptop-
+   breedte, zie CSS media query) — verdeeld over alle flessen zodat ze als een
+   fysieke verf-/kleurenwaaier vanuit één scharnierpunt uitwaaieren. */
+const FAN_SPREAD_DEG = 150;
+
 function renderColorPalette(){
   const strip = document.getElementById("color-strip");
   const all = [];
   HOUSES.forEach(h=> h.wines.forEach(w=> all.push({ h, w })));
   all.sort((a,b)=> perceivedLuminance(b.w.color) - perceivedLuminance(a.w.color));
-  strip.innerHTML = all.map(({h,w})=>`
-    <button class="color-swatch" data-house-id="${h.id}" data-wine-id="${w.id}" type="button" title="${w.cuvee} — ${h.name}">
+  const n = all.length;
+  strip.innerHTML = all.map(({h,w}, i)=>{
+    const angle = n > 1 ? (-FAN_SPREAD_DEG/2 + (i/(n-1)) * FAN_SPREAD_DEG) : 0;
+    return `
+    <button class="color-swatch" data-house-id="${h.id}" data-wine-id="${w.id}" type="button"
+      style="--angle:${angle.toFixed(2)}deg; z-index:${i+1};"
+      title="${w.cuvee} — ${h.name}">
       <span class="chip" style="background:${w.color}"></span>
       <span class="cuvee">${w.cuvee}</span>
       <span class="house">${h.name}</span>
     </button>
-  `).join("");
+  `;
+  }).join("");
   strip.querySelectorAll(".color-swatch").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       const house = HOUSES.find(h=>h.id===btn.dataset.houseId);
