@@ -317,10 +317,14 @@
   .tile-grid{
     position:absolute; inset:0; display:grid; background: var(--paper);
     grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(5, 1fr);
-    filter: sepia(.6) saturate(1.6) hue-rotate(-10deg) contrast(1.08) brightness(1.04);
+    /* Bewust een veel zachtere filter dan voorheen: elke losse OSM-tegel heeft van
+       nature een iets andere helderheid, en contrast()/brightness() versterkten dat
+       verschil tot een zichtbaar schaakbord van "vlakken". Een lichte filter + een
+       stevigere, egale kleurwas (.map-wash hieronder) camoufleert dat verschil juist. */
+    filter: sepia(.22) saturate(1.05) hue-rotate(-4deg);
   }
   .tile-grid img{ width:100%; height:100%; display:block; object-fit:cover; }
-  .map-wash{ position:absolute; inset:0; background: var(--facade); opacity:.08; mix-blend-mode:multiply; pointer-events:none; }
+  .map-wash{ position:absolute; inset:0; background: var(--facade); opacity:.2; mix-blend-mode:multiply; pointer-events:none; }
   svg#provence-map{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
   .map-controls{
