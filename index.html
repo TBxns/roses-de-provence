@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Les Rosés de Provence — Wijnhuizen &amp; Terroirs</title>
 <link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#2C1E18">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Rosés Provence">
-<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFH0lEQVR4nO3czVncSBSGUTVRsCICAnE23joEb52NAyECVmTBbKbtpq3u1k+VSqrvnNUsDEjivrcE9jOnYWdeX54/W18D9by9f5xaX8Olphdj2GkdxOZf3NBzS4sYNvuCBp85toqh+hcx+KxRO4Rqn9zgU1KtEIp/UoNPTaVDeCr5yQw/tZWesSI1GXxaKHEarP4Ehv++379+rvr4b99/FLqSPq2NYNUHG/6/1g76XML4a00Eiz8wffi3HvhH0oNYGsGiD0od/r0N/S2pMSyJYPYHpA3/UYb+lrQY5kYw6w8nDf/RB/9aUghzIpj8B1OGv7fBv5YSwtQIJv1FmOHvR8I9DsP0mX1YScLwpwzFtYTT4NFJUPSfQhxR6vAPQ/a9n90NoPftbwD6fwaPZvhmAIY/R+/P4t4sR74C9f4NXyL1mYwG0PP2T/1GT9Hzs7k101EnQM/f4FLSntE/AfS8/ck2NtsxJ0DaZlsj6Vl9CcD2p3fXMx5zAsCYPwH0vP2TjvRSen5ml7PuBCCaAIj2NAx9v/4MQ8a/eiyt92d2nnknANFiAuh9o5WU9KxiAoAxUQEkbbal0p7RU+8/AMMtry/Pn1EnwDDkbbg5Ep9NXABwKTKAxE33SOoziQwAzmIDSN14Y5KfRWwAMAzhASRvvrP0ZxAdAMQHkLwBk+/9LD4AsglgyNyEifc8RgBEE8D/kjZi0r0+IgCiCeBCwmZMuMc5BEA0AVzpeUP2fG9LCYBoAhjR46bs8Z5KEADRBHBDTxuzp3spTQBEE8AdPWzOHu6hJgEQTQAPHHmDHvnatyIAoglggiNu0iNecwsCmOhIA3Wka21NAEQTwAxH2KxHuMY9EQDRBDDTnjfsnq9trwRANAEssMdNu8drOgIBEE0AC+1p4+7pWo5GAEQTwAp72Lx7uIYjEwDRBLBSyw1s+68nAKIJoIAWm9j2L0MARBNAIVtuZNu/HAEQTQAFbbGZbf+yBEA0ARRWc0Pb/uUJgGgCqKDGprb96xAA0QRQScmNbfvXIwCiCaCiEpvb9q9LAEQTQGVrNrjtX58AiCaADSzZ5Lb/NgRANAFsZM5Gt/23IwCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiDa6fXl+bP1RezR718/W19Ccd++/2h9CbsjgCs9Dv4lEXzlFShM74HPJYALKcORcp9TCIBoAiCaAIgmAGK9vX+cnt7eP06tL2QvUn5FmHKfUzgBrvQ+HL3f31wCGNHrkPR6X2uchmEY/G0wid7eP05P5/9ofTGwpfPMewUimgCI9icAr0GkuJx1JwDRBEC0LwF4DaJ31zPuBCDaPwE4BejV2Gw7AYg2GoBTgN7cmmknANFuBuAUoBf3ZvnuCSACju7RDHsFoltTFvjDAJwC9GzSCSACjmbqzE5+BRIBRzFnVmf9DCAC9m7ujM7+IVgE7NWS2Vz0WyARsDdLZ3Lxr0FFwF6smcVVfw8gAlpbO4NFBtj/V4itlVq+RTe4ENhCyTePov8UwisRtZWesWoD6zSgpFrLtfrGFgJr1H6r2OyVRQjMsdXr9Obv7ELglhY/Qzb9oVUMtP7Fye5+ayOKfrUe9jH/AZb1eKQ0QedwAAAAAElFTkSuQmCC">
 <style>
   :root{
     --stone:#E9D8C6;
@@ -566,6 +566,17 @@
     .compare-tray{ flex-direction:column; align-items:stretch; gap:10px; padding-top:14px; padding-bottom:14px; }
     .compare-tray .go-btn, .compare-tray .clear-btn{ text-align:center; }
   }
+  /* ---------- LEEFTIJDSCHECK (NIX18) ---------- */
+  .agecheck{ position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:var(--shadow); color:var(--stone); text-align:center; padding:24px; }
+  .agecheck-box{ max-width:460px; }
+  .agecheck-box .agecheck-eyebrow{ font-family:var(--font-ui); letter-spacing:.18em; font-size:11px; text-transform:uppercase; opacity:.75; margin:0 0 10px; }
+  .agecheck-box h2{ font-family:var(--font-display); font-style:italic; font-weight:400; font-size:34px; margin:0 0 10px; }
+  .agecheck-box p{ font-size:14px; line-height:1.55; opacity:.85; margin:0 0 22px; }
+  .agecheck-form{ display:flex; gap:10px; justify-content:center; }
+  .agecheck-form input{ width:110px; padding:12px 14px; font-size:18px; text-align:center; border-radius:999px; border:1px solid rgba(233,216,198,.4); background:transparent; color:inherit; font-family:var(--font-ui); }
+  .agecheck-form button{ padding:12px 26px; border-radius:999px; border:none; background:var(--rose); color:var(--shadow); font-size:14px; font-weight:600; }
+  .agecheck-error{ color:var(--rose); font-size:13px; margin-top:16px; min-height:18px; }
+  .agecheck-nix{ margin-top:26px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; opacity:.6; }
 </style>
 </head>
 <body>
@@ -663,6 +674,8 @@
   <footer>
     <p style="margin:0 0 6px;">Kaartgegevens © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-bijdragers, beschikbaar onder de Open Database License (ODbL). De appellationvlakken, wijnhuis-markeringen en kleurstijl zijn eigen toevoegingen — ter vergelijking, niet kadastraal nauwkeurig.</p>
     <p style="margin:0; opacity:.8;">Sfeerbeelden: Vincent van Gogh, <em>The Green Vineyard</em> (1888) &amp; <em>Wheat Field with Cypresses</em> (1889, The Met) — publiek domein, via Wikimedia Commons. Lavendelveld-foto © Wikimedia Commons-bijdrager, vrij te gebruiken (zie licentie op de bestandspagina).</p>
+    <p style="margin:10px 0 0;"><strong>Geen 18, geen alcohol — NIX18.</strong> Deze website bevat verwijzingen naar alcoholhoudende dranken en is bestemd voor bezoekers van 18 jaar en ouder.</p>
+    <p style="margin:6px 0 0; opacity:.8;">Deze site bevat affiliate-links: bij een aankoop via een link naar Gall &amp; Gall kunnen wij een commissie ontvangen, zonder extra kosten voor jou. &middot; <a href="privacy.html">Privacyverklaring</a></p>
   </footer>
 
   <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
@@ -1975,6 +1988,43 @@ if("serviceWorker" in navigator){
     navigator.serviceWorker.register("./sw.js").catch(()=>{});
   });
 }
+</script>
+<!-- Leeftijdscheck — Reclamecode voor Alcoholhoudende Dranken / NIX18 -->
+<div class="agecheck" id="agecheck" role="dialog" aria-modal="true" aria-labelledby="agecheck-title">
+  <div class="agecheck-box">
+    <p class="agecheck-eyebrow">Les Ros&eacute;s de Provence</p>
+    <h2 id="agecheck-title">Ben je 18 jaar of ouder?</h2>
+    <p>Deze website gaat over ros&eacute;-wijnen en bevat verwijzingen naar verkooppunten van alcohol. Vul je geboortejaar in om verder te gaan.</p>
+    <form class="agecheck-form" id="agecheck-form">
+      <input type="number" id="agecheck-year" inputmode="numeric" min="1900" placeholder="Jaar" aria-label="Geboortejaar" required>
+      <button type="submit">Verder</button>
+    </form>
+    <p class="agecheck-error" id="agecheck-error"></p>
+    <p class="agecheck-nix">Geen 18, geen alcohol &mdash; NIX18</p>
+  </div>
+</div>
+<script>
+(function(){
+  var el = document.getElementById('agecheck');
+  var ok = false;
+  try { ok = sessionStorage.getItem('rdp-age-ok') === '1'; } catch(e) {}
+  if (ok) { el.remove(); return; }
+  document.body.style.overflow = 'hidden';
+  document.getElementById('agecheck-form').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var err = document.getElementById('agecheck-error');
+    var y = parseInt(document.getElementById('agecheck-year').value, 10);
+    var now = new Date().getFullYear();
+    if (!y || y < 1900 || y > now) { err.textContent = 'Vul een geldig geboortejaar in.'; return; }
+    if (now - y >= 18) {
+      try { sessionStorage.setItem('rdp-age-ok', '1'); } catch(e) {}
+      el.remove();
+      document.body.style.overflow = '';
+    } else {
+      err.textContent = 'Geen 18, geen alcohol. Deze website is niet voor jou bestemd.';
+    }
+  });
+})();
 </script>
 </body>
 </html>
