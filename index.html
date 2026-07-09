@@ -26,6 +26,7 @@
     --zone-palette: var(--lavender);
     --zone-lesbaux: #EFCBC0;
     --zone-coteaux: #DCC6AC;
+    --zone-coteauxvarois: #B9C79A;
   }
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
@@ -596,7 +597,7 @@
   <header class="hero">
     <div class="hero-eyebrow">Uitsluitend · Provence</div>
     <h1 class="hero-title">Les Rosés<br>de Provence</h1>
-    <p class="hero-sub">Zeventien wijnhuizen, vijf appellations, één regio die de wereld leerde hoe rosé gemaakt moet worden. Vergelijk terroirs, druiven en karakter — van de Alpilles tot de Golf van Saint-Tropez.</p>
+    <p class="hero-sub">Tweeëntwintig wijnhuizen, zes appellations, één regio die de wereld leerde hoe rosé gemaakt moet worden. Vergelijk terroirs, druiven en karakter — van de Alpilles tot de Golf van Saint-Tropez.</p>
   </header>
 
   <section class="landscape-strip" aria-hidden="true">
@@ -740,6 +741,7 @@ const APPELLATIONS = {
   palette: { name:"Palette",                      tag:"AOC Palette",                      zoneColor:"var(--zone-palette)", desc:"Microscopisch kleine appellation rond Aix-en-Provence — nog geen veertig hectare. Traditionele, bijna ambré stijl met een uitgesproken, kruidig karakter." },
   lesbaux: { name:"Les Baux-de-Provence",         tag:"AOC Les Baux-de-Provence",          zoneColor:"var(--zone-lesbaux)", desc:"Biologisch bolwerk tussen de kalkrotsen van de Alpilles. Droge, winderige hellingen rond het middeleeuwse Les Baux geven kruidige, mediterrane rosés." },
   coteaux: { name:"Coteaux d'Aix-en-Provence",    tag:"AOC Coteaux d'Aix-en-Provence",     zoneColor:"var(--zone-coteaux)", desc:"Uitgestrekt gebied rond Aix-en-Provence, van kalksteenplateaus tot rivierdalen. Historische domeinen naast eigentijdse, design-gedreven wijnhuizen." },
+  coteauxvarois: { name:"Coteaux Varois en Provence", tag:"AOC Coteaux Varois en Provence", zoneColor:"var(--zone-coteauxvarois)", desc:"Hoger en landinwaarts gelegen appellation rond Brignoles, tussen de Coteaux d'Aix en de kern van de Côtes de Provence. Bosrijk en overwegend biologisch, met een frissere, kruidige stijl door de hoogte." },
 };
 
 // x/y in de 800x600 kaart-viewBox, ruwweg geografisch gepositioneerd
@@ -838,6 +840,33 @@ const HOUSES = [
     desc:"Sinds 1986 (Pierre Maunier) twintig hectare wijngaard verdeeld over dertien lieux-dits tussen Lorgues en Saint-Antonin-du-Var. Klein, authentiek domein met een persoonlijke stijl.",
     wines:[
       { cuvee:"Cuvée Classique", color:"#E8D3C8", grapes:["Syrah","Cinsault","Grenache"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Licht en bloemig, met rode bes en een vlotte, verfrissende afdronk. Authentiek en zonder omwegen." },
+    ]},
+  { id:"mirabeau", name:"Maison Mirabeau", appellation:"cdp", commune:"Cotignac", x:2260, y:1141, website:"https://www.maisonmirabeau.com",
+    desc:"Het Britse echtpaar Stephen en Jeany Cronk verruilde Londen in 2009 voor Cotignac en blendde er in 2010 hun eerste rosé. Sinds 2019 eigen, biologisch en HVE3-gecertificeerd Domaine Mirabeau; het bedrijf is B Corp-gecertificeerd.",
+    wines:[
+      { cuvee:"Mirabeau Classic Rosé", gall:"https://www.gall.nl/mirabeau-classic-rose-rose-75cl-408417.html", color:"#E7B2A6", grapes:["Grenache","Cinsault","Syrah","Carignan"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Zalmroze met intense aroma's van rode en zwarte bes en framboos, subtiel peperig, met sappig fruit en een frisse afdronk." },
+      { cuvee:"Mirabeau Pure Rosé", gall:"https://www.gall.nl/mirabeau-pure-rose-rose-75cl-409235.html", color:"#F3E4DC", grapes:["Grenache","Syrah","Cinsault","Rolle"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Zeer bleek, met witte vruchten, perzik, garrigue-kruiden en citrus. Zijdeachtig en minerale, dorstlessende finale." },
+    ]},
+  { id:"leoube", name:"Château Léoube", appellation:"cdp", commune:"Bormes-les-Mimosas", x:2449, y:1935, website:"https://www.leoube.com",
+    desc:"Laat-14e-eeuws domein direct aan de Middellandse Zee, sinds 1997 van de Britse familie Bamford (Daylesford Organic). Biologisch gecertificeerd sinds 2011, wijnmaker Romain Ott — van de gelijknamige rosé-familie.",
+    wines:[
+      { cuvee:"In Love by Léoube Rosé Bio", gall:"https://www.gall.nl/in-love-by-leoube-rose-bio-rose-75cl-163295.html", color:"#EFDCD2", grapes:["Cinsault","Grenache"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Frisse, droge instaprosé met citrus, witte perzik en bosaardbei en een minerale, zilte toets." },
+      { cuvee:"Château Léoube Rosé", gall:"https://www.gall.nl/ch%C3%A2teau-leoube-rose-rose-75cl-163309.html", color:"#E3C2B4", grapes:["Grenache","Cinsault","Syrah","Mourvèdre"], abv:12.5, price:2, aging:"Nu – 2 jaar", notes:"Elegant, met rood fruit, honing en verse munt, en de kenmerkende zilte afdronk van de wijngaard direct aan zee." },
+    ]},
+  { id:"lacalisse", name:"Château la Calisse", appellation:"coteauxvarois", commune:"Pontevès", x:2160, y:1066, website:"https://www.chateau-la-calisse.fr",
+    desc:"Patricia Ortelli kocht het domein in 1991 en herplantte de wijngaard volledig, op 380 meter hoogte in een beschutte 'conque' met eigen microklimaat. Biologisch (Ecocert) sinds 1996; geroemd door Robert Parker en meermaals Coup de Cœur in de Guide Hachette.",
+    wines:[
+      { cuvee:"Rosé Château la Calisse", color:"#F0DED4", grapes:["Syrah","Grenache"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Bleke, elegante robe met een fijne bloemige neus (iris, anjer); in de mond witte meloen, witte pruim en limoen, met een ronde, gulle finale." },
+    ]},
+  { id:"annibals", name:"Château des Annibals", appellation:"coteauxvarois", commune:"Brignoles", x:2060, y:1367, website:"https://annibals.com",
+    desc:"12e-eeuws caveau en bastide aan de Romeinse Via Aurelia; de naam verwijst naar de legende dat Hannibal er met zijn olifanten langstrok — nog te zien op elk etiket. Volledig biologisch (Ecocert), gerund door Nathalie en Henri De Wulf.",
+    wines:[
+      { cuvee:"Suivez-Moi-Jeune-Homme", color:"#EAC9BC", grapes:["Grenache","Cinsault","Syrah"], abv:13, price:1, aging:"Nu – 2 jaar", notes:"Bleekroze zalmkleur met aromatische kracht: perzik en citrus, met een vegetale toets die frisheid geeft. Lange, knapperige finale." },
+    ]},
+  { id:"deffends", name:"Domaine du Deffends", appellation:"coteauxvarois", commune:"Saint-Maximin-la-Sainte-Baume", x:1796, y:1293, website:"https://www.deffends.com",
+    desc:"Familiedomein op de plek van een Gallo-Romeinse boerderij, in 1963 gekocht en herplant door Jacques de Lanversin. Ruim 14 hectare, omringd door bos aan de voet van de Monts Auréliens, volledig biologisch (Ecocert).",
+    wines:[
+      { cuvee:"Nuits Roses", color:"#E6D0C6", grapes:["Grenache","Cinsault","Rolle","Syrah"], abv:13.5, price:1, aging:"Nu – 2 jaar", notes:"Zalmkleur met grijze reflectie: fris fruit met verse specerijen en een vleugje garrigue. Strakke, 'ciselée' mond met abrikoos en een knapperige finale." },
     ]},
 ];
 
@@ -1272,6 +1301,7 @@ const ZONES = [
   { app:"palette",  d:"M1250,1080 C1362,1036 1498,1066 1528,1164 C1556,1262 1466,1336 1340,1322 C1224,1310 1152,1220 1180,1144 C1192,1104 1216,1092 1250,1080 Z" },
   { app:"bandol",   d:"M1462,1696 C1642,1632 1866,1676 1956,1804 C2022,1910 1910,2016 1732,2038 C1574,2056 1440,1974 1426,1868 C1418,1794 1426,1740 1462,1696 Z" },
   { app:"cdp",      d:"M2000,578 C2224,450 2538,578 2628,748 C2808,706 3032,792 3210,962 C3390,1112 3456,1346 3344,1560 C3434,1688 3390,1858 3256,1944 C3120,2050 2942,2114 2762,2092 C2628,2242 2360,2200 2270,2050 C2090,2072 1912,1986 1844,1836 C1732,1688 1754,1474 1912,1346 C1822,1218 1844,1048 1978,940 C1912,792 1912,684 2000,578 Z" },
+  { app:"coteauxvarois", d:"M1566,1236 C1607,1088 1703,996 1855,957 C2030,888 2191,913 2343,1032 C2428,1102 2461,1191 2443,1302 C2360,1447 2235,1519 2064,1521 C1912,1589 1769,1574 1630,1475 C1562,1408 1541,1329 1566,1236 Z" },
 ];
 
 const MASSIFS = [
@@ -1341,7 +1371,7 @@ function buildMap(){
   });
 
   // zone labels
-  const zoneLabelPos = { lesbaux:[200,520], coteaux:[840,760], palette:[1410,1050], bandol:[1520,1760], cdp:[3100,640] };
+  const zoneLabelPos = { lesbaux:[200,520], coteaux:[840,760], palette:[1410,1050], bandol:[1520,1760], cdp:[3100,640], coteauxvarois:[1760,1080] };
   Object.entries(zoneLabelPos).forEach(([app,[x,y]])=>{
     inner += `<text class="zone-label" x="${x}" y="${y}">${APPELLATIONS[app].name}</text>`;
   });
