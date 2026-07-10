@@ -53,7 +53,8 @@
     font-style: italic;
     line-height: 1;
   }
-  .brand .parent-brand{ font-family: var(--font-ui); font-weight:600; letter-spacing:.24em; text-transform:uppercase; font-size:8.5px; opacity:.5; display:block; margin-bottom:5px; }
+  .brand .parent-brand{ font-family: var(--font-ui); font-weight:600; letter-spacing:.24em; text-transform:uppercase; font-size:8.5px; opacity:.5; display:block; margin-bottom:5px; text-decoration:none; }
+  .brand .parent-brand:hover{ opacity:.8; }
   .brand .top{ font-family: var(--font-ui); font-style:normal; letter-spacing:.18em; font-size:10px; opacity:.75; display:block; margin-bottom:2px; }
   .brand .bottom{ font-size:22px; }
   .view-toggle{ display:flex; gap:8px; flex-shrink:0; }
@@ -343,6 +344,8 @@
   /* Mobiel / smal scherm: eenvoudig, goed aantikbaar rooster (fallback). */
   .color-wrap{ padding: 40px 40px 60px; }
   .color-intro{ font-size:14px; color: rgba(44,30,24,.65); margin: 0 0 26px; max-width:560px; }
+  .color-proefwaaier{ display:flex; align-items:center; gap:7px; margin:24px 0 0; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color: rgba(44,30,24,.5); }
+  .color-proefwaaier svg{ width:15px; height:auto; flex-shrink:0; }
   .color-strip{ display:flex; flex-wrap:wrap; gap:18px 14px; align-items:flex-end; }
   .color-swatch{
     display:flex; flex-direction:column; align-items:center; gap:8px; width:76px;
@@ -613,7 +616,7 @@
 
   <nav class="topnav" id="topnav">
     <div class="brand">
-      <span class="parent-brand">Proefwaaier</span>
+      <a class="parent-brand" href="https://tbxns.github.io/roses-de-provence/proefwaaier-hoofdpagina-preview.html">Proefwaaier</a>
       <span class="top">Rosés de</span>
       <span class="bottom">Provence</span>
     </div>
@@ -704,6 +707,10 @@
       <div class="color-wrap">
         <p class="color-intro">Alle rosés in één waaier, van bleekst tot diepst van kleur — trek er eentje naar voren (hover) en klik voor de details.</p>
         <div class="color-strip" id="color-strip"></div>
+        <p class="color-proefwaaier">
+          <svg viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M32 36 1.93 25.06M32 36 13.65 9.79M32 36 32 4M32 36 50.35 9.79M32 36 62.07 25.06" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M1.93 25.06A32 32 0 0 1 62.07 25.06" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="36" r="2.6" fill="currentColor"/></svg>
+          Deze kleurwaaier is onderdeel van <a href="https://tbxns.github.io/roses-de-provence/proefwaaier-hoofdpagina-preview.html" style="text-decoration:underline;">Proefwaaier</a>
+        </p>
       </div>
     </section>
   </main>
@@ -713,7 +720,7 @@
     <p style="margin:0; opacity:.8;">Sfeerbeelden: Vincent van Gogh, <em>The Green Vineyard</em> (1888) &amp; <em>Wheat Field with Cypresses</em> (1889, The Met) — publiek domein, via Wikimedia Commons. Lavendelveld-foto © Wikimedia Commons-bijdrager, vrij te gebruiken (zie licentie op de bestandspagina).</p>
     <p style="margin:10px 0 0;"><strong>Geen 18, geen alcohol — NIX18.</strong> Deze website bevat verwijzingen naar alcoholhoudende dranken en is bestemd voor bezoekers van 18 jaar en ouder.</p>
     <p style="margin:6px 0 0; opacity:.8;">Deze site bevat affiliate-links: bij een aankoop via een link naar Gall &amp; Gall kunnen wij een commissie ontvangen, zonder extra kosten voor jou. &middot; <a href="privacy.html">Privacyverklaring</a></p>
-    <p style="margin:10px 0 0; opacity:.55; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase;">Les Ros&eacute;s de Provence is een collectie van Proefwaaier &mdash; d&eacute; vergelijker voor wijn, mousserend en meer.</p>
+    <p style="margin:10px 0 0; opacity:.55; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase;">Les Ros&eacute;s de Provence is een collectie van <a href="https://tbxns.github.io/roses-de-provence/proefwaaier-hoofdpagina-preview.html" style="text-decoration:underline;">Proefwaaier</a> &mdash; d&eacute; vergelijker voor wijn, mousserend en meer.</p>
   </footer>
 
   <div class="sidebar-backdrop" id="sidebar-backdrop"></div>

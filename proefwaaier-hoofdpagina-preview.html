@@ -47,6 +47,7 @@
     padding: 54px 24px 20px;
     background: var(--shadow); color: var(--stone); text-align:center;
   }
+  .topnav .brandmark{ width:46px; height:auto; color: var(--rose); margin-bottom:18px; }
   .topnav .wordmark{
     font-family: var(--font-display); font-style:italic; font-weight:400;
     font-size: clamp(38px, 6vw, 58px); margin:0 0 14px; letter-spacing:.01em;
@@ -118,7 +119,8 @@
     border-top:1px solid rgba(44,30,24,.08); margin-top:34px; text-align:center;
   }
   footer p{ margin:4px 0; }
-  footer .brand-line{ letter-spacing:.08em; text-transform:uppercase; opacity:.7; }
+  footer .brand-line{ letter-spacing:.08em; text-transform:uppercase; opacity:.7; display:flex; align-items:center; justify-content:center; gap:8px; }
+  footer .brandmark-sm{ width:15px; height:auto; color: rgba(44,30,24,.55); }
 
   /* ---------- LEEFTIJDSCHECK (NIX18) — zelfde component/sleutel als op de rosé-site ---------- */
   .agecheck{ position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:var(--shadow); color:var(--stone); text-align:center; padding:24px; }
@@ -139,6 +141,11 @@
 
   <nav class="topnav">
     <div class="eyebrow">Dé vergelijker voor drank &amp; herkomst</div>
+    <svg class="brandmark" viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M32 36 1.93 25.06M32 36 13.65 9.79M32 36 32 4M32 36 50.35 9.79M32 36 62.07 25.06" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M1.93 25.06A32 32 0 0 1 62.07 25.06" stroke="currentColor" stroke-width="2"/>
+      <circle cx="32" cy="36" r="2.6" fill="currentColor"/>
+    </svg>
     <h1 class="wordmark">Proefwaaier</h1>
     <p class="tagline">Van wijnhuis tot destilleerderij: vergelijk terroir, karakter en geschiedenis binnen elke drankcategorie. Eén waaier, alle verhalen.</p>
   </nav>
@@ -224,7 +231,14 @@
   </section>
 
   <footer>
-    <p class="brand-line">Proefwaaier</p>
+    <p class="brand-line">
+      <svg class="brandmark-sm" viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M32 36 1.93 25.06M32 36 13.65 9.79M32 36 32 4M32 36 50.35 9.79M32 36 62.07 25.06" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M1.93 25.06A32 32 0 0 1 62.07 25.06" stroke="currentColor" stroke-width="2"/>
+        <circle cx="32" cy="36" r="2.6" fill="currentColor"/>
+      </svg>
+      Proefwaaier
+    </p>
     <p><strong>Geen 18, geen alcohol — NIX18.</strong> Deze website bevat verwijzingen naar alcoholhoudende dranken en is bestemd voor bezoekers van 18 jaar en ouder.</p>
     <p>Sommige links op deze pagina zijn affiliate-links; we kunnen daarvoor commissie ontvangen. · <a href="privacy.html" style="text-decoration:underline;">Privacyverklaring</a></p>
   </footer>
