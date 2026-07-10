@@ -1,7 +1,7 @@
 {
   "name": "Rosés de Provence — Wijnhuizen & Terroirs",
   "short_name": "Rosés Provence",
-  "description": "Interactieve gids voor rosé-wijnen uit de Provence: kaart, wijnroute, vergelijken en proeflijst.",
+  "description": "Interactieve gids voor rosé-wijnen uit de Provence: kaart, wijnroute, vergelijken en proeflijst. Onderdeel van Proefwaaier.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

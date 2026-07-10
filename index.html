@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Les Rosés de Provence — Wijnhuizen &amp; Terroirs</title>
+<title>Les Rosés de Provence — Wijnhuizen &amp; Terroirs | Proefwaaier</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#2C1E18">
@@ -53,9 +53,10 @@
     font-style: italic;
     line-height: 1;
   }
+  .brand .parent-brand{ font-family: var(--font-ui); font-weight:600; letter-spacing:.24em; text-transform:uppercase; font-size:8.5px; opacity:.5; display:block; margin-bottom:5px; }
   .brand .top{ font-family: var(--font-ui); font-style:normal; letter-spacing:.18em; font-size:10px; opacity:.75; display:block; margin-bottom:2px; }
   .brand .bottom{ font-size:22px; }
-  .view-toggle{ display:flex; gap:8px; }
+  .view-toggle{ display:flex; gap:8px; flex-shrink:0; }
   .view-toggle button{
     background: transparent; border:1px solid rgba(233,216,198,.4);
     color: var(--stone); padding:8px 18px; border-radius:999px;
@@ -63,6 +64,33 @@
     transition: all .2s ease;
   }
   .view-toggle button.active{ background: var(--rose); color: var(--shadow); border-color: var(--rose); }
+
+  /* ---------- HEADER-ZOEKBALK (inklapbaar, in de vaste topnav) ---------- */
+  .topnav-search{ display:flex; align-items:center; flex:0 0 auto; }
+  .topnav-search-btn{
+    background:transparent; border:none; color:var(--stone); padding:8px; margin:0;
+    display:flex; align-items:center; cursor:pointer; flex-shrink:0; position:relative; border-radius:999px;
+  }
+  .topnav-search-btn:hover{ background: rgba(233,216,198,.12); }
+  .topnav-search-btn svg{ display:block; }
+  .topnav-search-btn.has-query::after{
+    content:''; position:absolute; top:5px; right:5px; width:7px; height:7px;
+    border-radius:50%; background: var(--rose); border:1.5px solid var(--shadow);
+  }
+  .topnav-search-input{
+    width:0; opacity:0; padding:0; border:none; background:transparent; color:var(--stone);
+    font-family: var(--font-ui); font-size:13px; min-width:0;
+    transition: width .22s ease, opacity .18s ease, padding .22s ease;
+  }
+  .topnav-search-input::placeholder{ color: rgba(233,216,198,.55); }
+  .topnav-search-input:focus{ outline:none; }
+  .topnav.search-open .view-toggle{ display:none; }
+  .topnav.search-open .brand{ display:none; }
+  .topnav.search-open .topnav-search{ flex:1 1 auto; margin:0; }
+  .topnav.search-open .topnav-search-input{
+    width:100%; opacity:1; padding:9px 18px;
+    border:1px solid rgba(233,216,198,.4); border-radius:999px; background: rgba(233,216,198,.08);
+  }
 
   /* ---------- HERO ---------- */
   .hero{
@@ -549,6 +577,7 @@
        scrollen gewoon mee weg, anders blijft er nauwelijks ruimte over voor de
        wijnkaarten zelf. De topnav wordt ook zelf compacter. */
     .topnav{ padding-top:10px; padding-bottom:10px; }
+    .brand .parent-brand{ font-size:7.5px; margin-bottom:3px; }
     .brand .top{ font-size:8.5px; }
     .brand .bottom{ font-size:17px; }
     .view-toggle button{ padding:6px 13px; font-size:10px; }
@@ -582,10 +611,17 @@
 </head>
 <body>
 
-  <nav class="topnav">
+  <nav class="topnav" id="topnav">
     <div class="brand">
+      <span class="parent-brand">Proefwaaier</span>
       <span class="top">Rosés de</span>
       <span class="bottom">Provence</span>
+    </div>
+    <div class="topnav-search" id="topnav-search">
+      <button class="topnav-search-btn" id="topnav-search-toggle" type="button" aria-label="Zoeken" aria-expanded="false" aria-controls="topnav-search-input">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.2" y1="16.2" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <input type="search" id="topnav-search-input" class="topnav-search-input" placeholder="Zoek op huis, cuvée of smaak…" aria-label="Zoeken in rosés">
     </div>
     <div class="view-toggle">
       <button id="btn-list" class="active" data-view="list">Lijst</button>
@@ -677,6 +713,7 @@
     <p style="margin:0; opacity:.8;">Sfeerbeelden: Vincent van Gogh, <em>The Green Vineyard</em> (1888) &amp; <em>Wheat Field with Cypresses</em> (1889, The Met) — publiek domein, via Wikimedia Commons. Lavendelveld-foto © Wikimedia Commons-bijdrager, vrij te gebruiken (zie licentie op de bestandspagina).</p>
     <p style="margin:10px 0 0;"><strong>Geen 18, geen alcohol — NIX18.</strong> Deze website bevat verwijzingen naar alcoholhoudende dranken en is bestemd voor bezoekers van 18 jaar en ouder.</p>
     <p style="margin:6px 0 0; opacity:.8;">Deze site bevat affiliate-links: bij een aankoop via een link naar Gall &amp; Gall kunnen wij een commissie ontvangen, zonder extra kosten voor jou. &middot; <a href="privacy.html">Privacyverklaring</a></p>
+    <p style="margin:10px 0 0; opacity:.55; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase;">Les Ros&eacute;s de Provence is een collectie van Proefwaaier &mdash; d&eacute; vergelijker voor wijn, mousserend en meer.</p>
   </footer>
 
   <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
@@ -744,131 +781,12 @@ const APPELLATIONS = {
   coteauxvarois: { name:"Coteaux Varois en Provence", tag:"AOC Coteaux Varois en Provence", zoneColor:"var(--zone-coteauxvarois)", desc:"Hoger en landinwaarts gelegen appellation rond Brignoles, tussen de Coteaux d'Aix en de kern van de Côtes de Provence. Bosrijk en overwegend biologisch, met een frissere, kruidige stijl door de hoogte." },
 };
 
-// x/y in de 800x600 kaart-viewBox, ruwweg geografisch gepositioneerd
-const HOUSES = [
-  { id:"esclans", name:"Château d'Esclans", appellation:"cdp", commune:"La Motte", x:2876, y:1114, website:"https://www.esclans.com",
-    desc:"Sacha Lichine's iconische domein dat rosé wereldwijd naar de premium categorie tilde. Van fris en licht tot houtgerijpt en gastronomisch.",
-    wines:[
-      { cuvee:"Whispering Angel", gall:"https://www.gall.nl/ch%C3%A2teau-desclans-whispering-angel-rose-75cl-195219.html", color:"#F2E2DB", grapes:["Grenache","Cinsault","Rolle"], abv:13, price:2, aging:"Nu – 1 jaar", notes:"Bleek, luchtig en fruitig — de referentie voor toegankelijke Provence-rosé. Perzik, citrus, minerale afdronk." },
-      { cuvee:"Rock Angel", gall:"https://www.gall.nl/ch%C3%A2teau-desclans-rock-angel-rose-75cl-195480.html", color:"#ECD2C7", grapes:["Grenache","Rolle","Cinsault"], abv:13.5, price:3, aging:"Nu – 2 jaar", notes:"Iets geconcentreerder en romiger dan Whispering Angel, met witbloesem en gekonfijte citrus." },
-      { cuvee:"Garrus", color:"#C9847A", grapes:["Grenache","Rolle"], abv:14, price:4, aging:"Nu – 6 jaar", notes:"Vergist en gerijpt op nieuwe eiken vaten. Rijk, kruidig, met noten van gebrande hazelnoot en witte perzik." },
-    ]},
-  { id:"ott", name:"Domaines Ott", appellation:"cdp", commune:"Taradeau / La Londe", x:2626, y:1272, website:"https://www.domaines-ott.com",
-    desc:"Sinds 1896 in de Provence (eerste domein: Château de Selle, 1912) en grondlegger van de moderne Provence-rosé, herkenbaar aan de amfoorvormige fles uit 1932. Drie domeinen, één filosofie.",
-    wines:[
-      { cuvee:"Clos Mireille", color:"#F0E0D8", grapes:["Grenache","Cinsault","Syrah","Rolle"], abv:13, price:3, aging:"Nu – 3 jaar", notes:"Van het kustdomein bij La Londe. Zilte mineraliteit, witte bloemen en een lange, zoute afdronk." },
-      { cuvee:"Château de Selle", gall:"https://www.gall.nl/domaines-ott-ch%C3%A2teau-de-selle-rose-rose-75cl-113360.html", color:"#E9CFC3", grapes:["Grenache","Cinsault","Syrah","Mourvèdre"], abv:13, price:3, aging:"Nu – 3 jaar", notes:"Het oorspronkelijke domein bij Taradeau. Elegant, droog, met rode bosvruchten en garrigue-kruiden." },
-    ]},
-  { id:"minuty", name:"Château Minuty", appellation:"cdp", commune:"Gassin", x:2958, y:1726, website:"https://minuty.com",
-    desc:"Opgericht als familiedomein (Matton-Farnet, 1936) met uitzicht over de golf van Saint-Tropez, sinds 2023 onderdeel van Moët Hennessy. Bekend van de iconische 'flûte à corset'-fles en een constante, verfijnde stijl.",
-    wines:[
-      { cuvee:"Minuty M", color:"#EEDCD3", grapes:["Grenache","Syrah","Cinsault","Tibouren"], abv:12.5, price:2, aging:"Nu – 1 jaar", notes:"Toegankelijk en fruitig, met rode bes, grapefruit en een frisse, droge finale." },
-      { cuvee:"Château Minuty 281", color:"#DDAE9E", grapes:["Grenache","Syrah"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Genoemd naar Pantone 281, het diepblauw van de fles. Geconcentreerder, met steenfruit en een kruidige ondertoon." },
-    ]},
-  { id:"saintemarguerite", name:"Château Sainte Marguerite", appellation:"cdp", commune:"La Londe-les-Maures", x:2414, y:1910, website:"https://www.chateausaintemarguerite.com",
-    desc:"Cru Classé-kustdomein bij La Londe, gerund door de familie Fayard. Gevarieerde bodems — micaschist, silex, klei en kalk — geven precisie en een fijne, zoute signatuur.",
-    wines:[
-      { cuvee:"Symphonie", color:"#ECD5C9", grapes:["Grenache","Cinsault","Rolle"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Sierlijk en bloemig, met witte perzik en een subtiele minerale ondergrond van het schisteterroir." },
-      { cuvee:"Fantastique", color:"#D49C8D", grapes:["Grenache","Cinsault","Rolle"], abv:13, price:4, aging:"Nu – 4 jaar", notes:"Topcuvée met meer diepgang: rood fruit, kruidnagel en een lange, gestructureerde afdronk." },
-    ]},
-  { id:"tempier", name:"Domaine Tempier", appellation:"bandol", commune:"Le Plan-du-Castellet", x:1662, y:1790, website:"https://www.domainetempier.com",
-    desc:"Het referentiedomein van Bandol — bastide uit 1834 van de familie Tempier, vanaf 1940 groot gemaakt door Lucien en Lucie 'Lulu' Peyraud. Mourvèdre-gedomineerde rosé met ongeëvenaarde diepgang.",
-    wines:[
-      { cuvee:"Bandol Rosé", color:"#C07068", grapes:["Mourvèdre","Cinsault","Grenache"], abv:13.5, price:3, aging:"Nu – 5 jaar", notes:"Vol, kruidig en gestructureerd. Framboos, tijm en een zilte, kruidige afdronk — rosé die om eten vraagt." },
-    ]},
-  { id:"begude", name:"Domaine de La Bégude", appellation:"bandol", commune:"Le Camp-du-Castellet / La Cadière d'Azur", x:1710, y:1800, website:"https://domainedelabegude.fr",
-    desc:"Het hoogste punt van de appellation Bandol (ruim 400 meter), biologisch sinds 1996 en deels Demeter. Frisheid door hoogte, karakter door Mourvèdre.",
-    wines:[
-      { cuvee:"Domaine de La Bégude Rosé", color:"#BB6E60", grapes:["Mourvèdre","Cinsault"], abv:12.5, price:3, aging:"Nu – 8 jaar", notes:"75% Mourvèdre, 25% Cinsault. Kruidig en mineraal, met wilde aardbei en garrigue. Levendige zuren dankzij de hoogteligging." },
-    ]},
-  { id:"simone", name:"Château Simone", appellation:"palette", commune:"Meyreuil", x:1362, y:1180, website:"https://chateau-simone.fr",
-    desc:"Kelders uit de 16e eeuw, sinds 1830 van de familie Rougier en vrijwel synoniem met de appellation Palette. Ongebruikelijke assemblages met oude lokale rassen en een tijdloze stijl met amberkleurige reflectie.",
-    wines:[
-      { cuvee:"Château Simone Rosé", color:"#D8A597", grapes:["Grenache","Mourvèdre","Cinsault"], abv:13, price:4, aging:"Nu – 8 jaar", notes:"Uitzonderlijk bewaarrosé met 20% oude lokale rassen (w.o. diverse muscats): gedroogd steenfruit, noten en specerijen. Weinig gemeen met lichtvoetige Provence-rosé." },
-    ]},
-  { id:"masdeladame", name:"Mas de la Dame", appellation:"lesbaux", commune:"Les Baux-de-Provence", x:328, y:694, website:"https://www.masdeladame.com",
-    desc:"Biologisch familiedomein aan de voet van de Alpilles, sinds 1995 gerund door de zussen Caroline Missoffe en Anne Poniatowski (vierde generatie). Van Gogh schilderde het mas in 1889 — dat beeld siert het etiket.",
-    wines:[
-      { cuvee:"La Stèle Rosé", color:"#DCA898", grapes:["Grenache","Syrah","Cinsault"], abv:13, price:3, aging:"Nu – 3 jaar", notes:"Kruidig en droog, met rood fruit en tijm van de garrigue rond de Alpilles. Zilte, lange afdronk." },
-    ]},
-  { id:"lacoste", name:"Château La Coste", appellation:"coteaux", commune:"Le Puy-Sainte-Réparade", x:1148, y:824, website:"https://chateau-la-coste.com",
-    desc:"Wijndomein, architectuur- en kunstpark in één, met gebouwen van Ando, Gehry en Nouvel tussen de biologisch én biodynamisch (Demeter) bewerkte wijngaarden.",
-    wines:[
-      { cuvee:"Grand Vin Rosé", color:"#E8D2C6", grapes:["Grenache","Cinsault","Rolle"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Strak en mineraal, met witte bloesem en rode bes. Moderne, precieze stijl uit biologische wijngaarden." },
-    ]},
-  { id:"miraval", name:"Miraval", appellation:"cdp", commune:"Correns", x:2300, y:982, website:"https://www.miraval.com",
-    desc:"Historisch domein in Correns, het eerste biologische dorp van Frankrijk. Gemaakt in samenwerking met Famille Perrin en mede-eigendom van Brad Pitt.",
-    wines:[
-      { cuvee:"Miraval Rosé", color:"#EFDDD5", grapes:["Cinsault","Grenache","Rolle","Syrah"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Zeer bleek en verfijnd, met witte perzik, rozenblaadjes en een zijdezachte, droge afdronk." },
-      { cuvee:"Studio by Miraval", gall:"https://www.gall.nl/studio-by-miraval-rose-75cl-136794.html", color:"#E6C8BC", grapes:["Cinsault","Grenache","Rolle","Tibouren"], abv:12.5, price:2, aging:"Nu – 1 jaar", notes:"De toegankelijke tweede lijn (IGP Méditerranée): fruitig, licht en makkelijk drinkbaar, met rood fruit en citrus." },
-    ]},
-  { id:"taradeau", name:"Vignerons de Taradeau", appellation:"cdp", commune:"Taradeau", x:2636, y:1298, website:"https://www.vigneronsdetaradeau.fr",
-    desc:"Coöperatief wijnhuis — verenigd in 1924, cave sinds 1925 — aan de voet van het oppidum van Taradeau. Als een van de eerste Franse coöperaties herplant met edele rassen vanaf de jaren '70.",
-    wines:[
-      { cuvee:"L'Oppidum Rosé", color:"#DFAE9F", grapes:["Grenache","Cinsault","Syrah"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Genoemd naar de Romeinse heuveltop boven het domein. Sappig, met rood fruit en een kruidig randje." },
-      { cuvee:"Le Prestige Rosé", color:"#ECD6CA", grapes:["Grenache","Cinsault"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Fris en toegankelijk, met witte perzik en ananas. Klassiek terrasrosé uit het hart van de Var." },
-    ]},
-  { id:"roubine", name:"Château Roubine", appellation:"cdp", commune:"Lorgues", x:2606, y:1216, website:"https://www.chateauroubine.com",
-    desc:"Cru Classé sinds 1955 aan de Romeinse voie Julienne, ooit eigendom van de Tempeliers. Dertien druivenrassen op 72 hectare geclassificeerde wijngaard, geleid door Valérie Rousselle.",
-    wines:[
-      { cuvee:"Premium Rosé", color:"#E3C4B7", grapes:["Cinsault","Grenache","Rolle"], abv:13, price:3, aging:"Nu – 3 jaar", notes:"Het klassieke Cru Classé-profiel: rond, elegant, met witte bloemen en gedroogde abrikoos." },
-      { cuvee:"La Vie en Rose", color:"#D2988A", grapes:["Grenache","Cinsault","Tibouren","Syrah"], abv:12.5, price:2, aging:"Nu – 2 jaar", notes:"Bio-cuvée uit de négoce-lijn van het huis. Tibouren geeft kruidigheid en een tikje meer kleur: rode bes, venkelzaad, levendige afdronk." },
-    ]},
-  { id:"berne", name:"Château de Berne", appellation:"cdp", commune:"Flayosc (bij Lorgues)", x:2584, y:1266, website:"https://www.chateauberne.com",
-    desc:"Domein met Romeinse wortels, in de 12e eeuw geschonken aan de cisterciënzers, aan een aftakking van de Via Aurelia. Tegenwoordig ook Relais &amp; Châteaux-hotel te midden van ruim 500 hectare natuur en zo'n 150 hectare biologische wijngaard.",
-    wines:[
-      { cuvee:"Terres de Berne", gall:"https://www.gall.nl/terres-de-berne-rose-rose-75cl-426881.html", color:"#EBD7CC", grapes:["Grenache","Cinsault","Rolle","Syrah"], abv:12.5, price:2, aging:"Nu – 1 jaar", notes:"Heldere perzikkleur, met grapefruit, perzik en mango. Fruitig, fris en meteen klaar om te drinken." },
-      { cuvee:"Romance", gall:"https://www.gall.nl/ch%C3%A2teau-de-berne-romance-rose-75cl-163759.html", color:"#EEDBD0", grapes:["Grenache","Cinsault"], abv:13, price:3, aging:"Nu – 2 jaar", notes:"Zachter en ronder dan Terres de Berne (IGP Méditerranée), met witte bloesem en een romige, lange afdronk." },
-    ]},
-  { id:"crostes", name:"Château les Crostes", appellation:"cdp", commune:"Lorgues", x:2664, y:1246, website:"https://chateau-les-crostes.com",
-    desc:"17e-eeuws kasteel verscholen in dicht bos, sinds 2013 eigendom van Prins Félix en Prinses Claire van Luxemburg — de cuvées zijn vernoemd naar hun kinderen. Meermaals onderscheiden rosés.",
-    wines:[
-      { cuvee:"Cuvée Clos", color:"#E9D3C7", grapes:["Grenache","Cinsault"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Helder en stralend, met perzik van de wijngaard en een fijne, minerale afdronk." },
-      { cuvee:"Amalia", color:"#DEA898", grapes:["Grenache","Cinsault"], abv:13.5, price:3, aging:"Nu – 3 jaar", notes:"60% Grenache, 40% Cinsault — vernoemd naar prinses Amalia. Diaphaan maar geconcentreerd, met steenfruit en witte kruiden." },
-    ]},
-  { id:"martinette", name:"Château La Martinette", appellation:"cdp", commune:"Lorgues", x:2562, y:1186, website:"https://www.chateaulamartinette.com",
-    desc:"Een van de oudste wijndomeinen van de Provence, actief sinds 1620. Traditie gecombineerd met een eigentijdse, moderne wijnkelder.",
-    wines:[
-      { cuvee:"Rollier Rosé", color:"#D9A897", grapes:["Grenache","Cinsault","Syrah"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Robuuste, kruidige stijl met rood fruit en garrigue — een rosé die eeuwen terroir verraadt." },
-    ]},
-  { id:"estello", name:"Domaine Estello", appellation:"cdp", commune:"Lorgues", x:2592, y:1246, website:"https://www.domaine-estello.com",
-    desc:"Veertig hectare biologisch domein bij Lorgues (Ecocert, sinds 2015), waarvan vijfentwintig hectare AOP-wijngaard, met verkoop rechtstreeks aan huis.",
-    wines:[
-      { cuvee:"Élégance Rosé", color:"#E7D0C4", grapes:["Cinsault","Syrah","Grenache"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"45% Cinsault met Syrah en Grenache. Eenvoudig en eerlijk biologisch rosé: citrus, rood fruit en een frisse, droge afdronk." },
-    ]},
-  { id:"rosetremiere", name:"Domaine La Rose Trémière", appellation:"cdp", commune:"Lorgues / Saint-Antonin-du-Var", x:2490, y:1286, website:"https://www.domainelarosetremiere.fr",
-    desc:"Sinds 1986 (Pierre Maunier) twintig hectare wijngaard verdeeld over dertien lieux-dits tussen Lorgues en Saint-Antonin-du-Var. Klein, authentiek domein met een persoonlijke stijl.",
-    wines:[
-      { cuvee:"Cuvée Classique", color:"#E8D3C8", grapes:["Syrah","Cinsault","Grenache"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Licht en bloemig, met rode bes en een vlotte, verfrissende afdronk. Authentiek en zonder omwegen." },
-    ]},
-  { id:"mirabeau", name:"Maison Mirabeau", appellation:"cdp", commune:"Cotignac", x:2260, y:1141, website:"https://www.maisonmirabeau.com",
-    desc:"Het Britse echtpaar Stephen en Jeany Cronk verruilde Londen in 2009 voor Cotignac en blendde er in 2010 hun eerste rosé. Sinds 2019 eigen, biologisch en HVE3-gecertificeerd Domaine Mirabeau; het bedrijf is B Corp-gecertificeerd.",
-    wines:[
-      { cuvee:"Mirabeau Classic Rosé", gall:"https://www.gall.nl/mirabeau-classic-rose-rose-75cl-408417.html", color:"#E7B2A6", grapes:["Grenache","Cinsault","Syrah","Carignan"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Zalmroze met intense aroma's van rode en zwarte bes en framboos, subtiel peperig, met sappig fruit en een frisse afdronk." },
-      { cuvee:"Mirabeau Pure Rosé", gall:"https://www.gall.nl/mirabeau-pure-rose-rose-75cl-409235.html", color:"#F3E4DC", grapes:["Grenache","Syrah","Cinsault","Rolle"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Zeer bleek, met witte vruchten, perzik, garrigue-kruiden en citrus. Zijdeachtig en minerale, dorstlessende finale." },
-    ]},
-  { id:"leoube", name:"Château Léoube", appellation:"cdp", commune:"Bormes-les-Mimosas", x:2449, y:1935, website:"https://www.leoube.com",
-    desc:"Laat-14e-eeuws domein direct aan de Middellandse Zee, sinds 1997 van de Britse familie Bamford (Daylesford Organic). Biologisch gecertificeerd sinds 2011, wijnmaker Romain Ott — van de gelijknamige rosé-familie.",
-    wines:[
-      { cuvee:"In Love by Léoube Rosé Bio", gall:"https://www.gall.nl/in-love-by-leoube-rose-bio-rose-75cl-163295.html", color:"#EFDCD2", grapes:["Cinsault","Grenache"], abv:12.5, price:1, aging:"Nu – 1 jaar", notes:"Frisse, droge instaprosé met citrus, witte perzik en bosaardbei en een minerale, zilte toets." },
-      { cuvee:"Château Léoube Rosé", gall:"https://www.gall.nl/ch%C3%A2teau-leoube-rose-rose-75cl-163309.html", color:"#E3C2B4", grapes:["Grenache","Cinsault","Syrah","Mourvèdre"], abv:12.5, price:2, aging:"Nu – 2 jaar", notes:"Elegant, met rood fruit, honing en verse munt, en de kenmerkende zilte afdronk van de wijngaard direct aan zee." },
-    ]},
-  { id:"lacalisse", name:"Château la Calisse", appellation:"coteauxvarois", commune:"Pontevès", x:2160, y:1066, website:"https://www.chateau-la-calisse.fr",
-    desc:"Patricia Ortelli kocht het domein in 1991 en herplantte de wijngaard volledig, op 380 meter hoogte in een beschutte 'conque' met eigen microklimaat. Biologisch (Ecocert) sinds 1996; geroemd door Robert Parker en meermaals Coup de Cœur in de Guide Hachette.",
-    wines:[
-      { cuvee:"Rosé Château la Calisse", color:"#F0DED4", grapes:["Syrah","Grenache"], abv:13, price:2, aging:"Nu – 2 jaar", notes:"Bleke, elegante robe met een fijne bloemige neus (iris, anjer); in de mond witte meloen, witte pruim en limoen, met een ronde, gulle finale." },
-    ]},
-  { id:"annibals", name:"Château des Annibals", appellation:"coteauxvarois", commune:"Brignoles", x:2060, y:1367, website:"https://annibals.com",
-    desc:"12e-eeuws caveau en bastide aan de Romeinse Via Aurelia; de naam verwijst naar de legende dat Hannibal er met zijn olifanten langstrok — nog te zien op elk etiket. Volledig biologisch (Ecocert), gerund door Nathalie en Henri De Wulf.",
-    wines:[
-      { cuvee:"Suivez-Moi-Jeune-Homme", color:"#EAC9BC", grapes:["Grenache","Cinsault","Syrah"], abv:13, price:1, aging:"Nu – 2 jaar", notes:"Bleekroze zalmkleur met aromatische kracht: perzik en citrus, met een vegetale toets die frisheid geeft. Lange, knapperige finale." },
-    ]},
-  { id:"deffends", name:"Domaine du Deffends", appellation:"coteauxvarois", commune:"Saint-Maximin-la-Sainte-Baume", x:1796, y:1293, website:"https://www.deffends.com",
-    desc:"Familiedomein op de plek van een Gallo-Romeinse boerderij, in 1963 gekocht en herplant door Jacques de Lanversin. Ruim 14 hectare, omringd door bos aan de voet van de Monts Auréliens, volledig biologisch (Ecocert).",
-    wines:[
-      { cuvee:"Nuits Roses", color:"#E6D0C6", grapes:["Grenache","Cinsault","Rolle","Syrah"], abv:13.5, price:1, aging:"Nu – 2 jaar", notes:"Zalmkleur met grijze reflectie: fris fruit met verse specerijen en een vleugje garrigue. Strakke, 'ciselée' mond met abrikoos en een knapperige finale." },
-    ]},
-];
+/* Wijnhuis- en wijndata: geladen uit een los JSON-bestand (data/rose.json) i.p.v.
+   hier hardcoded, zodat volgende categorieën (rood, wit, mousserend, whisky) straks
+   hun eigen databestand krijgen zonder dat deze pagina alsmaar groter wordt.
+   x/y-coördinaten in het bestand staan in de kaart-viewBox, ruwweg geografisch
+   gepositioneerd. Wordt gevuld door loadHousesData() vlak voor initApp(). */
+let HOUSES = [];
 
 /* =====================================================================
    STATE + RENDER
@@ -917,20 +835,27 @@ function deriveServingTemp(wine){
   return (wine.style.includes("Bewaarrosé") || wine.style.includes("Vol & structuurrijk")) ? "10 – 12°C" : "8 – 10°C";
 }
 
-HOUSES.forEach(h=> h.wines.forEach(w=>{
-  w.style = deriveStyles(w);
-  w.pairing = derivePairing(h, w);
-  w.servingTemp = deriveServingTemp(w);
-  w.id = h.id + "::" + w.cuvee.replace(/\s+/g,"_");
-  w.houseId = h.id;
-}));
-
-const ALL_GRAPES = [...new Set(HOUSES.flatMap(h=>h.wines.flatMap(w=>w.grapes)))].sort();
+let ALL_GRAPES = [];
 const ALL_STYLES = ["Fris & licht","Fruitig","Bloemig","Kruidig","Mineraal","Vol & structuurrijk","Bewaarrosé"];
 
 /* Vlakke opzoektabel wine.id -> {house, wine}, handig voor favorieten, delen en vergelijken. */
-const WINE_INDEX = {};
-HOUSES.forEach(h=> h.wines.forEach(w=>{ WINE_INDEX[w.id] = { house:h, wine:w }; }));
+let WINE_INDEX = {};
+
+/* Verwerkt de zojuist geladen HOUSES-data: afgeleide velden per wijn (stijl, spijsadvies,
+   serveertemperatuur, id) plus de druivenlijst en de opzoektabel. Wordt aangeroepen door
+   loadHousesData() nadat data/rose.json is opgehaald — pas dan is er iets te verwerken. */
+function processHousesData(){
+  HOUSES.forEach(h=> h.wines.forEach(w=>{
+    w.style = deriveStyles(w);
+    w.pairing = derivePairing(h, w);
+    w.servingTemp = deriveServingTemp(w);
+    w.id = h.id + "::" + w.cuvee.replace(/\s+/g,"_");
+    w.houseId = h.id;
+  }));
+  ALL_GRAPES = [...new Set(HOUSES.flatMap(h=>h.wines.flatMap(w=>w.grapes)))].sort();
+  WINE_INDEX = {};
+  HOUSES.forEach(h=> h.wines.forEach(w=>{ WINE_INDEX[w.id] = { house:h, wine:w }; }));
+}
 
 /* ---------- PERSOONLIJKE PROEFLIJST (localStorage) ---------- */
 const LS_FAV = "rosesDeProvence.favorites";
@@ -1270,6 +1195,7 @@ function renderRefineBar(){
 
   document.getElementById("search-input").addEventListener("input", (e)=>{
     searchQuery = e.target.value.trim().toLowerCase();
+    syncTopnavSearch(e.target.value);
     renderList();
   });
 
@@ -1278,10 +1204,59 @@ function renderRefineBar(){
     selectedStyles.clear();
     searchQuery = "";
     document.getElementById("search-input").value = "";
+    syncTopnavSearch("");
     document.querySelectorAll(".tag-pill").forEach(b=>b.classList.remove("active"));
     currentFilter = "alle";
     document.querySelectorAll("#filterbar .pill").forEach(p=>p.classList.toggle("active", p.dataset.filter==="alle"));
     renderList();
+  });
+}
+
+/* ---------- ZOEKEN VANUIT DE VASTE HEADER ----------
+   Los, inklapbaar zoekveld in de topnav zodat zoeken ook nog werkt als je
+   voorbij de refine-bar bent gescrold (die is niet sticky) — vooral op
+   mobiel, waar alleen de topnav blijft plakken. Deelt dezelfde `searchQuery`
+   en houdt het veld in de refine-bar in sync, in beide richtingen. */
+function syncTopnavSearch(value){
+  const input = document.getElementById("topnav-search-input");
+  if(input.value !== value) input.value = value;
+  document.getElementById("topnav-search-toggle").classList.toggle("has-query", value.trim().length > 0);
+}
+
+function setTopnavSearchOpen(open){
+  const nav = document.getElementById("topnav");
+  nav.classList.toggle("search-open", open);
+  document.getElementById("topnav-search-toggle").setAttribute("aria-expanded", String(open));
+  if(open) document.getElementById("topnav-search-input").focus();
+}
+
+function initTopnavSearch(){
+  const toggleBtn = document.getElementById("topnav-search-toggle");
+  const input = document.getElementById("topnav-search-input");
+  const wrap = document.getElementById("topnav-search");
+
+  toggleBtn.addEventListener("click", ()=>{
+    const isOpen = document.getElementById("topnav").classList.contains("search-open");
+    setTopnavSearchOpen(!isOpen);
+  });
+
+  input.addEventListener("input", (e)=>{
+    searchQuery = e.target.value.trim().toLowerCase();
+    const mainInput = document.getElementById("search-input");
+    if(mainInput.value !== e.target.value) mainInput.value = e.target.value;
+    toggleBtn.classList.toggle("has-query", searchQuery.length > 0);
+    switchView("list");
+    renderList();
+  });
+
+  input.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape"){ input.blur(); setTopnavSearchOpen(false); }
+  });
+
+  document.addEventListener("click", (e)=>{
+    if(!wrap.contains(e.target) && document.getElementById("topnav").classList.contains("search-open")){
+      setTopnavSearchOpen(false);
+    }
   });
 }
 
@@ -2005,15 +1980,45 @@ document.getElementById("compare-backdrop").addEventListener("click", closeCompa
 document.getElementById("route-toggle").addEventListener("click", toggleRouteMode);
 document.getElementById("route-clear").addEventListener("click", clearRoute);
 
-renderFilterbar();
-renderRefineBar();
-renderMapLegend();
-renderList();
-renderColorPalette();
-buildMap();
-initMapZoomPan();
-syncCompareUI();
-applyDeepLinkFromHash();
+/* ---------- DATA LADEN + APP STARTEN ----------
+   HOUSES komt uit een los JSON-bestand (data/rose.json) i.p.v. hardcoded in deze
+   pagina, zodat een volgende categorie (rood, wit, mousserend, whisky) straks zijn
+   eigen bestand krijgt zonder dat deze pagina alsmaar groter wordt. Pas als het
+   bestand binnen is, heeft het zin om lijst, kaart en filters op te bouwen. */
+async function loadHousesData(){
+  const res = await fetch("./data/rose.json");
+  if(!res.ok) throw new Error(`data/rose.json laden mislukt (status ${res.status})`);
+  HOUSES = await res.json();
+  processHousesData();
+}
+
+async function initApp(){
+  try{
+    await loadHousesData();
+  } catch(err){
+    console.error(err);
+    document.getElementById("view-list").innerHTML = `
+      <div class="empty-state">
+        <span class="big">Kon de wijndata niet laden</span>
+        Vernieuw de pagina. Bekijk je dit lokale bestand rechtstreeks vanaf schijf (file://)?
+        Dan blokkeert de browser het laden van data/rose.json — bekijk de site via de live
+        website-URL, of start een lokale webserver.
+      </div>`;
+    return;
+  }
+  renderFilterbar();
+  renderRefineBar();
+  initTopnavSearch();
+  renderMapLegend();
+  renderList();
+  renderColorPalette();
+  buildMap();
+  initMapZoomPan();
+  syncCompareUI();
+  applyDeepLinkFromHash();
+}
+
+initApp();
 
 /* ---------- PWA / OFFLINE ---------- */
 if("serviceWorker" in navigator){
