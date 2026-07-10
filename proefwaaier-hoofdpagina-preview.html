@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proefwaaier — Dé vergelijker voor wijn, mousserend en meer</title>
+<meta name="theme-color" content="#2C1E18">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root{
+    --stone:#E9D8C6;
+    --rose:#E4AFA0;
+    --facade:#C07068;
+    --lavender:#9B92C0;
+    --shadow:#2C1E18;
+    --paper:#FBF4EC;
+    --stone-70: rgba(233,216,198,.7);
+    --font-display: 'Didot','Hoefler Text','Palatino Linotype', Georgia, 'Times New Roman', serif;
+    --font-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /* Categoriekleuren — sommige al live, andere alvast vastgelegd voor later. */
+    --cat-rose: #C0707E;
+    --cat-rood: #7A2E32;
+    --cat-mousserend: #C9A24B;
+    --cat-wit: #C9B36B;
+    --cat-whisky: #8A5A2B;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family: var(--font-ui);
+    background: var(--paper);
+    color: var(--shadow);
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- PREVIEW-BANNER ---------- */
+  .preview-banner{
+    background: var(--shadow); color: var(--stone); text-align:center;
+    font-size:12px; letter-spacing:.06em; padding:9px 16px;
+  }
+  .preview-banner strong{ color: var(--rose); }
+
+  /* ---------- TOPNAV ---------- */
+  .topnav{
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    padding: 54px 24px 20px;
+    background: var(--shadow); color: var(--stone); text-align:center;
+  }
+  .topnav .wordmark{
+    font-family: var(--font-display); font-style:italic; font-weight:400;
+    font-size: clamp(38px, 6vw, 58px); margin:0 0 14px; letter-spacing:.01em;
+  }
+  .topnav .tagline{
+    font-size:14.5px; line-height:1.6; max-width:480px; opacity:.82; margin:0;
+  }
+  .eyebrow{
+    font-size:11px; letter-spacing:.24em; text-transform:uppercase; color: var(--rose);
+    display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  }
+  .eyebrow::before, .eyebrow::after{ content:''; width:22px; height:1px; background: var(--rose); display:inline-block; }
+
+  /* ---------- GRID ---------- */
+  main{ max-width:1180px; margin:0 auto; padding:48px 32px 30px; }
+  .grid-intro{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 22px; }
+  .tile-grid{
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 150px;
+    gap: 18px;
+  }
+  .tile{
+    position:relative; border-radius:14px; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding: 22px; color: var(--stone);
+    grid-column: span 6;
+    transition: transform .22s ease, box-shadow .22s ease;
+  }
+  .tile.live{ grid-row: span 2; grid-column: span 3; }
+  .tile.soon{ grid-column: span 3; }
+  .tile.live:hover{ transform: translateY(-3px); box-shadow: 0 16px 30px rgba(44,30,24,.22); }
+  .tile-bg{ position:absolute; inset:0; background-size:cover; background-position:center; }
+  .tile-shade{ position:absolute; inset:0; background: linear-gradient(190deg, rgba(44,30,24,0) 30%, rgba(44,30,24,.86) 100%); }
+  .tile-tint{ position:absolute; inset:0; mix-blend-mode:multiply; }
+  .tile.soon .tile-bg{ opacity:.5; filter:saturate(.6); }
+  .tile-icon{ position:relative; z-index:2; width:34px; height:44px; margin-bottom:auto; opacity:.9; }
+  .tile-content{ position:relative; z-index:2; }
+  .tile-eyebrow{ font-size:10px; letter-spacing:.16em; text-transform:uppercase; opacity:.85; margin-bottom:4px; }
+  .tile-title{ font-family: var(--font-display); font-style:italic; font-weight:400; font-size:26px; margin:0 0 6px; }
+  .tile.live .tile-title{ font-size:32px; }
+  .tile-desc{ font-size:12.5px; line-height:1.5; opacity:.85; max-width:340px; }
+  .tile-badge{
+    position:absolute; top:18px; right:18px; z-index:2;
+    font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+    padding:6px 12px; border-radius:999px; backdrop-filter: blur(2px);
+  }
+  .tile-badge.live{ background: var(--rose); color: var(--shadow); font-weight:600; }
+  .tile-badge.soon{ background: rgba(233,216,198,.18); border:1px solid rgba(233,216,198,.4); }
+  .tile-arrow{ position:relative; z-index:2; margin-top:14px; font-size:12.5px; letter-spacing:.05em; }
+
+  @media (max-width:860px){
+    .tile-grid{ grid-template-columns: repeat(2, 1fr); grid-auto-rows:170px; }
+    .tile.live{ grid-column: span 2; grid-row: span 2; }
+    .tile.soon{ grid-column: span 1; }
+  }
+  @media (max-width:560px){
+    main{ padding:36px 18px 20px; }
+    .tile-grid{ grid-template-columns: 1fr; grid-auto-rows:190px; }
+    .tile.live, .tile.soon{ grid-column: span 1; }
+  }
+
+  /* ---------- WHY / MISSIE ---------- */
+  .mission{ max-width:720px; margin:10px auto 0; padding:36px 32px 10px; text-align:center; }
+  .mission p{ font-size:14.5px; line-height:1.7; color: rgba(44,30,24,.75); }
+
+  footer{
+    padding: 30px 32px 46px; font-size:11px; color: rgba(44,30,24,.5);
+    border-top:1px solid rgba(44,30,24,.08); margin-top:34px; text-align:center;
+  }
+  footer p{ margin:4px 0; }
+  footer .brand-line{ letter-spacing:.08em; text-transform:uppercase; opacity:.7; }
+
+  /* ---------- LEEFTIJDSCHECK (NIX18) — zelfde component/sleutel als op de rosé-site ---------- */
+  .agecheck{ position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:var(--shadow); color:var(--stone); text-align:center; padding:24px; }
+  .agecheck-box{ max-width:460px; }
+  .agecheck-box .agecheck-eyebrow{ font-family:var(--font-ui); letter-spacing:.18em; font-size:11px; text-transform:uppercase; opacity:.75; margin:0 0 10px; }
+  .agecheck-box h2{ font-family:var(--font-display); font-style:italic; font-weight:400; font-size:34px; margin:0 0 10px; }
+  .agecheck-box p{ font-size:14px; line-height:1.55; opacity:.85; margin:0 0 22px; }
+  .agecheck-form{ display:flex; gap:10px; justify-content:center; }
+  .agecheck-form input{ width:110px; padding:12px 14px; font-size:18px; text-align:center; border-radius:999px; border:1px solid rgba(233,216,198,.4); background:transparent; color:inherit; font-family:var(--font-ui); }
+  .agecheck-form button{ padding:12px 26px; border-radius:999px; border:none; background:var(--rose); color:var(--shadow); font-size:14px; font-weight:600; }
+  .agecheck-error{ color:var(--rose); font-size:13px; margin-top:16px; min-height:18px; }
+  .agecheck-nix{ margin-top:26px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; opacity:.6; }
+</style>
+</head>
+<body>
+
+  <div class="preview-banner">Preview — <strong>nog niet live</strong>. Wordt de hoofdpagina van proefwaaier.nl zodra het domein is geregistreerd.</div>
+
+  <nav class="topnav">
+    <div class="eyebrow">Dé vergelijker voor drank &amp; herkomst</div>
+    <h1 class="wordmark">Proefwaaier</h1>
+    <p class="tagline">Van wijnhuis tot destilleerderij: vergelijk terroir, karakter en geschiedenis binnen elke drankcategorie. Eén waaier, alle verhalen.</p>
+  </nav>
+
+  <main>
+    <p class="grid-intro">Categorieën</p>
+    <div class="tile-grid">
+
+      <a class="tile live" href="https://tbxns.github.io/roses-de-provence/" aria-label="Naar Rosés de Provence">
+        <div class="tile-bg" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Red_vineyards.jpg?width=900')"></div>
+        <div class="tile-tint" style="background:linear-gradient(190deg, rgba(228,175,160,.55) 0%, rgba(192,112,126,.6) 100%);"></div>
+        <div class="tile-shade"></div>
+        <span class="tile-badge live">Live</span>
+        <svg class="tile-icon" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 4h28c0 12-4 18-12 20v16h8v4H10v-4h8V24C10 22 6 16 6 4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="tile-content">
+          <div class="tile-eyebrow">Rosé · Provence</div>
+          <h2 class="tile-title">Les Rosés de Provence</h2>
+          <p class="tile-desc">22 wijnhuizen, 6 appellations — van Bandol tot Coteaux Varois. Vergelijk terroir, druiven en karakter.</p>
+          <div class="tile-arrow">Bekijk de collectie →</div>
+        </div>
+      </a>
+
+      <div class="tile soon" style="background:var(--cat-rood);" aria-label="Rode wijn, binnenkort">
+        <div class="tile-shade"></div>
+        <span class="tile-badge soon">Binnenkort</span>
+        <svg class="tile-icon" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 4h28c0 12-4 18-12 20v16h8v4H10v-4h8V24C10 22 6 16 6 4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="tile-content">
+          <div class="tile-eyebrow">Rode wijn</div>
+          <h2 class="tile-title">Rood</h2>
+          <p class="tile-desc">Vanaf oktober 2026 — dezelfde wijnhuizen, hun rode cuvées.</p>
+        </div>
+      </div>
+
+      <div class="tile soon" style="background:var(--cat-mousserend);" aria-label="Mousserende wijn, binnenkort">
+        <div class="tile-shade"></div>
+        <span class="tile-badge soon">Binnenkort</span>
+        <svg class="tile-icon" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 4h6v10c4 2 6 6 6 12v18a3 3 0 0 1-3 3h-12a3 3 0 0 1-3-3V26c0-6 2-10 6-12V4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="tile-content">
+          <div class="tile-eyebrow">Mousserend</div>
+          <h2 class="tile-title">Mousserend</h2>
+          <p class="tile-desc">Vanaf november 2026 — op tijd voor de decemberpiek.</p>
+        </div>
+      </div>
+
+      <div class="tile soon" style="background:var(--cat-wit);" aria-label="Witte wijn, binnenkort">
+        <div class="tile-shade"></div>
+        <span class="tile-badge soon">Binnenkort</span>
+        <svg class="tile-icon" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 4h28c0 12-4 18-12 20v16h8v4H10v-4h8V24C10 22 6 16 6 4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="tile-content">
+          <div class="tile-eyebrow">Witte wijn</div>
+          <h2 class="tile-title">Wit</h2>
+          <p class="tile-desc">Vanaf maart 2027 — op tijd voor het lenteseizoen.</p>
+        </div>
+      </div>
+
+      <div class="tile soon" style="background:var(--cat-whisky);" aria-label="Whisky, binnenkort">
+        <div class="tile-shade"></div>
+        <span class="tile-badge soon">Binnenkort</span>
+        <svg class="tile-icon" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 18h24l-3 28a3 3 0 0 1-3 3H14a3 3 0 0 1-3-3L8 18Z" stroke="currentColor" stroke-width="2" fill="none"/>
+          <path d="M8 18h24" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <div class="tile-content">
+          <div class="tile-eyebrow">Whisky</div>
+          <h2 class="tile-title">Whisky</h2>
+          <p class="tile-desc">Vanaf najaar 2027 — de eerste stap buiten de wijnwereld.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="mission">
+    <p>Proefwaaier begon als een gids voor Provence-rosé, en groeit uit tot een vergelijker voor drank in de volle breedte: dezelfde zorgvuldige aanpak — geverifieerde feiten, terroir en verhaal — toegepast op steeds meer categorieën.</p>
+  </section>
+
+  <footer>
+    <p class="brand-line">Proefwaaier</p>
+    <p><strong>Geen 18, geen alcohol — NIX18.</strong> Deze website bevat verwijzingen naar alcoholhoudende dranken en is bestemd voor bezoekers van 18 jaar en ouder.</p>
+    <p>Sommige links op deze pagina zijn affiliate-links; we kunnen daarvoor commissie ontvangen. · <a href="privacy.html" style="text-decoration:underline;">Privacyverklaring</a></p>
+  </footer>
+
+  <!-- Leeftijdscheck — zelfde sleutel (rdp-age-ok) als op de rosé-collectiepagina, zodat een
+       bezoeker die hier al bevestigd heeft dat niet opnieuw hoeft te doen zodra alles onder
+       hetzelfde domein (proefwaaier.nl) draait. -->
+  <div class="agecheck" id="agecheck" role="dialog" aria-modal="true" aria-labelledby="agecheck-title">
+    <div class="agecheck-box">
+      <p class="agecheck-eyebrow">Proefwaaier</p>
+      <h2 id="agecheck-title">Ben je 18 jaar of ouder?</h2>
+      <p>Deze website gaat over alcoholhoudende dranken. Vul je geboortejaar in om verder te gaan.</p>
+      <form class="agecheck-form" id="agecheck-form">
+        <input type="number" id="agecheck-year" inputmode="numeric" min="1900" placeholder="Jaar" aria-label="Geboortejaar" required>
+        <button type="submit">Verder</button>
+      </form>
+      <p class="agecheck-error" id="agecheck-error"></p>
+      <p class="agecheck-nix">Geen 18, geen alcohol &mdash; NIX18</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var el = document.getElementById('agecheck');
+    var ok = false;
+    try { ok = localStorage.getItem('rdp-age-ok') === '1'; } catch(e) {}
+    if (ok) { el.remove(); return; }
+    document.body.style.overflow = 'hidden';
+    document.getElementById('agecheck-form').addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var err = document.getElementById('agecheck-error');
+      var y = parseInt(document.getElementById('agecheck-year').value, 10);
+      var now = new Date().getFullYear();
+      if (!y || y < 1900 || y > now) { err.textContent = 'Vul een geldig geboortejaar in.'; return; }
+      if (now - y >= 18) {
+        try { localStorage.setItem('rdp-age-ok', '1'); } catch(e) {}
+        el.remove();
+        document.body.style.overflow = '';
+      } else {
+        err.textContent = 'Geen 18, geen alcohol. Deze website is niet voor jou bestemd.';
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

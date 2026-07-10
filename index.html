@@ -2045,7 +2045,7 @@ if("serviceWorker" in navigator){
 (function(){
   var el = document.getElementById('agecheck');
   var ok = false;
-  try { ok = sessionStorage.getItem('rdp-age-ok') === '1'; } catch(e) {}
+  try { ok = localStorage.getItem('rdp-age-ok') === '1'; } catch(e) {}
   if (ok) { el.remove(); return; }
   document.body.style.overflow = 'hidden';
   document.getElementById('agecheck-form').addEventListener('submit', function(ev){
@@ -2055,7 +2055,7 @@ if("serviceWorker" in navigator){
     var now = new Date().getFullYear();
     if (!y || y < 1900 || y > now) { err.textContent = 'Vul een geldig geboortejaar in.'; return; }
     if (now - y >= 18) {
-      try { sessionStorage.setItem('rdp-age-ok', '1'); } catch(e) {}
+      try { localStorage.setItem('rdp-age-ok', '1'); } catch(e) {}
       el.remove();
       document.body.style.overflow = '';
     } else {
