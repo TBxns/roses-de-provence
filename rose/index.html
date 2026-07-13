@@ -10,6 +10,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Rosés Provence">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --stone:#E9D8C6;
@@ -19,8 +22,8 @@
     --shadow:#2C1E18;
     --stone-70: rgba(233,216,198,.7);
     --paper: #FBF4EC;
-    --font-display: 'Didot','Hoefler Text','Palatino Linotype', Georgia, 'Times New Roman', serif;
-    --font-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-display: 'Fraunces', 'Hoefler Text', Georgia, 'Times New Roman', serif;
+    --font-ui: 'Work Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --zone-cdp: var(--rose);
     --zone-bandol: var(--facade);
     --zone-palette: var(--lavender);
@@ -629,7 +632,7 @@
     <div class="view-toggle">
       <button id="btn-list" class="active" data-view="list">Lijst</button>
       <button id="btn-map" data-view="map">Kaart</button>
-      <button id="btn-color" data-view="color" title="Naar de kleurwaaier">Kleurwaaier</button>
+      <button id="btn-color" data-view="color" title="Naar de kleurwaaier">Proefwaaier</button>
     </div>
   </nav>
 
@@ -949,7 +952,7 @@ function bottleSVG(hex, name){
     <rect x="17.5" y="${startY - lineH - 4}" width="35" height="${lines.length*lineH + 12}" fill="#FBF4EC" opacity=".95" stroke="#2C1E18" stroke-opacity=".24" stroke-width=".6"/>
     <line x1="20" y1="${startY - lineH - 1}" x2="50" y2="${startY - lineH - 1}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
     <line x1="20" y1="${startY + lines.length*lineH - lineH/2 + 5}" x2="50" y2="${startY + lines.length*lineH - lineH/2 + 5}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
-    <text text-anchor="middle" font-family="'Didot','Hoefler Text',Georgia,'Times New Roman',serif" font-style="italic" font-size="8.6" fill="#2C1E18">${tspans}</text>
+    <text text-anchor="middle" font-family="'Fraunces','Hoefler Text',Georgia,'Times New Roman',serif" font-style="italic" font-size="8.6" fill="#2C1E18">${tspans}</text>
     <!-- glans op het glas -->
     <path d="M20,66 L20,144" stroke="#ffffff" stroke-opacity=".4" stroke-width="2" stroke-linecap="round"/>
     <path d="M50,70 L50,140" stroke="#2C1E18" stroke-opacity=".08" stroke-width="1.4" stroke-linecap="round"/>
