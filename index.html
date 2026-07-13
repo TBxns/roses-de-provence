@@ -6,6 +6,9 @@
 <title>Proefwaaier — Dé vergelijker voor wijn, mousserend en meer</title>
 <meta name="theme-color" content="#2C1E18">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --stone:#E9D8C6;
@@ -15,8 +18,8 @@
     --shadow:#2C1E18;
     --paper:#FBF4EC;
     --stone-70: rgba(233,216,198,.7);
-    --font-display: 'Didot','Hoefler Text','Palatino Linotype', Georgia, 'Times New Roman', serif;
-    --font-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-display: 'Fraunces', 'Hoefler Text', Georgia, 'Times New Roman', serif;
+    --font-ui: 'Work Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     /* Categoriekleuren — sommige al live, andere alvast vastgelegd voor later. */
     --cat-rose: #C0707E;
     --cat-rood: #7A2E32;
@@ -40,7 +43,8 @@
     padding: 54px 24px 20px;
     background: var(--shadow); color: var(--stone); text-align:center;
   }
-  .topnav .brandmark{ width:46px; height:auto; color: var(--rose); margin-bottom:18px; }
+  .topnav .brand-logo{ width:min(360px, 78vw); height:auto; margin-bottom:8px; }
+  .visually-hidden{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   .topnav .wordmark{
     font-family: var(--font-display); font-style:italic; font-weight:400;
     font-size: clamp(38px, 6vw, 58px); margin:0 0 14px; letter-spacing:.01em;
@@ -132,12 +136,8 @@
 
   <nav class="topnav">
     <div class="eyebrow">Dé vergelijker voor drank &amp; herkomst</div>
-    <svg class="brandmark" viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M32 36 1.93 25.06M32 36 13.65 9.79M32 36 32 4M32 36 50.35 9.79M32 36 62.07 25.06" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M1.93 25.06A32 32 0 0 1 62.07 25.06" stroke="currentColor" stroke-width="2"/>
-      <circle cx="32" cy="36" r="2.6" fill="currentColor"/>
-    </svg>
-    <h1 class="wordmark">Proefwaaier</h1>
+    <img class="brand-logo" src="Proefwaaier%20logo%20-%205.png" alt="Proefwaaier">
+    <h1 class="wordmark visually-hidden">Proefwaaier</h1>
     <p class="tagline">Van wijnhuis tot destilleerderij: vergelijk terroir, karakter en geschiedenis binnen elke drankcategorie. Eén waaier, alle verhalen.</p>
   </nav>
 
