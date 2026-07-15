@@ -1,0 +1,657 @@
+[
+  {
+    "id": "rood-margaux",
+    "category": "rood",
+    "name": "Château Margaux",
+    "commune": "Margaux",
+    "appellation": "medoc",
+    "founded": "Château sinds de 17e eeuw, huidig gebouw uit 1810",
+    "farming": "Conventioneel, precisiewijnbouw",
+    "description": "Eén van de vijf Premiers Grands Crus Classés van 1855 en een van de bekendste namen van Bordeaux, met een neoclassiek kasteel middenin de wijngaarden van de appellation Margaux.",
+    "x": 340,
+    "y": 640,
+    "wines": [
+      {
+        "cuvee": "Château Margaux",
+        "grapes": [
+          "Cabernet Sauvignon",
+          "Merlot",
+          "Petit Verdot",
+          "Cabernet Franc"
+        ],
+        "price": "€ 850+",
+        "gall": "https://www.gall.nl/ch%C3%A2teau-margaux-rood-75cl-133876.html",
+        "style": [
+          "Vol & structuurrijk",
+          "Bewaarwijn"
+        ],
+        "pairing": "Lamsrack, eendenborst of belegen kaas.",
+        "servingTemp": "16 – 18°C",
+        "color": "#440A18"
+      }
+    ]
+  },
+  {
+    "id": "rood-david",
+    "category": "rood",
+    "name": "Château David",
+    "commune": "Médoc",
+    "appellation": "medoc",
+    "founded": "Cru Bourgeois-huis",
+    "farming": "Conventioneel",
+    "description": "Toegankelijk Médoc-huis dat de klassieke Cru Bourgeois-stijl van de regio laat proeven zonder de prijs van de grote namen.",
+    "x": 310,
+    "y": 690,
+    "wines": [
+      {
+        "cuvee": "Château David",
+        "grapes": [
+          "Cabernet Franc",
+          "Cabernet Sauvignon",
+          "Merlot",
+          "Petit Verdot",
+          "Malbec"
+        ],
+        "price": "€ 9,29",
+        "gall": "https://www.gall.nl/ch%C3%A2teau-david-medoc-rood-75cl-136166.html",
+        "style": [
+          "Fruitig",
+          "Kruidig"
+        ],
+        "pairing": "Gegrild rood vlees, stevige stoofpot of harde kaas.",
+        "servingTemp": "15 – 17°C",
+        "color": "#4A0C1A"
+      }
+    ]
+  },
+  {
+    "id": "rood-potensac",
+    "category": "rood",
+    "name": "Château Potensac",
+    "commune": "Ordonnac",
+    "appellation": "medoc",
+    "founded": "In handen van Domaines Delon, ook eigenaar van Château Léoville Las Cases",
+    "farming": "Conventioneel, met precisie van een 2e-cru-huis",
+    "description": "Voormalig Cru Bourgeois Exceptionnel uit het noordelijke Médoc, gemaakt door dezelfde hand als het gerenommeerde Léoville Las Cases — vaak omschreven als een 'klein grand cru' qua stijl.",
+    "x": 300,
+    "y": 660,
+    "wines": [
+      {
+        "cuvee": "Château Potensac 2020",
+        "grapes": [
+          "Merlot",
+          "Cabernet Sauvignon",
+          "Cabernet Franc"
+        ],
+        "price": "€ 39,99",
+        "gall": "https://www.gall.nl/ch%C3%A2teau-potensac-rood-75cl-124346.html",
+        "style": [
+          "Vol & structuurrijk",
+          "Bewaarwijn"
+        ],
+        "pairing": "Kalfsvlees, lamsrack of belegen kaas.",
+        "servingTemp": "16 – 18°C",
+        "color": "#591020"
+      }
+    ]
+  },
+  {
+    "id": "rood-bourdieu",
+    "category": "rood",
+    "name": "Château le Bourdieu",
+    "commune": "Vertheuil",
+    "appellation": "medoc",
+    "founded": "Cru Bourgeois sinds 1932",
+    "farming": "Conventioneel",
+    "description": "Familiedomein in het hart van het Haut-Médoc dat al bijna een eeuw zijn Cru Bourgeois-status vasthoudt.",
+    "x": 320,
+    "y": 670,
+    "wines": [
+      {
+        "cuvee": "Château le Bourdieu Médoc",
+        "grapes": [
+          "Cabernet Sauvignon",
+          "Merlot"
+        ],
+        "price": "€ 12,-",
+        "gall": "https://www.gall.nl/ch%C3%A2teau-le-bourdieu-medoc-rood-75cl-131679.html",
+        "style": [
+          "Fruitig",
+          "Kruidig"
+        ],
+        "pairing": "Gegrild rood vlees, eendenborst of harde kaas.",
+        "servingTemp": "15 – 17°C",
+        "color": "#55101F"
+      }
+    ]
+  },
+  {
+    "id": "rood-hautbagesliberal",
+    "category": "rood",
+    "name": "Château Haut-Bages Libéral",
+    "commune": "Pauillac",
+    "appellation": "medoc",
+    "founded": "5e Cru Classé 1855",
+    "farming": "Conventioneel",
+    "description": "Klassiek Pauillac-huis vlak bij Château Latour, met deze toegankelijke 'Pauillac par Haut-Bages Libéral' als tweede etiket voor wie het echte Pauillac-karakter wil proeven.",
+    "x": 355,
+    "y": 615,
+    "wines": [
+      {
+        "cuvee": "Pauillac par Château Haut-Bages Libéral 2017",
+        "grapes": [
+          "Cabernet Sauvignon",
+          "Merlot"
+        ],
+        "price": "€ 22,-",
+        "gall": "https://www.gall.nl/pauillac-par-ch%C3%A2teau-haut-bages-liberal-rood-75cl-474088.html",
+        "style": [
+          "Vol & structuurrijk",
+          "Bewaarwijn"
+        ],
+        "pairing": "Lamsrack, wild of belegen kaas.",
+        "servingTemp": "16 – 18°C",
+        "color": "#4F0E1C"
+      }
+    ]
+  },
+  {
+    "id": "rood-closfourtet",
+    "category": "rood",
+    "name": "Clos Fourtet",
+    "commune": "Saint-Émilion",
+    "appellation": "saintemilion",
+    "founded": "Eigendom van de familie Cuvelier (ook Château Poujeaux)",
+    "farming": "Conventioneel, hoge dichtheid beplanting",
+    "description": "Eén van de Premiers Grands Crus Classés van Saint-Émilion, gelegen op het kalkstenen plateau vlak bij het middeleeuwse centrum van het dorp.",
+    "x": 590,
+    "y": 760,
+    "wines": [
+      {
+        "cuvee": "Clos Fourtet 2009",
+        "grapes": [
+          "Merlot",
+          "Cabernet Franc",
+          "Cabernet Sauvignon"
+        ],
+        "price": "€ 340,-",
+        "gall": "https://www.gall.nl/clos-fourtet-saint-emilion-rood-75cl-157198.html",
+        "style": [
+          "Vol & structuurrijk",
+          "Bewaarwijn"
+        ],
+        "pairing": "Eendenborst, truffelgerechten of rund.",
+        "servingTemp": "16 – 18°C",
+        "color": "#5C0F21"
+      }
+    ]
+  },
+  {
+    "id": "rood-yonfigeac",
+    "category": "rood",
+    "name": "Château Yon-Figeac",
+    "commune": "Saint-Émilion",
+    "appellation": "saintemilion",
+    "founded": "Grand Cru Classé",
+    "farming": "Conventioneel",
+    "description": "Landgoed van 26 hectare op het plateau van Saint-Émilion, vernoemd naar het nabijgelegen Château Figeac.",
+    "x": 610,
+    "y": 745,
+    "wines": [
+      {
+        "cuvee": "Château Yon-Figeac",
+        "grapes": [
+          "Merlot",
+          "Cabernet Franc",
+          "Cabernet Sauvignon"
+        ],
+        "price": "€ 28,-",
+        "gall": "https://www.gall.nl/ch%C3%A2teau-yon-figeac-rood-75cl-438154.html",
+        "style": [
+          "Fruitig",
+          "Vol & structuurrijk"
+        ],
+        "pairing": "Eendenborst, rund of belegen kaas.",
+        "servingTemp": "16 – 17°C",
+        "color": "#641224"
+      }
+    ]
+  },
+  {
+    "id": "rood-canon",
+    "category": "rood",
+    "name": "Château Canon",
+    "commune": "Saint-Émilion",
+    "appellation": "saintemilion",
+    "founded": "Premier Grand Cru Classé B",
+    "farming": "Conventioneel",
+    "description": "34 hectare op puur kalksteen, één van de meest gerenommeerde namen van Saint-Émilion met een ondergrondse kelderarchitectuur die het terroir eert.",
+    "x": 600,
+    "y": 770,
+    "wines": [
+      {
+        "cuvee": "Château Canon Saint-Émilion Grand Cru",
+        "grapes": [
+          "Merlot",
+          "Cabernet Franc"
+        ],
+        "price": "€ 95,-",
+        "gall": "https://www.gall.nl/ch%C3%A2teau-canon-saint-emilion-grand-cru-rood-75cl-472999.html",
+        "style": [
+          "Vol & structuurrijk",
+          "Mineraal"
+        ],
+        "pairing": "Truffelgerechten, rund of belegen kaas.",
+        "servingTemp": "16 – 18°C",
+        "color": "#601123"
+      }
+    ]
+  },
+  {
+    "id": "rood-jpmoueix",
+    "category": "rood",
+    "name": "Jean-Pierre Moueix",
+    "commune": "Saint-Émilion",
+    "appellation": "saintemilion",
+    "founded": "Handelshuis Moueix, actief sinds 1937",
+    "farming": "Conventioneel",
+    "description": "Negoce-huis van de familie Moueix (ook eigenaar van Château Pétrus), dat een toegankelijke instap-Saint-Émilion op de markt brengt onder de eigen naam.",
+    "x": 585,
+    "y": 750,
+    "wines": [
+      {
+        "cuvee": "Jean-Pierre Moueix Saint-Émilion 2023",
+        "grapes": [
+          "Merlot",
+          "Cabernet Franc"
+        ],
+        "price": "€ 18,-",
+        "gall": "https://www.gall.nl/jean-pierre-moueix-saint-emilion-rood-75cl-134538.html",
+        "style": [
+          "Fruitig"
+        ],
+        "pairing": "Pasta met rood vlees, kip of milde kaas.",
+        "servingTemp": "15 – 16°C",
+        "color": "#6B1526"
+      }
+    ]
+  },
+  {
+    "id": "rood-ladominique",
+    "category": "rood",
+    "name": "Château La Dominique",
+    "commune": "Saint-Émilion",
+    "appellation": "saintemilion",
+    "founded": "Familie Fayat sinds 1969",
+    "farming": "Deels biodynamisch (proefpercelen)",
+    "description": "Saint-Émilion Grand Cru Classé pal naast Château Cheval Blanc, met een opvallende, door architect Jean Nouvel ontworpen kelder en een groeiend biodynamisch proefareaal.",
+    "x": 615,
+    "y": 755,
+    "wines": [
+      {
+        "cuvee": "Château La Dominique",
+        "grapes": [
+          "Merlot",
+          "Cabernet Franc",
+          "Cabernet Sauvignon"
+        ],
+        "price": "€ 45,-",
+        "style": [
+          "Vol & structuurrijk",
+          "Fruitig"
+        ],
+        "pairing": "Eendenborst, rund of truffelgerechten.",
+        "servingTemp": "16 – 18°C",
+        "color": "#681425"
+      }
+    ]
+  },
+  {
+    "id": "rood-fonroque",
+    "category": "rood",
+    "name": "Château Fonroque",
+    "commune": "Saint-Émilion",
+    "appellation": "saintemilion",
+    "founded": "Familie Moueix sinds 1931",
+    "farming": "Biodynamisch (Demeter, gecertificeerd sinds 2008)",
+    "description": "Het eerste Grand Cru Classé van Saint-Émilion met een volledige biodynamische certificering — Alain Moueix zette de omslag in vanaf 2001 op klei-kalksteenbodem.",
+    "x": 605,
+    "y": 765,
+    "wines": [
+      {
+        "cuvee": "Château Fonroque Grand Cru Classé",
+        "grapes": [
+          "Merlot 80%",
+          "Cabernet Franc 20%"
+        ],
+        "price": "€ 35,-",
+        "style": [
+          "Kruidig",
+          "Mineraal"
+        ],
+        "pairing": "Wild gevogelte, paddenstoelen of belegen kaas.",
+        "servingTemp": "16 – 17°C",
+        "color": "#74192A"
+      }
+    ]
+  },
+  {
+    "id": "rood-meylet",
+    "category": "rood",
+    "name": "Château Meylet",
+    "commune": "Saint-Émilion",
+    "appellation": "saintemilion",
+    "founded": "Familiedomein sinds 1875, 5 generaties",
+    "farming": "Biodynamisch sinds 1987 — een van de vroegste pioniers van de appellation",
+    "description": "Piepklein artisanaal domein van 2,6 hectare, al sinds 1980 biologisch en sinds 1987 biodynamisch bewerkt — ruim voordat dat gangbaar werd in Saint-Émilion.",
+    "x": 620,
+    "y": 735,
+    "wines": [
+      {
+        "cuvee": "Château Meylet",
+        "grapes": [
+          "Merlot",
+          "Cabernet Franc"
+        ],
+        "price": "€ 22,-",
+        "style": [
+          "Fruitig",
+          "Kruidig"
+        ],
+        "pairing": "Charcuterie, kip of lichte stoofpot.",
+        "servingTemp": "14 – 16°C",
+        "color": "#711828"
+      }
+    ]
+  },
+  {
+    "id": "rood-puygueraud",
+    "category": "rood",
+    "name": "Château Puygueraud",
+    "commune": "Francs",
+    "appellation": "saintemilion",
+    "founded": "Familie Thienpont sinds 1946",
+    "farming": "Conventioneel, duurzaam",
+    "description": "Het vlaggenschip van de kleine appellation Francs Côtes de Bordeaux, in handen van de Thienpont-familie die ook achter Vieux Château Certan en Le Pin in Pomerol zit.",
+    "x": 660,
+    "y": 730,
+    "wines": [
+      {
+        "cuvee": "Château Puygueraud",
+        "grapes": [
+          "Merlot",
+          "Cabernet Franc",
+          "Cabernet Sauvignon",
+          "Malbec"
+        ],
+        "price": "€ 16,-",
+        "style": [
+          "Fruitig",
+          "Kruidig"
+        ],
+        "pairing": "Charcuterie, gegrild vlees of harde kaas.",
+        "servingTemp": "15 – 16°C",
+        "color": "#6E1727"
+      }
+    ]
+  },
+  {
+    "id": "rood-louisbernardcdr",
+    "category": "rood",
+    "name": "Louis Bernard",
+    "commune": "Gigondas",
+    "appellation": "cotesdurhone",
+    "founded": "Huis gevestigd in Gigondas",
+    "farming": "Conventioneel",
+    "description": "Toegankelijk Zuid-Rhône-huis dat de klassieke Grenache-blend van de Côtes du Rhône in een vlot, fruitig drinkbare stijl giet.",
+    "x": 3140,
+    "y": 1050,
+    "wines": [
+      {
+        "cuvee": "Louis Bernard Côtes du Rhône 2024",
+        "grapes": [
+          "Grenache",
+          "Mourvèdre",
+          "Cinsault",
+          "Syrah"
+        ],
+        "price": "€ 6,49",
+        "gall": "https://www.gall.nl/louis-bernard-c%C3%B4tes-du-rh%C3%B4ne-rood-75cl-180815.html",
+        "style": [
+          "Fruitig"
+        ],
+        "pairing": "Pizza, charcuterie of een barbecue.",
+        "servingTemp": "14 – 16°C",
+        "color": "#A8323F"
+      },
+      {
+        "cuvee": "Louis Bernard Côtes du Rhône-Villages 2024",
+        "grapes": [
+          "Grenache",
+          "Syrah",
+          "Mourvèdre"
+        ],
+        "price": "€ 7,99",
+        "gall": "https://www.gall.nl/louis-bernard-c%C3%B4tes-du-rh%C3%B4ne-villages-rood-75cl-180831.html",
+        "style": [
+          "Fruitig",
+          "Kruidig"
+        ],
+        "pairing": "Stoofvlees, charcuterie of gegrild vlees.",
+        "servingTemp": "15 – 16°C",
+        "color": "#9C2B38"
+      }
+    ]
+  },
+  {
+    "id": "rood-vidalfleury",
+    "category": "rood",
+    "name": "Vidal-Fleury",
+    "commune": "Côte-Rôtie",
+    "appellation": "cotesdurhone",
+    "founded": "Opgericht in 1781 in Côte-Rôtie",
+    "farming": "Conventioneel",
+    "description": "Eén van de oudste huizen van de Rhônevallei, met wijngaarden verspreid over zowel Noord- als Zuid-Rhône — van Gigondas tot Châteauneuf-du-Pape.",
+    "x": 3120,
+    "y": 1030,
+    "wines": [
+      {
+        "cuvee": "Vidal-Fleury Châteauneuf-du-Pape 2022",
+        "grapes": [
+          "Grenache 85%",
+          "Syrah 10%",
+          "Mourvèdre 5%"
+        ],
+        "price": "€ 40,59",
+        "gall": "https://www.gall.nl/vidal-fleury-ch%C3%A2teauneuf-du-pape-rood-75cl-110140.html",
+        "style": [
+          "Vol & structuurrijk",
+          "Kruidig"
+        ],
+        "pairing": "Wild, stoofvlees of gegrilde lamsbout.",
+        "servingTemp": "16 – 18°C",
+        "color": "#791D2A"
+      },
+      {
+        "cuvee": "Vidal-Fleury Gigondas",
+        "grapes": [
+          "Grenache 75%",
+          "Syrah 15%",
+          "Mourvèdre 10%"
+        ],
+        "price": "€ 26,29",
+        "gall": "https://www.gall.nl/vidal-fleury-gigondas-rood-75cl-110132.html",
+        "style": [
+          "Kruidig",
+          "Vol & structuurrijk"
+        ],
+        "pairing": "Stoofvlees, wild of stevige kaas.",
+        "servingTemp": "16 – 17°C",
+        "color": "#85222F"
+      },
+      {
+        "cuvee": "Vidal-Fleury Vacqueyras",
+        "grapes": [
+          "Grenache",
+          "Syrah",
+          "Mourvèdre"
+        ],
+        "price": "€ 22,-",
+        "gall": "https://www.gall.nl/vidal-fleury-vacqueyras-rood-75cl-110345.html",
+        "style": [
+          "Fruitig",
+          "Kruidig"
+        ],
+        "pairing": "Gegrild lamsvlees, stoofpot of charcuterie.",
+        "servingTemp": "15 – 17°C",
+        "color": "#8F2735"
+      }
+    ]
+  },
+  {
+    "id": "rood-mordoree",
+    "category": "rood",
+    "name": "Domaine de la Mordorée",
+    "commune": "Tavel",
+    "appellation": "cotesdurhone",
+    "founded": "Familie Delorme, opgericht in 1986",
+    "farming": "Biodynamisch (Demeter sinds 2020)",
+    "description": "Familiedomein van 57 hectare verspreid over acht gemeenten en meerdere appellaties (Tavel, Lirac, Châteauneuf-du-Pape), met poëtische cuvéenamen als eerbetoon aan de vogel 'mordorée' die het domein zijn naam gaf.",
+    "x": 3160,
+    "y": 1070,
+    "wines": [
+      {
+        "cuvee": "La Reine des Bois Châteauneuf-du-Pape",
+        "grapes": [
+          "Grenache",
+          "Syrah",
+          "Mourvèdre"
+        ],
+        "price": "€ 48,-",
+        "style": [
+          "Vol & structuurrijk",
+          "Kruidig"
+        ],
+        "pairing": "Wild, stoofvlees of gegrilde lamsbout.",
+        "servingTemp": "16 – 18°C",
+        "color": "#7C1F2C"
+      }
+    ]
+  },
+  {
+    "id": "rood-gramenon",
+    "category": "rood",
+    "name": "Domaine Gramenon",
+    "commune": "Montbrison-sur-Lez",
+    "appellation": "cotesdurhone",
+    "founded": "Familie Aubéry-Laurent, sinds 1978",
+    "farming": "Biodynamisch (Demeter sinds 2010)",
+    "description": "Michèle Aubéry zette het domein na het overlijden van haar man in 1999 alleen voort en bouwde het uit tot een van de meest gerespecteerde natuurlijke-wijn-domeinen van de Rhône, met oude Grenache-stokken tot 120 jaar oud.",
+    "x": 3175,
+    "y": 1000,
+    "wines": [
+      {
+        "cuvee": "Domaine Gramenon Côtes du Rhône",
+        "grapes": [
+          "Grenache 65%",
+          "Syrah 25%",
+          "Viognier/Clairette/Cinsault 10%"
+        ],
+        "price": "€ 24,-",
+        "style": [
+          "Fruitig",
+          "Kruidig"
+        ],
+        "pairing": "Charcuterie, stoofpot of gegrild vlees.",
+        "servingTemp": "15 – 16°C",
+        "color": "#9E2D3A"
+      }
+    ]
+  },
+  {
+    "id": "rood-chapoutier",
+    "category": "rood",
+    "name": "M. Chapoutier",
+    "commune": "Tain-l'Hermitage",
+    "appellation": "cornas",
+    "founded": "Huis gevestigd in Tain-l'Hermitage sinds 1808",
+    "farming": "Biodynamisch pionier van de Rhône",
+    "description": "Een van de eerste grote huizen die volledig overstapten op biodynamische wijnbouw, met wijngaarden op de steile hellingen rond Hermitage.",
+    "x": 3020,
+    "y": 720,
+    "wines": [
+      {
+        "cuvee": "M. Chapoutier Crozes-Hermitage 2023",
+        "grapes": [
+          "Syrah 100%"
+        ],
+        "price": "€ 20,99",
+        "gall": "https://www.gall.nl/m.-chapoutier-crozes-hermitage-rood-75cl-138592.html",
+        "style": [
+          "Kruidig",
+          "Fruitig"
+        ],
+        "pairing": "Gegrild lamsvlees, wild gevogelte of peperrijke gerechten.",
+        "servingTemp": "15 – 17°C",
+        "color": "#430A17"
+      }
+    ]
+  },
+  {
+    "id": "rood-coulet",
+    "category": "rood",
+    "name": "Domaine du Coulet",
+    "commune": "Cornas",
+    "appellation": "cornas",
+    "founded": "Matthieu Barret, 7e generatie, nam over in 1998",
+    "farming": "Biodynamisch sinds de omschakeling begin jaren 2000",
+    "description": "Op steile, verweerde graniethellingen van Cornas werkt Matthieu Barret zijn wijngaarden zonder chemische hulpmiddelen; zijn cuvée Billes Noires kreeg 97/100 en een Coup de Cœur van de Revue du Vin de France.",
+    "x": 3010,
+    "y": 700,
+    "wines": [
+      {
+        "cuvee": "Billes Noires Cornas",
+        "grapes": [
+          "Syrah 100%"
+        ],
+        "price": "€ 55,-",
+        "style": [
+          "Vol & structuurrijk",
+          "Mineraal"
+        ],
+        "pairing": "Wildzwijn, stevige stoofschotels of oude kaas.",
+        "servingTemp": "16 – 18°C",
+        "color": "#380814"
+      }
+    ]
+  },
+  {
+    "id": "rood-clape",
+    "category": "rood",
+    "name": "Domaine Clape",
+    "commune": "Cornas",
+    "appellation": "cornas",
+    "founded": "Al zo'n 250 jaar in dezelfde familie",
+    "farming": "Duurzaam, zeer terroir-gericht (minimale interventie)",
+    "description": "Legendarisch domein dat Cornas op de kaart zette: Auguste Clape begon in de jaren '50 als een van de eersten in de appellation onder eigen naam te bottelen, zijn kleinzoon Olivier zet de traditie nu voort.",
+    "x": 3005,
+    "y": 710,
+    "wines": [
+      {
+        "cuvee": "Domaine Clape Cornas",
+        "grapes": [
+          "Syrah 100%"
+        ],
+        "price": "€ 85,-",
+        "style": [
+          "Vol & structuurrijk",
+          "Mineraal",
+          "Bewaarwijn"
+        ],
+        "pairing": "Wild, peperrijke stoofschotels of oude kaas.",
+        "servingTemp": "16 – 18°C",
+        "color": "#2E0610"
+      }
+    ]
+  }
+]
