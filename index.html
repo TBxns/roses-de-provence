@@ -58,6 +58,26 @@
   }
   .eyebrow::before, .eyebrow::after{ content:''; width:22px; height:1px; background: var(--rose); display:inline-block; }
 
+  /* ---------- WAARDEPROPOSITIE (onder de tagline in de header) ---------- */
+  .value-props{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:0;
+    max-width:760px; margin:28px 0 0; padding-top:22px;
+    border-top:1px solid rgba(233,216,198,.18);
+  }
+  .value-props .vp{
+    flex:1 1 200px; padding:0 20px; text-align:center;
+  }
+  .value-props .vp + .vp{ border-left:1px solid rgba(233,216,198,.18); }
+  .value-props .vp-title{
+    font-family: var(--font-display); font-style:italic; font-weight:400;
+    font-size:16.5px; margin:0 0 6px; color: var(--rose);
+  }
+  .value-props .vp-desc{ font-size:12px; line-height:1.55; opacity:.78; margin:0; }
+  @media (max-width:640px){
+    .value-props{ flex-direction:column; gap:18px; padding-top:20px; }
+    .value-props .vp + .vp{ border-left:none; border-top:1px solid rgba(233,216,198,.18); padding-top:18px; }
+  }
+
   /* ---------- GRID ---------- */
   main{ max-width:1180px; margin:0 auto; padding:48px 32px 30px; }
   .grid-intro{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 22px; }
@@ -138,7 +158,21 @@
     <div class="eyebrow">Dé vergelijker voor drank &amp; herkomst</div>
     <img class="brand-logo" src="Proefwaaier%20logo%20-%205.png" alt="Proefwaaier">
     <h1 class="wordmark visually-hidden">Proefwaaier</h1>
-    <p class="tagline">Van wijnhuis tot destilleerderij: vergelijk terroir, karakter en geschiedenis binnen elke drankcategorie. Eén waaier, alle verhalen.</p>
+    <p class="tagline">Per drankcategorie het echte verhaal achter een huis: terroir, druif en karakter — niet de marketingtekst. Van een fles van vijftien euro tot een grand cru.</p>
+    <div class="value-props">
+      <div class="vp">
+        <p class="vp-title">Geverifieerd</p>
+        <p class="vp-desc">Elk huis en elke fles gecontroleerd aan de bron — geen verzonnen tekst.</p>
+      </div>
+      <div class="vp">
+        <p class="vp-title">Breed én bijzonder</p>
+        <p class="vp-desc">Van bekende flessen die je bij Gall &amp; Gall kunt bestellen tot kleine, moeilijk te vinden huizen.</p>
+      </div>
+      <div class="vp">
+        <p class="vp-title">Eén waaier, alle categorieën</p>
+        <p class="vp-desc">Rosé, rood en straks mousserend, wit en whisky — steeds dezelfde zorgvuldige aanpak.</p>
+      </div>
+    </div>
   </nav>
 
   <main>
@@ -221,7 +255,8 @@
   </main>
 
   <section class="mission">
-    <p>Proefwaaier begon als een gids voor Provence-rosé, en groeit uit tot een vergelijker voor drank in de volle breedte: dezelfde zorgvuldige aanpak — geverifieerde feiten, terroir en verhaal — toegepast op steeds meer categorieën.</p>
+    <p>Proefwaaier vergelijkt drank zoals een goede slijter dat zou doen: op terroir, druif, stijl en het echte verhaal achter een huis — niet op advertentiebudget. Per categorie brengen we bekende, makkelijk verkrijgbare namen samen met kleinere, moeilijker te vinden producenten, zodat je zowel een betrouwbare instapfles als een unieke ontdekking vindt.</p>
+    <p>We begonnen bij rosé uit de Provence, bouwden door naar rode wijn uit Bordeaux en de Rhônevallei, en blijven uitbreiden. Mousserend, witte wijn en op termijn ook whisky volgen met dezelfde aanpak: geverifieerde feiten, geen gegenereerde vulling.</p>
   </section>
 
   <footer>
