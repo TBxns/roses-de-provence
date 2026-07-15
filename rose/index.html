@@ -192,6 +192,11 @@
     padding:8px 14px; font-size:12.5px; color: var(--shadow); font-family: var(--font-ui); outline:none;
   }
   .pill.fav-pill.active{ background: var(--facade); border-color: var(--facade); }
+  /* Uitgelicht als call-to-action: standaard al ingekleurd (niet pas bij active),
+     zodat de knop opvalt tussen de neutrale appellation-filters. */
+  .pill.gall-pill{ background: var(--rose); color: var(--shadow); border-color: var(--rose); font-weight:600; }
+  .pill.gall-pill:hover{ opacity:.85; border-color: var(--rose); }
+  .pill.gall-pill.active{ background: var(--shadow); color: var(--stone); border-color: var(--shadow); opacity:1; }
 
   /* ---------- HART / FAVORIET ---------- */
   .fav-heart{
@@ -898,13 +903,21 @@ function darken(hex, amt){
   return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
 }
 
-/* Verdeelt de cuvéenaam over maximaal 3 regels zodat hij op het flesetiket past. */
+/* Verdeelt de cuvéenaam over maximaal 3 regels zodat hij op het flesetiket past.
+   Lange samengestelde woorden met een koppelteken (bv. "Châteauneuf-du-Pape")
+   worden eerst zelf opgeknipt, zodat één woord nooit breder is dan het etiket. */
 function wrapLabel(name, maxChars){
-  const words = name.split(" ");
+  const rawWords = name.split(" ");
+  const words = [];
+  rawWords.forEach(w=>{
+    if(w.length <= maxChars || !w.includes("-")){ words.push(w); return; }
+    const parts = w.split("-");
+    parts.forEach((p,i)=>{ words.push(i < parts.length-1 ? p + "-" : p); });
+  });
   const lines = [];
   let cur = "";
   words.forEach(word=>{
-    const test = (cur + " " + word).trim();
+    const test = (cur && !cur.endsWith("-") ? cur + " " + word : cur + word).trim();
     if(test.length > maxChars && cur){ lines.push(cur.trim()); cur = word; }
     else { cur = test; }
   });
@@ -981,6 +994,15 @@ function renderFilterbar(){
   favBtn.textContent = "♥ Mijn proeflijst";
   bar.appendChild(favBtn);
 
+  /* Uitgelicht filter: alleen flessen tonen die direct te bestellen zijn bij
+     Gall & Gall — duidelijk andere styling zodat de knop opvalt als
+     aanbeveling, niet als zomaar nóg een appellation-filter. */
+  const gallBtn = document.createElement("button");
+  gallBtn.className = "pill gall-pill";
+  gallBtn.dataset.filter = "gallgall";
+  gallBtn.textContent = "Bij Gall & Gall verkrijgbaar";
+  bar.appendChild(gallBtn);
+
   bar.addEventListener("click", (e)=>{
     const btn = e.target.closest(".pill");
     if(!btn) return;
@@ -1000,6 +1022,7 @@ function updateMapFilterState(){
     let match;
     if(currentFilter==="alle") match = true;
     else if(currentFilter==="favorieten") match = h && h.wines.some(w=>favorites.has(w.id));
+    else if(currentFilter==="gallgall") match = h && h.wines.some(w=>w.gall);
     else match = h && h.appellation===currentFilter;
     m.classList.toggle("dimmed", !match);
   });
@@ -1020,6 +1043,7 @@ function houseCardsForAppellation(appId){
    één categorie werkt als OF, tussen categorieën als EN. */
 function wineMatches(house, wine){
   if(currentFilter==="favorieten"){ if(!favorites.has(wine.id)) return false; }
+  else if(currentFilter==="gallgall"){ if(!wine.gall) return false; }
   else if(currentFilter!=="alle" && house.appellation!==currentFilter) return false;
   if(selectedGrapes.size>0 && !wine.grapes.some(g=>selectedGrapes.has(g))) return false;
   if(selectedStyles.size>0 && !wine.style.some(s=>selectedStyles.has(s))) return false;
