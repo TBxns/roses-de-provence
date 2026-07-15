@@ -190,6 +190,11 @@
     padding:8px 14px; font-size:12.5px; color: var(--shadow); font-family: var(--font-ui); outline:none;
   }
   .pill.fav-pill.active{ background: var(--facade); border-color: var(--facade); }
+  /* Uitgelicht als call-to-action: standaard al ingekleurd (niet pas bij active),
+     zodat de knop opvalt tussen de neutrale appellation-filters. */
+  .pill.gall-pill{ background: var(--rose); color: var(--shadow); border-color: var(--rose); font-weight:600; }
+  .pill.gall-pill:hover{ opacity:.85; border-color: var(--rose); }
+  .pill.gall-pill.active{ background: var(--shadow); color: var(--stone); border-color: var(--shadow); opacity:1; }
 
   /* ---------- HART / FAVORIET ---------- */
   .fav-heart{
@@ -887,11 +892,17 @@ function darken(hex, amt){
    van 3 regels — samen met een kleiner lettertype past dat zonder dat de
    tekst over de rand van het etiket/de fles heen loopt. */
 function wrapLabel(name, maxChars){
-  const words = name.split(" ");
+  const rawWords = name.split(" ");
+  const words = [];
+  rawWords.forEach(w=>{
+    if(w.length <= maxChars || !w.includes("-")){ words.push(w); return; }
+    const parts = w.split("-");
+    parts.forEach((p,i)=>{ words.push(i < parts.length-1 ? p + "-" : p); });
+  });
   const lines = [];
   let cur = "";
   words.forEach(word=>{
-    const test = (cur + " " + word).trim();
+    const test = (cur && !cur.endsWith("-") ? cur + " " + word : cur + word).trim();
     if(test.length > maxChars && cur){ lines.push(cur.trim()); cur = word; }
     else { cur = test; }
   });
@@ -968,6 +979,15 @@ function renderFilterbar(){
   favBtn.textContent = "♥ Mijn proeflijst";
   bar.appendChild(favBtn);
 
+  /* Uitgelicht filter: alleen flessen tonen die direct te bestellen zijn bij
+     Gall & Gall — duidelijk andere styling zodat de knop opvalt als
+     aanbeveling, niet als zomaar nóg een appellation-filter. */
+  const gallBtn = document.createElement("button");
+  gallBtn.className = "pill gall-pill";
+  gallBtn.dataset.filter = "gallgall";
+  gallBtn.textContent = "Bij Gall & Gall verkrijgbaar";
+  bar.appendChild(gallBtn);
+
   bar.addEventListener("click", (e)=>{
     const btn = e.target.closest(".pill");
     if(!btn) return;
@@ -987,6 +1007,7 @@ function updateMapFilterState(){
     let match;
     if(currentFilter==="alle") match = true;
     else if(currentFilter==="favorieten") match = h && h.wines.some(w=>favorites.has(w.id));
+    else if(currentFilter==="gallgall") match = h && h.wines.some(w=>w.gall);
     else match = h && h.appellation===currentFilter;
     m.classList.toggle("dimmed", !match);
   });
@@ -1007,6 +1028,7 @@ function houseCardsForAppellation(appId){
    één categorie werkt als OF, tussen categorieën als EN. */
 function wineMatches(house, wine){
   if(currentFilter==="favorieten"){ if(!favorites.has(wine.id)) return false; }
+  else if(currentFilter==="gallgall"){ if(!wine.gall) return false; }
   else if(currentFilter!=="alle" && house.appellation!==currentFilter) return false;
   if(selectedGrapes.size>0 && !wine.grapes.some(g=>selectedGrapes.has(g))) return false;
   if(selectedStyles.size>0 && !wine.style.some(s=>selectedStyles.has(s))) return false;
@@ -1276,14 +1298,14 @@ function renderMapLegend(){
 const ZONES = [
   { app:"medoc",        d:"M100,340 C300,240 620,250 720,420 C800,560 700,720 480,760 C260,800 60,700 40,540 C30,450 40,400 100,340 Z" },
   { app:"saintemilion", d:"M900,270 C1150,190 1560,200 1780,320 C1900,400 1900,640 1760,760 C1560,860 1120,850 940,750 C820,680 800,440 900,270 Z" },
-  { app:"cotesdurhone", d:"M2820,800 C2980,720 3280,730 3360,860 C3420,970 3340,1240 3160,1280 C2980,1310 2800,1220 2790,1030 C2786,930 2790,850 2820,800 Z" },
-  { app:"cornas",       d:"M2860,380 C3000,320 3260,340 3300,480 C3336,610 3220,780 3040,800 C2880,818 2790,700 2790,540 C2790,470 2810,420 2860,380 Z" },
+  { app:"cornas",       d:"M2860,380 C3010,310 3260,340 3300,460 C3330,560 3260,660 3120,680 C2980,700 2850,630 2828,510 C2818,455 2828,415 2860,380 Z" },
+  { app:"cotesdurhone", d:"M2820,880 C2980,810 3280,830 3360,950 C3420,1050 3340,1250 3160,1290 C2980,1320 2800,1230 2790,1060 C2786,975 2790,925 2820,880 Z" },
 ];
 
 /* Regio-namen ter oriëntatie, op de plek van de vroegere "massieven"-labels. */
 const MASSIFS = [
   { name:"Bordeaux", cx:900, cy:150 },
-  { name:"Vallée du Rhône", cx:3040, cy:250 },
+  { name:"Vallée du Rhône", cx:3040, cy:230 },
 ];
 
 function buildMap(){
@@ -1295,7 +1317,7 @@ function buildMap(){
   // in werkelijkheid ±550 km uit elkaar en passen niet op één gekalibreerde kaart.
   inner += `
     <ellipse class="region-backdrop" cx="880" cy="530" rx="960" ry="480"/>
-    <ellipse class="region-backdrop" cx="3040" cy="800" rx="450" ry="560"/>`;
+    <ellipse class="region-backdrop" cx="3040" cy="810" rx="460" ry="600"/>`;
 
   // AOP zones, als vlakken over de symbolische regio-achtergrond
   ZONES.forEach(z=>{
@@ -1309,7 +1331,7 @@ function buildMap(){
   });
 
   // zone labels
-  const zoneLabelPos = { medoc:[70,270], saintemilion:[1550,250], cotesdurhone:[2830,1350], cornas:[2870,350] };
+  const zoneLabelPos = { medoc:[70,270], saintemilion:[1550,250], cornas:[2860,340], cotesdurhone:[2820,1360] };
   Object.entries(zoneLabelPos).forEach(([app,[x,y]])=>{
     inner += `<text class="zone-label" x="${x}" y="${y}">${APPELLATIONS[app].name}</text>`;
   });
