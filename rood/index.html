@@ -881,7 +881,11 @@ function darken(hex, amt){
   return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
 }
 
-/* Verdeelt de cuvéenaam over maximaal 3 regels zodat hij op het flesetiket past. */
+/* Verdeelt de cuvéenaam over maximaal 4 regels zodat hij op het flesetiket past.
+   Bordeaux/Rhône-cuvées hebben vaak langere namen dan Provence-rosés (bv.
+   "Pauillac par Château Haut-Bages Libéral 2017"), vandaar hier 4 in plaats
+   van 3 regels — samen met een kleiner lettertype past dat zonder dat de
+   tekst over de rand van het etiket/de fles heen loopt. */
 function wrapLabel(name, maxChars){
   const words = name.split(" ");
   const lines = [];
@@ -892,9 +896,9 @@ function wrapLabel(name, maxChars){
     else { cur = test; }
   });
   if(cur) lines.push(cur.trim());
-  if(lines.length > 3){
-    lines.length = 3;
-    lines[2] = lines[2].replace(/.{0,2}$/, "") + "…";
+  if(lines.length > 4){
+    lines.length = 4;
+    lines[3] = lines[3].replace(/.{0,2}$/, "") + "…";
   }
   return lines;
 }
@@ -911,8 +915,8 @@ function bottleSVG(hex, name){
   const uid = "b" + (bottleUid++);
   const top = lighten(hex, .24);
   const deep = darken(hex, .14);
-  const lines = wrapLabel(name || "", 13);
-  const lineH = 10.5;
+  const lines = wrapLabel(name || "", 15);
+  const lineH = 9;
   const startY = 118 - (lines.length-1) * (lineH/2);
   const tspans = lines.map((ln,i)=>`<tspan x="35" y="${startY + i*lineH}">${ln}</tspan>`).join("");
   return `
@@ -933,10 +937,10 @@ function bottleSVG(hex, name){
     <!-- schouderlijn -->
     <path d="M17,63 C17,52 29,48 29,36" fill="none" stroke="#2C1E18" stroke-opacity=".16" stroke-width="1"/>
     <!-- etiket -->
-    <rect x="17.5" y="${startY - lineH - 4}" width="35" height="${lines.length*lineH + 12}" fill="#FBF4EC" opacity=".95" stroke="#2C1E18" stroke-opacity=".24" stroke-width=".6"/>
-    <line x1="20" y1="${startY - lineH - 1}" x2="50" y2="${startY - lineH - 1}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
-    <line x1="20" y1="${startY + lines.length*lineH - lineH/2 + 5}" x2="50" y2="${startY + lines.length*lineH - lineH/2 + 5}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
-    <text text-anchor="middle" font-family="'Fraunces','Hoefler Text',Georgia,'Times New Roman',serif" font-style="italic" font-size="8.6" fill="#2C1E18">${tspans}</text>
+    <rect x="16.5" y="${startY - lineH - 4}" width="37" height="${lines.length*lineH + 12}" fill="#FBF4EC" opacity=".95" stroke="#2C1E18" stroke-opacity=".24" stroke-width=".6"/>
+    <line x1="19" y1="${startY - lineH - 1}" x2="51" y2="${startY - lineH - 1}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
+    <line x1="19" y1="${startY + lines.length*lineH - lineH/2 + 5}" x2="51" y2="${startY + lines.length*lineH - lineH/2 + 5}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
+    <text text-anchor="middle" font-family="'Fraunces','Hoefler Text',Georgia,'Times New Roman',serif" font-style="italic" font-size="7.2" fill="#2C1E18">${tspans}</text>
     <!-- glans op het glas -->
     <path d="M20,66 L20,144" stroke="#ffffff" stroke-opacity=".4" stroke-width="2" stroke-linecap="round"/>
     <path d="M50,70 L50,140" stroke="#2C1E18" stroke-opacity=".08" stroke-width="1.4" stroke-linecap="round"/>
@@ -1270,16 +1274,16 @@ function renderMapLegend(){
    is dit daarom een gestileerde, symbolische plattegrond: twee "eilanden" in dezelfde
    kaartruimte, elk met hun eigen zones. Geen aanspraak op echte geografische precisie. */
 const ZONES = [
-  { app:"medoc",        d:"M120,470 C280,380 460,400 520,540 C570,660 480,760 340,790 C200,820 60,720 60,610 C60,550 80,510 120,470 Z" },
-  { app:"saintemilion", d:"M560,660 C700,600 840,630 880,730 C910,810 840,880 720,900 C610,918 520,860 510,780 C504,730 520,690 560,660 Z" },
-  { app:"cotesdurhone", d:"M2960,930 C3120,850 3320,900 3380,1030 C3430,1140 3340,1240 3180,1260 C3040,1278 2920,1200 2910,1090 C2905,1030 2920,970 2960,930 Z" },
-  { app:"cornas",       d:"M2930,600 C3040,540 3160,570 3190,660 C3216,736 3150,800 3050,812 C2960,822 2890,770 2884,700 C2880,660 2896,626 2930,600 Z" },
+  { app:"medoc",        d:"M100,340 C300,240 620,250 720,420 C800,560 700,720 480,760 C260,800 60,700 40,540 C30,450 40,400 100,340 Z" },
+  { app:"saintemilion", d:"M900,270 C1150,190 1560,200 1780,320 C1900,400 1900,640 1760,760 C1560,860 1120,850 940,750 C820,680 800,440 900,270 Z" },
+  { app:"cotesdurhone", d:"M2820,800 C2980,720 3280,730 3360,860 C3420,970 3340,1240 3160,1280 C2980,1310 2800,1220 2790,1030 C2786,930 2790,850 2820,800 Z" },
+  { app:"cornas",       d:"M2860,380 C3000,320 3260,340 3300,480 C3336,610 3220,780 3040,800 C2880,818 2790,700 2790,540 C2790,470 2810,420 2860,380 Z" },
 ];
 
 /* Regio-namen ter oriëntatie, op de plek van de vroegere "massieven"-labels. */
 const MASSIFS = [
-  { name:"Bordeaux", cx:400, cy:340 },
-  { name:"Vallée du Rhône", cx:3150, cy:440 },
+  { name:"Bordeaux", cx:900, cy:150 },
+  { name:"Vallée du Rhône", cx:3040, cy:250 },
 ];
 
 function buildMap(){
@@ -1290,8 +1294,8 @@ function buildMap(){
   // en de Rhônevallei — bewust geen echte geografie, want beide streken liggen
   // in werkelijkheid ±550 km uit elkaar en passen niet op één gekalibreerde kaart.
   inner += `
-    <ellipse class="region-backdrop" cx="330" cy="600" rx="420" ry="360"/>
-    <ellipse class="region-backdrop" cx="3080" cy="800" rx="380" ry="420"/>`;
+    <ellipse class="region-backdrop" cx="880" cy="530" rx="960" ry="480"/>
+    <ellipse class="region-backdrop" cx="3040" cy="800" rx="450" ry="560"/>`;
 
   // AOP zones, als vlakken over de symbolische regio-achtergrond
   ZONES.forEach(z=>{
@@ -1305,7 +1309,7 @@ function buildMap(){
   });
 
   // zone labels
-  const zoneLabelPos = { medoc:[80,320], saintemilion:[610,560], cotesdurhone:[3010,1330], cornas:[2900,470] };
+  const zoneLabelPos = { medoc:[70,270], saintemilion:[1550,250], cotesdurhone:[2830,1350], cornas:[2870,350] };
   Object.entries(zoneLabelPos).forEach(([app,[x,y]])=>{
     inner += `<text class="zone-label" x="${x}" y="${y}">${APPELLATIONS[app].name}</text>`;
   });
