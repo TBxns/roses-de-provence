@@ -903,14 +903,26 @@ function darken(hex, amt){
   return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
 }
 
-/* Verdeelt de cuvéenaam over maximaal 3 regels zodat hij op het flesetiket past.
-   Lange samengestelde woorden met een koppelteken (bv. "Châteauneuf-du-Pape")
-   worden eerst zelf opgeknipt, zodat één woord nooit breder is dan het etiket. */
-function wrapLabel(name, maxChars){
-  const rawWords = name.split(" ");
+/* Meet de werkelijke breedte van een stukje tekst via een verborgen canvas,
+   in dezelfde eenheden als de SVG, in plaats van te gokken op een geschat
+   aantal tekens per regel — dat is exact en werkt ongeacht welke letters
+   er in een naam zitten. */
+let _labelMeasureCtx = null;
+function measureLabelWidth(text, fontSizePx){
+  if(!_labelMeasureCtx){ _labelMeasureCtx = document.createElement("canvas").getContext("2d"); }
+  _labelMeasureCtx.font = `italic ${fontSizePx}px 'Fraunces','Hoefler Text',Georgia,'Times New Roman',serif`;
+  return _labelMeasureCtx.measureText(text).width;
+}
+
+/* Verdeelt de cuvéenaam over maximaal 3 regels zodat hij op het flesetiket
+   past, op basis van de echt gemeten tekstbreedte. Lange samengestelde
+   woorden met een koppelteken (bv. "Châteauneuf-du-Pape") worden eerst zelf
+   opgeknipt, zodat één woord nooit breder is dan het etiket. */
+function wrapLabel(name, maxWidth, fontSizePx){
+  const rawWords = (name || "").split(" ").filter(Boolean);
   const words = [];
   rawWords.forEach(w=>{
-    if(w.length <= maxChars || !w.includes("-")){ words.push(w); return; }
+    if(measureLabelWidth(w, fontSizePx) <= maxWidth || !w.includes("-")){ words.push(w); return; }
     const parts = w.split("-");
     parts.forEach((p,i)=>{ words.push(i < parts.length-1 ? p + "-" : p); });
   });
@@ -918,13 +930,15 @@ function wrapLabel(name, maxChars){
   let cur = "";
   words.forEach(word=>{
     const test = (cur && !cur.endsWith("-") ? cur + " " + word : cur + word).trim();
-    if(test.length > maxChars && cur){ lines.push(cur.trim()); cur = word; }
+    if(measureLabelWidth(test, fontSizePx) > maxWidth && cur){ lines.push(cur.trim()); cur = word; }
     else { cur = test; }
   });
   if(cur) lines.push(cur.trim());
   if(lines.length > 3){
     lines.length = 3;
-    lines[2] = lines[2].replace(/.{0,2}$/, "") + "…";
+    let last = lines[2];
+    while(last.length > 1 && measureLabelWidth(last + "…", fontSizePx) > maxWidth){ last = last.slice(0, -1); }
+    lines[2] = last + "…";
   }
   return lines;
 }
@@ -941,7 +955,7 @@ function bottleSVG(hex, name){
   const uid = "b" + (bottleUid++);
   const top = lighten(hex, .24);
   const deep = darken(hex, .14);
-  const lines = wrapLabel(name || "", 13);
+  const lines = wrapLabel(name || "", 30, 8.6);
   const lineH = 10.5;
   const startY = 118 - (lines.length-1) * (lineH/2);
   const tspans = lines.map((ln,i)=>`<tspan x="35" y="${startY + i*lineH}">${ln}</tspan>`).join("");
