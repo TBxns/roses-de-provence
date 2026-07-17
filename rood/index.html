@@ -192,7 +192,7 @@
   .pill.fav-pill.active{ background: var(--facade); border-color: var(--facade); }
   /* Uitgelicht als call-to-action: standaard al ingekleurd (niet pas bij active),
      zodat de knop opvalt tussen de neutrale appellation-filters. */
-  .pill.gall-pill{ background: var(--rose); color: var(--shadow); border-color: var(--rose); font-weight:600; }
+  .pill.gall-pill{ background: var(--rose); color: var(--paper); border-color: var(--rose); font-weight:600; }
   .pill.gall-pill:hover{ opacity:.85; border-color: var(--rose); }
   .pill.gall-pill.active{ background: var(--shadow); color: var(--stone); border-color: var(--shadow); opacity:1; }
 
@@ -413,7 +413,7 @@
   .map-legend .swatch{ width:12px; height:12px; border-radius:3px; display:inline-block; border:1px solid rgba(44,30,24,.2); }
   .map-stage{
     position:relative; background: var(--paper); border:1px solid rgba(44,30,24,.12); border-radius:4px;
-    overflow:hidden; aspect-ratio: 1792/1280; cursor:grab; touch-action:none; user-select:none;
+    overflow:hidden; aspect-ratio: 3584/1500; cursor:grab; touch-action:none; user-select:none;
   }
   .map-stage.dragging{ cursor:grabbing; }
   /* Alles wat mee moet schalen/verschuiven bij het zoomen zit in deze laag,
@@ -691,7 +691,7 @@
           <div class="map-zoomable" id="map-zoomable">
             <canvas class="tile-canvas" id="tile-canvas"></canvas>
             <div class="map-wash"></div>
-            <svg id="provence-map" viewBox="0 0 3584 2560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"></svg>
+            <svg id="provence-map" viewBox="0 0 3584 1500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"></svg>
           </div>
           <div class="map-controls">
             <button id="zoom-in" type="button" title="Inzoomen">+</button>
@@ -886,16 +886,28 @@ function darken(hex, amt){
   return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
 }
 
-/* Verdeelt de cuvéenaam over maximaal 4 regels zodat hij op het flesetiket past.
-   Bordeaux/Rhône-cuvées hebben vaak langere namen dan Provence-rosés (bv.
-   "Pauillac par Château Haut-Bages Libéral 2017"), vandaar hier 4 in plaats
-   van 3 regels — samen met een kleiner lettertype past dat zonder dat de
-   tekst over de rand van het etiket/de fles heen loopt. */
-function wrapLabel(name, maxChars){
-  const rawWords = name.split(" ");
+/* Meet de werkelijke breedte van een stukje tekst via een verborgen canvas,
+   in dezelfde eenheden als de SVG. Een geschat "aantal tekens per regel"
+   bleek niet betrouwbaar genoeg bij bredere namen (bv. "Bourdieu Médoc") —
+   dit meet exact hoe breed de tekst wordt, ongeacht welke letters erin zitten. */
+let _labelMeasureCtx = null;
+function measureLabelWidth(text, fontSizePx){
+  if(!_labelMeasureCtx){ _labelMeasureCtx = document.createElement("canvas").getContext("2d"); }
+  _labelMeasureCtx.font = `italic ${fontSizePx}px 'Fraunces','Hoefler Text',Georgia,'Times New Roman',serif`;
+  return _labelMeasureCtx.measureText(text).width;
+}
+
+/* Verdeelt de cuvéenaam over maximaal 4 regels zodat hij op het flesetiket
+   past, op basis van de echt gemeten tekstbreedte (niet een geschat aantal
+   tekens per regel) — zo past ook een lange naam als "Pauillac par Château
+   Haut-Bages Libéral 2017" altijd binnen het etiket, ongeacht welke letters
+   er precies in de naam zitten. Lange samengestelde woorden met een
+   koppelteken (bv. "Châteauneuf-du-Pape") worden eerst zelf opgeknipt. */
+function wrapLabel(name, maxWidth, fontSizePx){
+  const rawWords = (name || "").split(" ").filter(Boolean);
   const words = [];
   rawWords.forEach(w=>{
-    if(w.length <= maxChars || !w.includes("-")){ words.push(w); return; }
+    if(measureLabelWidth(w, fontSizePx) <= maxWidth || !w.includes("-")){ words.push(w); return; }
     const parts = w.split("-");
     parts.forEach((p,i)=>{ words.push(i < parts.length-1 ? p + "-" : p); });
   });
@@ -903,13 +915,15 @@ function wrapLabel(name, maxChars){
   let cur = "";
   words.forEach(word=>{
     const test = (cur && !cur.endsWith("-") ? cur + " " + word : cur + word).trim();
-    if(test.length > maxChars && cur){ lines.push(cur.trim()); cur = word; }
+    if(measureLabelWidth(test, fontSizePx) > maxWidth && cur){ lines.push(cur.trim()); cur = word; }
     else { cur = test; }
   });
   if(cur) lines.push(cur.trim());
   if(lines.length > 4){
     lines.length = 4;
-    lines[3] = lines[3].replace(/.{0,2}$/, "") + "…";
+    let last = lines[3];
+    while(last.length > 1 && measureLabelWidth(last + "…", fontSizePx) > maxWidth){ last = last.slice(0, -1); }
+    lines[3] = last + "…";
   }
   return lines;
 }
@@ -926,7 +940,7 @@ function bottleSVG(hex, name){
   const uid = "b" + (bottleUid++);
   const top = lighten(hex, .24);
   const deep = darken(hex, .14);
-  const lines = wrapLabel(name || "", 15);
+  const lines = wrapLabel(name || "", 31, 7.2);
   const lineH = 9;
   const startY = 118 - (lines.length-1) * (lineH/2);
   const tspans = lines.map((ln,i)=>`<tspan x="35" y="${startY + i*lineH}">${ln}</tspan>`).join("");
@@ -1348,12 +1362,12 @@ function buildMap(){
     </g>`;
 
   // decoratief dubbel kaartkader met kleine schaalstreepjes, antieke-kaart-sfeer
-  inner += `<rect class="map-frame" x="10" y="10" width="3564" height="2540" stroke-width="4"/>`;
-  inner += `<rect class="map-frame" x="24" y="24" width="3536" height="2512" stroke-width="1.6"/>`;
+  inner += `<rect class="map-frame" x="10" y="10" width="3564" height="1480" stroke-width="4"/>`;
+  inner += `<rect class="map-frame" x="24" y="24" width="3536" height="1452" stroke-width="1.6"/>`;
   for(let x=10; x<=3574; x+=178.2){
-    inner += `<line class="map-tick" x1="${x}" y1="10" x2="${x}" y2="24"/><line class="map-tick" x1="${x}" y1="2536" x2="${x}" y2="2550"/>`;
+    inner += `<line class="map-tick" x1="${x}" y1="10" x2="${x}" y2="24"/><line class="map-tick" x1="${x}" y1="1476" x2="${x}" y2="1490"/>`;
   }
-  for(let y=10; y<=2550; y+=177.2){
+  for(let y=10; y<=1490; y+=177.2){
     inner += `<line class="map-tick" x1="10" y1="${y}" x2="24" y2="${y}"/><line class="map-tick" x1="3560" y1="${y}" x2="3574" y2="${y}"/>`;
   }
 
