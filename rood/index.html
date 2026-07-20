@@ -408,12 +408,22 @@
       opacity:1;
     }
   }
+  /* Bordeaux en de Rhônevallei liggen ±550 km uit elkaar — te ver voor één
+     gekalibreerde kaart. Dit tabblad wisselt tussen twee losse, echte kaarten. */
+  .region-toggle{ display:flex; gap:8px; margin-bottom:16px; }
+  .region-btn{
+    border:1px solid rgba(44,30,24,.22); background: transparent; color: var(--shadow);
+    padding:9px 20px; border-radius:999px; font-size:12.5px; letter-spacing:.04em;
+    transition: all .18s ease;
+  }
+  .region-btn:hover{ border-color: var(--rose); }
+  .region-btn.active{ background: var(--rose); color: var(--paper); border-color: var(--rose); font-weight:600; }
   .map-legend{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom:18px; font-size:11px; color: rgba(44,30,24,.7); }
   .map-legend .item{ display:flex; align-items:center; gap:7px; }
   .map-legend .swatch{ width:12px; height:12px; border-radius:3px; display:inline-block; border:1px solid rgba(44,30,24,.2); }
   .map-stage{
     position:relative; background: var(--paper); border:1px solid rgba(44,30,24,.12); border-radius:4px;
-    overflow:hidden; aspect-ratio: 3584/1500; cursor:grab; touch-action:none; user-select:none;
+    overflow:hidden; aspect-ratio: 1536/1024; cursor:grab; touch-action:none; user-select:none;
   }
   .map-stage.dragging{ cursor:grabbing; }
   /* Alles wat mee moet schalen/verschuiven bij het zoomen zit in deze laag,
@@ -428,7 +438,6 @@
      gecomponeerd kan worden. De Provençaalse warme tint komt van .map-wash hieronder,
      een simpele gekleurde laag met mix-blend-mode over het geheel. */
   .tile-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; background: var(--paper); }
-  .region-backdrop{ fill: var(--facade); fill-opacity:.08; }
   .map-wash{ position:absolute; inset:0; background: var(--facade); opacity:.28; mix-blend-mode:multiply; pointer-events:none; }
   svg#provence-map{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
@@ -446,14 +455,14 @@
   /* Lagere dekking + multiply-blend zodat de (bij benadering getekende) appellatievlakken
      zachter in elkaar overvloeien waar ze elkaar overlappen, i.p.v. als harde,
      los van elkaar staande gekleurde blokken op de kaart te liggen. */
-  .zone{ stroke: rgba(44,30,24,.25); stroke-width:4.4; stroke-dasharray: 10 14; opacity:.26; mix-blend-mode: multiply; transition: opacity .2s; }
+  .zone{ stroke: rgba(44,30,24,.25); stroke-width:2.4; stroke-dasharray: 6 8; opacity:.26; mix-blend-mode: multiply; transition: opacity .2s; }
   .zone:hover{ opacity:.4; }
-  .zone-label{ font-family: var(--font-ui); font-size:44px; letter-spacing:.1em; text-transform:uppercase; fill: rgba(44,30,24,.6); pointer-events:none; paint-order:stroke; stroke: var(--paper); stroke-width:10px; }
-  .massif-label{ font-family: var(--font-display); font-style:italic; font-size:40px; fill: rgba(44,30,24,.5); pointer-events:none; paint-order:stroke; stroke: var(--paper); stroke-width:8px; }
-  .compass text{ font-family: var(--font-display); font-style:italic; font-size:48px; fill: var(--shadow); }
+  .zone-label{ font-family: var(--font-ui); font-size:24px; letter-spacing:.1em; text-transform:uppercase; fill: rgba(44,30,24,.6); pointer-events:none; paint-order:stroke; stroke: var(--paper); stroke-width:6px; }
+  .massif-label{ font-family: var(--font-display); font-style:italic; font-size:22px; fill: rgba(44,30,24,.5); pointer-events:none; paint-order:stroke; stroke: var(--paper); stroke-width:5px; }
+  .compass text{ font-family: var(--font-display); font-style:italic; font-size:24px; fill: var(--shadow); }
   .compass line, .compass path{ stroke: var(--shadow); }
   .map-frame{ fill:none; stroke: rgba(44,30,24,.35); }
-  .map-tick{ stroke: rgba(44,30,24,.25); stroke-width:4; }
+  .map-tick{ stroke: rgba(44,30,24,.25); stroke-width:2.4; }
 
   .marker{ cursor:pointer; transition: opacity .2s ease; }
   /* Onzichtbare, ruimere tikcirkel rond elke speld — vergroot het treffiegebied
@@ -472,8 +481,8 @@
   }
   .marker:hover circle.pin, .marker.selected circle.pin{ fill: var(--facade); stroke: var(--shadow); r:34; }
   .marker text{
-    font-family: var(--font-display); font-style:italic; font-size:46px; fill: var(--shadow);
-    paint-order: stroke; stroke: var(--paper); stroke-width: 12px; pointer-events:none;
+    font-family: var(--font-display); font-style:italic; font-size:22px; fill: var(--shadow);
+    paint-order: stroke; stroke: var(--paper); stroke-width: 6px; pointer-events:none;
     opacity:0; transition: opacity .15s ease;
   }
   .marker text .marker-commune{
@@ -686,12 +695,16 @@
     <section class="view active" id="view-list"></section>
     <section class="view" id="view-map">
       <div class="map-wrap">
+        <div class="region-toggle" id="region-toggle">
+          <button class="region-btn active" data-region="bordeaux" type="button">Bordeaux</button>
+          <button class="region-btn" data-region="rhone" type="button">Rhônevallei</button>
+        </div>
         <div class="map-legend" id="map-legend"></div>
         <div class="map-stage" id="map-stage">
           <div class="map-zoomable" id="map-zoomable">
             <canvas class="tile-canvas" id="tile-canvas"></canvas>
             <div class="map-wash"></div>
-            <svg id="provence-map" viewBox="0 0 3584 1500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"></svg>
+            <svg id="provence-map" viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"></svg>
           </div>
           <div class="map-controls">
             <button id="zoom-in" type="button" title="Inzoomen">+</button>
@@ -1008,6 +1021,12 @@ function renderFilterbar(){
     currentFilter = btn.dataset.filter;
     bar.querySelectorAll(".pill").forEach(p=>p.classList.toggle("active", p===btn));
     renderList();
+    // Kies je een appellation die bij de andere regio hoort (bv. Cornas terwijl
+    // het tabblad "Bordeaux" actief staat), dan wisselt de kaart automatisch mee.
+    if(APPELLATIONS.hasOwnProperty(currentFilter)){
+      const targetRegion = Object.keys(REGIONS).find(r=> REGIONS[r].zones.some(z=>z.app===currentFilter));
+      if(targetRegion && targetRegion !== currentRegion) setRegion(targetRegion);
+    }
     updateMapFilterState();
   });
 }
@@ -1294,85 +1313,133 @@ function initTopnavSearch(){
   });
 }
 
-/* ---------- MAP ---------- */
-function renderMapLegend(){
-  const legend = document.getElementById("map-legend");
-  legend.innerHTML = Object.values(APPELLATIONS).map(a=>`
-    <div class="item"><span class="swatch" style="background:${a.zoneColor}"></span>${a.name}</div>
-  `).join("");
+/* ---------- MAP ----------
+   Bordeaux en de Rhônevallei liggen in werkelijkheid ±550 km uit elkaar —
+   te ver voor één gekalibreerde kaart op bruikbare schaal. Vandaar twee
+   losse regio's, elk met hun eigen echte OpenStreetMap-tegels (net als bij
+   de rosé-kaart van de Provence), met een tabblad erboven om te wisselen.
+   Wijnhuis-posities zijn gebaseerd op de werkelijke ligging van hun gemeente/
+   appellation (niet het exacte adres van ieder kasteel — dat is niet
+   geverifieerd), vandaar ook geen aanspraak op kadastrale precisie. */
+const REGIONS = {
+  bordeaux: {
+    name: "Bordeaux",
+    tile: { z:10, xStart:508, yStart:366, cols:6, rows:4 },
+    zones: [
+      { app:"medoc",        d:"M280,260 C440,180 620,240 640,380 C660,500 560,610 420,620 C280,630 200,530 210,400 C215,320 230,290 280,260 Z" },
+      { app:"saintemilion", d:"M760,560 C920,480 1150,500 1220,620 C1280,720 1180,860 1000,880 C840,900 700,800 700,680 C700,630 720,590 760,560 Z" },
+    ],
+    zoneLabelPos: { medoc:[210,220], saintemilion:[850,460] },
+    massif: { name:"Bordeaux", cx:770, cy:90 },
+    compass: [1440,90],
+  },
+  rhone: {
+    name: "Rhônevallei",
+    tile: { z:10, xStart:524, yStart:367, cols:4, rows:7 },
+    zones: [
+      { app:"cornas",       d:"M300,180 C460,120 620,180 630,320 C640,420 560,500 440,510 C320,520 250,440 250,340 C250,270 260,220 300,180 Z" },
+      { app:"cotesdurhone", d:"M220,780 C420,700 680,740 720,900 C760,1080 720,1300 560,1420 C420,1520 240,1460 200,1300 C170,1160 170,1000 190,900 C195,860 200,820 220,780 Z" },
+    ],
+    zoneLabelPos: { cornas:[260,150], cotesdurhone:[220,730] },
+    massif: { name:"Vallée du Rhône", cx:440, cy:90 },
+    compass: [930,90],
+  },
+};
+
+let currentRegion = "bordeaux";
+
+function regionCanvasSize(region){
+  const t = REGIONS[region].tile;
+  return { w: t.cols*256, h: t.rows*256 };
 }
 
-/* Zone- en massiefposities zijn herberekend uit echte lengte-/breedtegraad
-   (Web Mercator, zoom 11) zodat ze precies over de echte kaarttegels vallen. */
-/* Rood strekt zich uit over twee ver uit elkaar liggende gebieden (Bordeaux en de
-   Rhônevallei, ±550 km uit elkaar) i.p.v. de aaneengesloten Provence. In plaats van
-   een echt gegeorefereerde kaart (zoals bij de Rosé-kaart van de Provence, gekalibreerd op OpenStreetMap-tegels)
-   is dit daarom een gestileerde, symbolische plattegrond: twee "eilanden" in dezelfde
-   kaartruimte, elk met hun eigen zones. Geen aanspraak op echte geografische precisie. */
-const ZONES = [
-  { app:"medoc",        d:"M100,340 C300,240 620,250 720,420 C800,560 700,720 480,760 C260,800 60,700 40,540 C30,450 40,400 100,340 Z" },
-  { app:"saintemilion", d:"M900,270 C1150,190 1560,200 1780,320 C1900,400 1900,640 1760,760 C1560,860 1120,850 940,750 C820,680 800,440 900,270 Z" },
-  { app:"cornas",       d:"M2860,380 C3010,310 3260,340 3300,460 C3330,560 3260,660 3120,680 C2980,700 2850,630 2828,510 C2818,455 2828,415 2860,380 Z" },
-  { app:"cotesdurhone", d:"M2820,880 C2980,810 3280,830 3360,950 C3420,1050 3340,1250 3160,1290 C2980,1320 2800,1230 2790,1060 C2786,975 2790,925 2820,880 Z" },
-];
+/* Tekent de echte OpenStreetMap-tegels (© OpenStreetMap-bijdragers, ODbL)
+   voor de actieve regio, rechtstreeks op canvas (i.p.v. losse <img>'s in een
+   CSS-grid — dat bleek in sommige browsers onbetrouwbaar samen te stellen). */
+function buildTileGrid(config){
+  const canvas = document.getElementById("tile-canvas");
+  if(!canvas) return;
+  const { z, xStart, yStart, cols, rows } = config;
+  const TILE_PX = 256;
+  canvas.width = cols * TILE_PX;
+  canvas.height = rows * TILE_PX;
+  const ctx = canvas.getContext && canvas.getContext("2d");
+  if(!ctx) return;
+  for(let row=0; row<rows; row++){
+    for(let col=0; col<cols; col++){
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, col*TILE_PX - 0.5, row*TILE_PX - 0.5, TILE_PX + 1, TILE_PX + 1);
+      };
+      img.src = `https://tile.openstreetmap.org/${z}/${xStart+col}/${yStart+row}.png`;
+    }
+  }
+}
 
-/* Regio-namen ter oriëntatie, op de plek van de vroegere "massieven"-labels. */
-const MASSIFS = [
-  { name:"Bordeaux", cx:900, cy:150 },
-  { name:"Vallée du Rhône", cx:3040, cy:230 },
-];
+/* Toont alleen de twee appellations van de actieve regio in de legenda. */
+function renderMapLegend(){
+  const legend = document.getElementById("map-legend");
+  const apps = REGIONS[currentRegion].zones.map(z=>z.app);
+  legend.innerHTML = apps.map(app=>{
+    const a = APPELLATIONS[app];
+    return `<div class="item"><span class="swatch" style="background:${a.zoneColor}"></span>${a.name}</div>`;
+  }).join("");
+}
+
+function setRegion(region){
+  if(currentRegion === region) return;
+  currentRegion = region;
+  document.querySelectorAll(".region-btn").forEach(b=>b.classList.toggle("active", b.dataset.region===region));
+  resetMapView();
+  renderMapLegend();
+  buildMap();
+}
 
 function buildMap(){
   const svg = document.getElementById("provence-map");
+  const stage = document.getElementById("map-stage");
+  const region = REGIONS[currentRegion];
+  const { w, h } = regionCanvasSize(currentRegion);
+
+  // Canvas en kaartkader krijgen exact dezelfde verhouding als de SVG-viewBox
+  // (i.p.v. een vast losstaand CSS-aspect-ratio) — zo kan de kaart nooit meer
+  // verkeerd bijgesneden worden, ongeacht schermformaat.
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  if(stage) stage.style.aspectRatio = `${w} / ${h}`;
+
+  buildTileGrid(region.tile);
+
   let inner = "";
 
-  // Twee zachte "landmassa"-vormen als symbolische achtergrond voor Bordeaux
-  // en de Rhônevallei — bewust geen echte geografie, want beide streken liggen
-  // in werkelijkheid ±550 km uit elkaar en passen niet op één gekalibreerde kaart.
-  inner += `
-    <ellipse class="region-backdrop" cx="880" cy="530" rx="960" ry="480"/>
-    <ellipse class="region-backdrop" cx="3040" cy="810" rx="460" ry="600"/>`;
-
-  // AOP zones, als vlakken over de symbolische regio-achtergrond
-  ZONES.forEach(z=>{
+  region.zones.forEach(z=>{
     const color = APPELLATIONS[z.app].zoneColor;
     inner += `<path class="zone" data-app="${z.app}" d="${z.d}" fill="${color}"/>`;
   });
 
-  // regio-namen, ter oriëntatie
-  MASSIFS.forEach(m=>{
-    inner += `<text class="massif-label" x="${m.cx}" y="${m.cy}" text-anchor="middle">${m.name}</text>`;
-  });
+  inner += `<text class="massif-label" x="${region.massif.cx}" y="${region.massif.cy}" text-anchor="middle">${region.massif.name}</text>`;
 
-  // zone labels
-  const zoneLabelPos = { medoc:[70,270], saintemilion:[1550,250], cornas:[2860,340], cotesdurhone:[2820,1360] };
-  Object.entries(zoneLabelPos).forEach(([app,[x,y]])=>{
+  Object.entries(region.zoneLabelPos).forEach(([app,[x,y]])=>{
     inner += `<text class="zone-label" x="${x}" y="${y}">${APPELLATIONS[app].name}</text>`;
   });
 
-  // kompasroos, rechtsboven (decoratief — géén schaalbalk, want de afstand tussen
-  // beide "eilanden" op deze kaart is symbolisch en niet op ware schaal)
+  const [ccx,ccy] = region.compass;
   inner += `
-    <g class="compass" transform="translate(3460,120)">
-      <circle r="60" fill="var(--paper)" fill-opacity=".75" stroke="rgba(44,30,24,.3)" stroke-width="2.8"/>
-      <line x1="0" y1="-46" x2="0" y2="46" stroke-width="2.8"/>
-      <line x1="-46" y1="0" x2="46" y2="0" stroke-width="2.8"/>
-      <path d="M0,-46 L10,-8 L0,-16 L-10,-8 Z" fill="var(--shadow)"/>
-      <text x="0" y="-60" text-anchor="middle">N</text>
+    <g class="compass" transform="translate(${ccx},${ccy})">
+      <circle r="30" fill="var(--paper)" fill-opacity=".75" stroke="rgba(44,30,24,.3)" stroke-width="1.6"/>
+      <line x1="0" y1="-23" x2="0" y2="23" stroke-width="1.6"/>
+      <line x1="-23" y1="0" x2="23" y2="0" stroke-width="1.6"/>
+      <path d="M0,-23 L5,-4 L0,-8 L-5,-4 Z" fill="var(--shadow)"/>
+      <text x="0" y="-30" text-anchor="middle">N</text>
     </g>`;
 
-  // decoratief dubbel kaartkader met kleine schaalstreepjes, antieke-kaart-sfeer
-  inner += `<rect class="map-frame" x="10" y="10" width="3564" height="1480" stroke-width="4"/>`;
-  inner += `<rect class="map-frame" x="24" y="24" width="3536" height="1452" stroke-width="1.6"/>`;
-  for(let x=10; x<=3574; x+=178.2){
-    inner += `<line class="map-tick" x1="${x}" y1="10" x2="${x}" y2="24"/><line class="map-tick" x1="${x}" y1="1476" x2="${x}" y2="1490"/>`;
-  }
-  for(let y=10; y<=1490; y+=177.2){
-    inner += `<line class="map-tick" x1="10" y1="${y}" x2="24" y2="${y}"/><line class="map-tick" x1="3560" y1="${y}" x2="3574" y2="${y}"/>`;
-  }
+  // decoratief dubbel kaartkader, antieke-kaart-sfeer — schaalt automatisch mee
+  // met de canvasgrootte van de actieve regio
+  inner += `<rect class="map-frame" x="6" y="6" width="${w-12}" height="${h-12}" stroke-width="2.4"/>`;
+  inner += `<rect class="map-frame" x="14" y="14" width="${w-28}" height="${h-28}" stroke-width="1"/>`;
 
-  // house markers
-  HOUSES.forEach(h=>{
+  const regionApps = region.zones.map(z=>z.app);
+  const regionHouses = HOUSES.filter(h=> regionApps.includes(h.appellation));
+  regionHouses.forEach(h=>{
     inner += `<g class="marker" data-house-id="${h.id}" transform="translate(${h.x},${h.y})">
       <circle class="glow" r="40"></circle>
       <circle class="hit" r="40"></circle>
@@ -1437,7 +1504,12 @@ function renderRouteOverlay(){
   const old = svg.querySelector("#route-layer");
   if(old) old.remove();
   if(routeStops.length===0) return;
-  const pts = routeStops.map(id=> HOUSES.find(h=>h.id===id)).filter(Boolean);
+  // Alleen de haltes van de momenteel actieve regio tekenen — de x/y van een
+  // huis in de andere regio hoort bij een heel andere kaart-canvas en zou
+  // hier een verkeerd geplaatst stipje geven.
+  const regionApps = REGIONS[currentRegion].zones.map(z=>z.app);
+  const pts = routeStops.map(id=> HOUSES.find(h=>h.id===id)).filter(h=> h && regionApps.includes(h.appellation));
+  if(pts.length===0) return;
   const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
   g.id = "route-layer";
   const d = "M" + pts.map(p=>`${p.x},${p.y}`).join(" L ");
@@ -1520,7 +1592,11 @@ function setMapZoom(z){
   mapZoom = clampNum(z, MAP_ZOOM_MIN, MAP_ZOOM_MAX);
   clampMapPan();
   applyMapTransform();
-  maybeUpgradeTileResolution();
+}
+
+function resetMapView(){
+  mapPanX = 0; mapPanY = 0;
+  setMapZoom(1);
 }
 
 function initMapZoomPan(){
@@ -1553,9 +1629,10 @@ function initMapZoomPan(){
 
   document.getElementById("zoom-in").addEventListener("click", ()=> setMapZoom(mapZoom + MAP_ZOOM_STEP));
   document.getElementById("zoom-out").addEventListener("click", ()=> setMapZoom(mapZoom - MAP_ZOOM_STEP));
-  document.getElementById("zoom-reset").addEventListener("click", ()=>{
-    mapPanX = 0; mapPanY = 0;
-    setMapZoom(1);
+  document.getElementById("zoom-reset").addEventListener("click", resetMapView);
+
+  document.querySelectorAll(".region-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=> setRegion(btn.dataset.region));
   });
 }
 
@@ -1575,7 +1652,7 @@ function selectHouse(houseId){
   document.getElementById("sb-eyebrow").textContent = app.tag;
   document.getElementById("sb-title").textContent = h.name;
   document.getElementById("sb-commune").textContent = h.commune;
-  document.getElementById("sb-desc").textContent = h.desc;
+  document.getElementById("sb-desc").textContent = h.description;
 
   const wines = document.getElementById("sb-wines");
   wines.innerHTML = h.wines.map(w=>`
