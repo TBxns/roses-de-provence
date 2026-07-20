@@ -198,6 +198,17 @@
   .pill.gall-pill:hover{ opacity:.85; border-color: var(--rose); }
   .pill.gall-pill.active{ background: var(--shadow); color: var(--stone); border-color: var(--shadow); opacity:1; }
 
+  /* Directe koopknop op de wijnkaart zelf (niet pas in de detailweergave), zodat een
+     bezoeker met interesse meteen kan doorklikken naar Gall & Gall zonder eerst de kaart
+     te openen. Alleen zichtbaar bij wijnen met een `gall`-veld in de data. */
+  .gall-cta{
+    display:block; width:100%; box-sizing:border-box; text-align:center;
+    background: var(--rose); color: var(--shadow); font-weight:600;
+    border-radius:999px; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase;
+    padding:7px 10px; margin-top:8px; transition: opacity .15s ease;
+  }
+  .gall-cta:hover{ opacity:.82; }
+
   /* ---------- HART / FAVORIET ---------- */
   .fav-heart{
     background:none; border:none; font-size:17px; line-height:1; color: rgba(44,30,24,.3);
@@ -1130,6 +1141,7 @@ function wineCardHTML(h, app, w){
       <div class="row"><span>Prijs</span><span class="price">${priceDots(w.price)}</span></div>
       <div class="row"><span>Bewaren</span><span>${w.aging}</span></div>
     </div>
+    ${w.gall ? `<a class="gall-cta" href="${w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>` : ""}
     <button class="compare-toggle ${compareSet.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">+ Vergelijk</button>
   `;
 }
@@ -1141,12 +1153,14 @@ function makeWineCard(h, app, w){
   card.dataset.houseId = h.id;
   card.innerHTML = wineCardHTML(h, app, w);
   card.addEventListener("click", (e)=>{
-    if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle")) return;
+    if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle") || e.target.closest(".gall-cta")) return;
     switchView("map");
     selectHouse(h.id);
   });
   card.querySelector(".fav-heart").addEventListener("click", (e)=>{ e.stopPropagation(); toggleFavorite(w.id); });
   card.querySelector(".compare-toggle").addEventListener("click", (e)=>{ e.stopPropagation(); toggleCompare(w.id); });
+  const gallCta = card.querySelector(".gall-cta");
+  if(gallCta) gallCta.addEventListener("click", (e)=>{ e.stopPropagation(); });
   return card;
 }
 
@@ -1657,6 +1671,7 @@ function selectHouse(houseId){
           <span><b>Prijs</b> ${priceDots(w.price)}</span>
           <span><b>Bewaren</b> ${w.aging}</span>
         </div>
+        ${w.gall ? `<a class="gall-cta" href="${w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>` : ""}
         <button class="compare-toggle ${compareSet.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">+ Vergelijk</button>
         <span class="clickhint">Klik voor prijs, temperatuur &amp; food pairing →</span>
       </div>
@@ -1665,11 +1680,13 @@ function selectHouse(houseId){
 
   wines.querySelectorAll(".sidebar-wine").forEach((el, i)=>{
     el.addEventListener("click", (e)=>{
-      if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle")) return;
+      if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle") || e.target.closest(".gall-cta")) return;
       openWineDetail(h, h.wines[i]);
     });
     el.querySelector(".fav-heart").addEventListener("click", (e)=>{ e.stopPropagation(); toggleFavorite(h.wines[i].id); });
     el.querySelector(".compare-toggle").addEventListener("click", (e)=>{ e.stopPropagation(); toggleCompare(h.wines[i].id); });
+    const gallCta = el.querySelector(".gall-cta");
+    if(gallCta) gallCta.addEventListener("click", (e)=>{ e.stopPropagation(); });
   });
 
   document.getElementById("sidebar").classList.add("open");
