@@ -39,11 +39,16 @@
 
   /* ---------- TOPNAV ---------- */
   .topnav{
+    position:relative; overflow:hidden;
     display:flex; align-items:center; justify-content:center; flex-direction:column;
-    padding: 54px 24px 20px;
-    background: var(--shadow); color: var(--stone); text-align:center;
+    padding: 36px 24px 28px;
+    background:
+      radial-gradient(ellipse 900px 400px at 50% -12%, rgba(228,175,160,.22), transparent 62%),
+      linear-gradient(180deg, #33241c 0%, var(--shadow) 100%);
+    color: var(--stone); text-align:center;
+    border-bottom: 1px solid rgba(228,175,160,.28);
   }
-  .topnav .brand-logo{ width:min(360px, 78vw); height:auto; margin-bottom:8px; }
+  .topnav .brand-logo{ width:min(280px, 62vw); height:auto; margin-bottom:2px; position:relative; z-index:1; }
   .visually-hidden{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   .topnav .wordmark{
     font-family: var(--font-display); font-style:italic; font-weight:400;
@@ -51,17 +56,20 @@
   }
   .topnav .tagline{
     font-size:14.5px; line-height:1.6; max-width:480px; opacity:.82; margin:0;
+    position:relative; z-index:1;
   }
   .eyebrow{
     font-size:11px; letter-spacing:.24em; text-transform:uppercase; color: var(--rose);
-    display:flex; align-items:center; gap:10px; margin-bottom:16px;
+    display:flex; align-items:center; gap:10px; margin-bottom:10px;
+    position:relative; z-index:1;
   }
   .eyebrow::before, .eyebrow::after{ content:''; width:22px; height:1px; background: var(--rose); display:inline-block; }
 
   /* ---------- WAARDEPROPOSITIE (onder de tagline in de header) ---------- */
   .value-props{
+    position:relative; z-index:1;
     display:flex; flex-wrap:wrap; justify-content:center; gap:0;
-    max-width:760px; margin:28px 0 0; padding-top:22px;
+    max-width:760px; margin:18px 0 0; padding-top:16px;
     border-top:1px solid rgba(233,216,198,.18);
   }
   .value-props .vp{
@@ -74,8 +82,8 @@
   }
   .value-props .vp-desc{ font-size:12px; line-height:1.55; opacity:.78; margin:0; }
   @media (max-width:640px){
-    .value-props{ flex-direction:column; gap:18px; padding-top:20px; }
-    .value-props .vp + .vp{ border-left:none; border-top:1px solid rgba(233,216,198,.18); padding-top:18px; }
+    .value-props{ flex-direction:column; gap:14px; padding-top:14px; }
+    .value-props .vp + .vp{ border-left:none; border-top:1px solid rgba(233,216,198,.18); padding-top:14px; }
   }
 
   /* ---------- GRID ---------- */
@@ -126,6 +134,24 @@
     .tile-grid{ grid-template-columns: 1fr; grid-auto-rows:190px; }
     .tile.live, .tile.soon{ grid-column: span 1; }
   }
+
+  /* ---------- OM VANDAAG TE BESTELLEN (contentmarketing → Gall & Gall) ---------- */
+  .picks{ max-width:1180px; margin:8px auto 0; padding:0 32px; }
+  .picks-intro{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 18px; }
+  .picks-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
+  .pick-card{
+    display:block; border-radius:14px; padding:20px; background: var(--paper);
+    border:1px solid rgba(44,30,24,.1);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .pick-card:hover{ transform: translateY(-3px); box-shadow: 0 12px 24px rgba(44,30,24,.14); border-color: var(--pick-accent, var(--rose)); }
+  .pick-tag{ font-size:10px; letter-spacing:.14em; text-transform:uppercase; color: var(--pick-accent, var(--rose)); margin:0 0 10px; font-weight:600; }
+  .pick-name{ font-family: var(--font-display); font-style:italic; font-weight:400; font-size:18px; margin:0 0 4px; line-height:1.25; }
+  .pick-house{ font-size:11px; color: rgba(44,30,24,.55); margin:0 0 10px; }
+  .pick-reason{ font-size:12.5px; line-height:1.5; color: rgba(44,30,24,.72); margin:0 0 16px; }
+  .pick-cta{ display:inline-block; font-size:11px; font-weight:600; letter-spacing:.04em; color: var(--pick-accent, var(--rose)); }
+  @media (max-width:860px){ .picks-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width:560px){ .picks{ padding:0 18px; } .picks-grid{ grid-template-columns: 1fr; } }
 
   /* ---------- WHY / MISSIE ---------- */
   .mission{ max-width:720px; margin:10px auto 0; padding:36px 32px 10px; text-align:center; }
@@ -253,6 +279,45 @@
 
     </div>
   </main>
+
+  <section class="picks">
+    <p class="picks-intro">Om vandaag nog te bestellen</p>
+    <div class="picks-grid">
+
+      <a class="pick-card" style="--pick-accent:var(--cat-rood)" href="https://www.gall.nl/louis-bernard-c%C3%B4tes-du-rh%C3%B4ne-rood-75cl-180815.html" target="_blank" rel="noopener">
+        <p class="pick-tag">Beste instapfles</p>
+        <h3 class="pick-name">Louis Bernard Côtes du Rhône 2024</h3>
+        <p class="pick-house">Louis Bernard · Côtes du Rhône</p>
+        <p class="pick-reason">€6,49 — bij pizza, charcuterie of een barbecue.</p>
+        <span class="pick-cta">Bestel bij Gall &amp; Gall →</span>
+      </a>
+
+      <a class="pick-card" style="--pick-accent:var(--cat-rood)" href="https://www.gall.nl/ch%C3%A2teau-le-bourdieu-medoc-rood-75cl-131679.html" target="_blank" rel="noopener">
+        <p class="pick-tag">Bij de barbecue</p>
+        <h3 class="pick-name">Château le Bourdieu Médoc</h3>
+        <p class="pick-house">Château le Bourdieu · Médoc</p>
+        <p class="pick-reason">± €13 — bij gegrild rood vlees, eendenborst of harde kaas.</p>
+        <span class="pick-cta">Bestel bij Gall &amp; Gall →</span>
+      </a>
+
+      <a class="pick-card" style="--pick-accent:var(--cat-rose)" href="https://www.gall.nl/mirabeau-classic-rose-rose-75cl-408417.html" target="_blank" rel="noopener">
+        <p class="pick-tag">Voor de zomerse aperitief</p>
+        <h3 class="pick-name">Mirabeau Classic Rosé</h3>
+        <p class="pick-house">Maison Mirabeau · Provence</p>
+        <p class="pick-reason">± €13 — licht en fris, puur als borrelwijn.</p>
+        <span class="pick-cta">Bestel bij Gall &amp; Gall →</span>
+      </a>
+
+      <a class="pick-card" style="--pick-accent:var(--cat-rose)" href="https://www.gall.nl/domaines-ott-ch%C3%A2teau-de-selle-rose-rose-75cl-113360.html" target="_blank" rel="noopener">
+        <p class="pick-tag">Voor een bijzonder etentje</p>
+        <h3 class="pick-name">Château de Selle</h3>
+        <p class="pick-house">Domaines Ott · Provence</p>
+        <p class="pick-reason">± €47 — de bekendste naam van de Provençaalse rosé.</p>
+        <span class="pick-cta">Bestel bij Gall &amp; Gall →</span>
+      </a>
+
+    </div>
+  </section>
 
   <section class="mission">
     <p>Proefwaaier vergelijkt drank zoals een goede slijter dat zou doen: op terroir, druif, stijl en het echte verhaal achter een huis — niet op advertentiebudget. Per categorie brengen we bekende, makkelijk verkrijgbare namen samen met kleinere, moeilijker te vinden producenten, zodat je zowel een betrouwbare instapfles als een unieke ontdekking vindt.</p>
