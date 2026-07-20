@@ -196,6 +196,17 @@
   .pill.gall-pill:hover{ opacity:.85; border-color: var(--rose); }
   .pill.gall-pill.active{ background: var(--shadow); color: var(--stone); border-color: var(--shadow); opacity:1; }
 
+  /* Directe koopknop op de wijnkaart zelf (niet pas in de detailweergave), zodat een
+     bezoeker met interesse meteen kan doorklikken naar Gall & Gall zonder eerst de kaart
+     te openen. Alleen zichtbaar bij wijnen met een `gall`-veld in de data. */
+  .gall-cta{
+    display:block; width:100%; box-sizing:border-box; text-align:center;
+    background: var(--rose); color: var(--paper); font-weight:600;
+    border-radius:999px; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase;
+    padding:7px 10px; margin-top:8px; transition: opacity .15s ease;
+  }
+  .gall-cta:hover{ opacity:.82; }
+
   /* ---------- HART / FAVORIET ---------- */
   .fav-heart{
     background:none; border:none; font-size:17px; line-height:1; color: rgba(44,30,24,.3);
@@ -339,8 +350,7 @@
   .wine-card .notes{ font-size:11.5px; line-height:1.5; color: rgba(44,30,24,.68); margin-bottom: auto; flex-grow:1; }
   .wine-card .meta{ width:100%; margin-top:14px; padding-top:12px; border-top: 1px solid rgba(44,30,24,.12); font-size:10px; color: rgba(44,30,24,.6); display:flex; flex-direction:column; gap:5px; }
   .wine-card .meta .row{ display:flex; justify-content:space-between; gap:6px; }
-  .wine-card .meta .price .filled{ color: var(--facade); }
-  .wine-card .meta .price .empty{ color: rgba(44,30,24,.2); }
+  .wine-card .meta .price-value{ font-weight:600; color: var(--shadow); }
 
   /* ---------- MAP VIEW ---------- */
   /* Vaste, gangbare kaartformaat i.p.v. randloos meeschalen met heel brede vensters —
@@ -564,7 +574,6 @@
   .detail-grid .item{ font-size:12px; }
   .detail-grid .item .k{ display:block; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color: rgba(44,30,24,.5); margin-bottom:3px; }
   .detail-grid .item .v{ color: var(--shadow); }
-  .detail-grid .item .v .price-euro{ display:block; font-size:10.5px; color: rgba(44,30,24,.55); margin-top:2px; font-style:italic; }
   .detail-links{ display:flex; flex-wrap:wrap; gap:10px; }
   .detail-link{
     display:inline-block; background: var(--shadow); color: var(--stone) !important; text-decoration:none;
@@ -830,14 +839,18 @@ function deriveStyles(wine){
   // toegekend op basis van appellation/druivenkennis) i.p.v. afgeleid uit vrije proefnotities.
   return wine.style && wine.style.length ? wine.style : ["Fruitig"];
 }
-/* Prijsniveau (●●○○) omgezet naar een indicatieve winkelprijs, zodat de dots
-   ook echt iets betekenen in plaats van een abstracte schaal. */
-const PRICE_LEGEND = {
-  1: "± €10 – 16 per fles",
-  2: "± €17 – 25 per fles",
-  3: "± €26 – 40 per fles",
-  4: "± €45 en hoger per fles",
-};
+/* Bij Rood staat de daadwerkelijke winkelprijs al rechtstreeks in data/rood.json
+   (per cuvée, bijv. "€ 12,-" of "€ 9,29") i.p.v. een abstract prijsniveau 1-4 zoals
+   bij Rosé. Deze helper zet zo'n prijsstring om naar een getal, puur om op te
+   kunnen sorteren — de weergave zelf toont gewoon de echte prijsstring. */
+function parsePriceEuro(str){
+  if(typeof str !== "string") return 0;
+  const m = str.match(/(\d+)(?:[,.](\d+))?/);
+  if(!m) return 0;
+  const whole = parseInt(m[1], 10);
+  const frac = m[2] ? parseInt(m[2].padEnd(2,"0").slice(0,2), 10) / 100 : 0;
+  return whole + frac;
+}
 
 function derivePairing(house, wine){
   // Ook hier: pairing komt rechtstreeks uit data/rood.json per cuvée.
@@ -985,11 +998,8 @@ function bottleSVG(hex, name){
   </svg>`;
 }
 
-function priceDots(level){
-  let out = "";
-  for(let i=1;i<=4;i++){ out += `<span class="${i<=level?'filled':'empty'}">●</span>`; }
-  return out;
-}
+/* Geen priceDots/niveau-schaal hier: Rood toont overal de daadwerkelijke
+   winkelprijs uit de data, dat is transparanter dan een abstracte schaal. */
 
 function renderFilterbar(){
   const bar = document.getElementById("filterbar");
@@ -1111,8 +1121,8 @@ function syncCompareUI(){
 function sortWines(list, mode){
   const arr = [...list];
   const agingYears = a => parseInt((a.w.aging.match(/(\d+)/)||[0,"0"])[1], 10);
-  if(mode==="price-asc") arr.sort((a,b)=> a.w.price-b.w.price);
-  else if(mode==="price-desc") arr.sort((a,b)=> b.w.price-a.w.price);
+  if(mode==="price-asc") arr.sort((a,b)=> parsePriceEuro(a.w.price)-parsePriceEuro(b.w.price));
+  else if(mode==="price-desc") arr.sort((a,b)=> parsePriceEuro(b.w.price)-parsePriceEuro(a.w.price));
   else if(mode==="abv-asc") arr.sort((a,b)=> a.w.abv-b.w.abv);
   else if(mode==="aging-desc") arr.sort((a,b)=> agingYears(b)-agingYears(a));
   return arr;
@@ -1131,9 +1141,10 @@ function wineCardHTML(h, app, w){
     <div class="meta">
       <div class="row"><span>Druiven</span><span>${w.grapes.join(", ")}</span></div>
       <div class="row"><span>Alcohol</span><span>${w.abv}% vol.</span></div>
-      <div class="row"><span>Prijs</span><span class="price">${priceDots(w.price)}</span></div>
+      <div class="row"><span>Prijs</span><span class="price-value">${w.price}</span></div>
       <div class="row"><span>Bewaren</span><span>${w.aging}</span></div>
     </div>
+    ${w.gall ? `<a class="gall-cta" href="${w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>` : ""}
     <button class="compare-toggle ${compareSet.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">+ Vergelijk</button>
   `;
 }
@@ -1145,12 +1156,14 @@ function makeWineCard(h, app, w){
   card.dataset.houseId = h.id;
   card.innerHTML = wineCardHTML(h, app, w);
   card.addEventListener("click", (e)=>{
-    if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle")) return;
+    if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle") || e.target.closest(".gall-cta")) return;
     switchView("map");
     selectHouse(h.id);
   });
   card.querySelector(".fav-heart").addEventListener("click", (e)=>{ e.stopPropagation(); toggleFavorite(w.id); });
   card.querySelector(".compare-toggle").addEventListener("click", (e)=>{ e.stopPropagation(); toggleCompare(w.id); });
+  const gallCta = card.querySelector(".gall-cta");
+  if(gallCta) gallCta.addEventListener("click", (e)=>{ e.stopPropagation(); });
   return card;
 }
 
@@ -1668,9 +1681,10 @@ function selectHouse(houseId){
         <div class="meta">
           <span><b>Druiven</b> ${w.grapes.join(", ")}</span>
           <span><b>Alcohol</b> ${w.abv}%</span>
-          <span><b>Prijs</b> ${priceDots(w.price)}</span>
+          <span><b>Prijs</b> ${w.price}</span>
           <span><b>Bewaren</b> ${w.aging}</span>
         </div>
+        ${w.gall ? `<a class="gall-cta" href="${w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>` : ""}
         <button class="compare-toggle ${compareSet.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">+ Vergelijk</button>
         <span class="clickhint">Klik voor prijs, temperatuur &amp; food pairing →</span>
       </div>
@@ -1679,11 +1693,13 @@ function selectHouse(houseId){
 
   wines.querySelectorAll(".sidebar-wine").forEach((el, i)=>{
     el.addEventListener("click", (e)=>{
-      if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle")) return;
+      if(e.target.closest(".fav-heart") || e.target.closest(".compare-toggle") || e.target.closest(".gall-cta")) return;
       openWineDetail(h, h.wines[i]);
     });
     el.querySelector(".fav-heart").addEventListener("click", (e)=>{ e.stopPropagation(); toggleFavorite(h.wines[i].id); });
     el.querySelector(".compare-toggle").addEventListener("click", (e)=>{ e.stopPropagation(); toggleCompare(h.wines[i].id); });
+    const gallCta = el.querySelector(".gall-cta");
+    if(gallCta) gallCta.addEventListener("click", (e)=>{ e.stopPropagation(); });
   });
 
   document.getElementById("sidebar").classList.add("open");
@@ -1716,7 +1732,7 @@ function openWineDetail(house, wine){
   document.getElementById("detail-grid").innerHTML = `
     <div class="item"><span class="k">Druiven</span><span class="v">${wine.grapes.join(", ")}</span></div>
     <div class="item"><span class="k">Alcohol</span><span class="v">${wine.abv}% vol.</span></div>
-    <div class="item"><span class="k">Prijsniveau</span><span class="v">${priceDots(wine.price)}<span class="price-euro">${PRICE_LEGEND[wine.price]}</span></span></div>
+    <div class="item"><span class="k">Prijs</span><span class="v">${wine.price}</span></div>
     <div class="item"><span class="k">Bewaren</span><span class="v">${wine.aging}</span></div>
     <div class="item"><span class="k">Serveertemperatuur</span><span class="v">${wine.servingTemp}</span></div>
     <div class="item"><span class="k">Smaakt goed bij</span><span class="v">${wine.pairing}</span></div>
@@ -2025,7 +2041,7 @@ function openCompareModal(){
         <div class="house">${house.name} · ${APPELLATIONS[house.appellation].name}</div>
         <div class="compare-row"><span class="k">Druiven</span>${wine.grapes.join(", ")}</div>
         <div class="compare-row"><span class="k">Alcohol</span>${wine.abv}% vol.</div>
-        <div class="compare-row"><span class="k">Prijs</span>${priceDots(wine.price)} · ${PRICE_LEGEND[wine.price]}</div>
+        <div class="compare-row"><span class="k">Prijs</span>${wine.price}</div>
         <div class="compare-row"><span class="k">Bewaren</span>${wine.aging}</div>
         <div class="compare-row"><span class="k">Serveertemperatuur</span>${wine.servingTemp}</div>
         <div class="compare-row"><span class="k">Smaakt goed bij</span>${wine.pairing}</div>
