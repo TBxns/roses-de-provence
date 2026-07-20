@@ -8,8 +8,8 @@
     "founded": "Château sinds de 17e eeuw, huidig gebouw uit 1810",
     "farming": "Conventioneel, precisiewijnbouw",
     "description": "Eén van de vijf Premiers Grands Crus Classés van 1855 en een van de bekendste namen van Bordeaux, met een neoclassiek kasteel middenin de wijngaarden van de appellation Margaux.",
-    "x": 170,
-    "y": 460,
+    "x": 531,
+    "y": 545,
     "wines": [
       {
         "cuvee": "Château Margaux",
@@ -43,8 +43,8 @@
     "founded": "Cru Bourgeois-huis",
     "farming": "Conventioneel",
     "description": "Toegankelijk Médoc-huis dat de klassieke Cru Bourgeois-stijl van de regio laat proeven zonder de prijs van de grote namen.",
-    "x": 400,
-    "y": 400,
+    "x": 478,
+    "y": 449,
     "wines": [
       {
         "cuvee": "Château David",
@@ -79,8 +79,8 @@
     "founded": "In handen van Domaines Delon, ook eigenaar van Château Léoville Las Cases",
     "farming": "Conventioneel, met precisie van een 2e-cru-huis",
     "description": "Voormalig Cru Bourgeois Exceptionnel uit het noordelijke Médoc, gemaakt door dezelfde hand als het gerenommeerde Léoville Las Cases — vaak omschreven als een 'klein grand cru' qua stijl.",
-    "x": 260,
-    "y": 660,
+    "x": 391,
+    "y": 311,
     "wines": [
       {
         "cuvee": "Château Potensac 2020",
@@ -113,8 +113,8 @@
     "founded": "Cru Bourgeois sinds 1932",
     "farming": "Conventioneel",
     "description": "Familiedomein in het hart van het Haut-Médoc dat al bijna een eeuw zijn Cru Bourgeois-status vasthoudt.",
-    "x": 500,
-    "y": 660,
+    "x": 415,
+    "y": 371,
     "wines": [
       {
         "cuvee": "Château le Bourdieu Médoc",
@@ -146,8 +146,8 @@
     "founded": "5e Cru Classé 1855",
     "farming": "Conventioneel",
     "description": "Klassiek Pauillac-huis vlak bij Château Latour, met deze toegankelijke 'Pauillac par Haut-Bages Libéral' als tweede etiket voor wie het echte Pauillac-karakter wil proeven.",
-    "x": 620,
-    "y": 440,
+    "x": 466,
+    "y": 399,
     "wines": [
       {
         "cuvee": "Pauillac par Château Haut-Bages Libéral 2017",
@@ -179,8 +179,8 @@
     "founded": "Eigendom van de familie Cuvelier (ook Château Poujeaux)",
     "farming": "Conventioneel, hoge dichtheid beplanting",
     "description": "Eén van de Premiers Grands Crus Classés van Saint-Émilion, gelegen op het kalkstenen plateau vlak bij het middeleeuwse centrum van het dorp.",
-    "x": 980,
-    "y": 400,
+    "x": 889,
+    "y": 695,
     "wines": [
       {
         "cuvee": "Clos Fourtet 2009",
@@ -213,8 +213,8 @@
     "founded": "Grand Cru Classé",
     "farming": "Conventioneel",
     "description": "Landgoed van 26 hectare op het plateau van Saint-Émilion, vernoemd naar het nabijgelegen Château Figeac.",
-    "x": 1220,
-    "y": 380,
+    "x": 901,
+    "y": 740,
     "wines": [
       {
         "cuvee": "Château Yon-Figeac",
@@ -247,8 +247,8 @@
     "founded": "Premier Grand Cru Classé B",
     "farming": "Conventioneel",
     "description": "34 hectare op puur kalksteen, één van de meest gerenommeerde namen van Saint-Émilion met een ondergrondse kelderarchitectuur die het terroir eert.",
-    "x": 1460,
-    "y": 410,
+    "x": 921,
+    "y": 686,
     "wines": [
       {
         "cuvee": "Château Canon Saint-Émilion Grand Cru",
@@ -280,8 +280,8 @@
     "founded": "Handelshuis Moueix, actief sinds 1937",
     "farming": "Conventioneel",
     "description": "Negoce-huis van de familie Moueix (ook eigenaar van Château Pétrus), dat een toegankelijke instap-Saint-Émilion op de markt brengt onder de eigen naam.",
-    "x": 1690,
-    "y": 390,
+    "x": 931,
+    "y": 728,
     "wines": [
       {
         "cuvee": "Jean-Pierre Moueix Saint-Émilion 2023",
@@ -312,8 +312,8 @@
     "founded": "Familie Fayat sinds 1969",
     "farming": "Deels biodynamisch (proefpercelen)",
     "description": "Saint-Émilion Grand Cru Classé pal naast Château Cheval Blanc, met een opvallende, door architect Jean Nouvel ontworpen kelder en een groeiend biodynamisch proefareaal.",
-    "x": 1000,
-    "y": 630,
+    "x": 902,
+    "y": 680,
     "wines": [
       {
         "cuvee": "Château La Dominique",
@@ -345,8 +345,8 @@
     "founded": "Familie Moueix sinds 1931",
     "farming": "Biodynamisch (Demeter, gecertificeerd sinds 2008)",
     "description": "Het eerste Grand Cru Classé van Saint-Émilion met een volledige biodynamische certificering — Alain Moueix zette de omslag in vanaf 2001 op klei-kalksteenbodem.",
-    "x": 1240,
-    "y": 650,
+    "x": 924,
+    "y": 746,
     "wines": [
       {
         "cuvee": "Château Fonroque Grand Cru Classé",
@@ -377,8 +377,8 @@
     "founded": "Familiedomein sinds 1875, 5 generaties",
     "farming": "Biodynamisch sinds 1987 — een van de vroegste pioniers van de appellation",
     "description": "Piepklein artisanaal domein van 2,6 hectare, al sinds 1980 biologisch en sinds 1987 biodynamisch bewerkt — ruim voordat dat gangbaar werd in Saint-Émilion.",
-    "x": 1470,
-    "y": 630,
+    "x": 937,
+    "y": 709,
     "wines": [
       {
         "cuvee": "Château Meylet",
@@ -409,8 +409,8 @@
     "founded": "Familie Thienpont sinds 1946",
     "farming": "Conventioneel, duurzaam",
     "description": "Het vlaggenschip van de kleine appellation Francs Côtes de Bordeaux, in handen van de Thienpont-familie die ook achter Vieux Château Certan en Le Pin in Pomerol zit.",
-    "x": 1700,
-    "y": 650,
+    "x": 1034,
+    "y": 699,
     "wines": [
       {
         "cuvee": "Château Puygueraud",
@@ -443,8 +443,8 @@
     "founded": "Huis gevestigd in Gigondas",
     "farming": "Conventioneel",
     "description": "Toegankelijk Zuid-Rhône-huis dat de klassieke Grenache-blend van de Côtes du Rhône in een vlot, fruitig drinkbare stijl giet.",
-    "x": 2470,
-    "y": 920,
+    "x": 569,
+    "y": 1234,
     "wines": [
       {
         "cuvee": "Louis Bernard Côtes du Rhône 2024",
@@ -497,8 +497,8 @@
     "founded": "Opgericht in 1781 in Côte-Rôtie",
     "farming": "Conventioneel",
     "description": "Eén van de oudste huizen van de Rhônevallei, met wijngaarden verspreid over zowel Noord- als Zuid-Rhône — van Gigondas tot Châteauneuf-du-Pape.",
-    "x": 2700,
-    "y": 900,
+    "x": 605,
+    "y": 1217,
     "wines": [
       {
         "cuvee": "Vidal-Fleury Châteauneuf-du-Pape 2022",
@@ -571,8 +571,8 @@
     "founded": "Familie Delorme, opgericht in 1986",
     "farming": "Biodynamisch (Demeter sinds 2020)",
     "description": "Familiedomein van 57 hectare verspreid over acht gemeenten en meerdere appellaties (Tavel, Lirac, Châteauneuf-du-Pape), met poëtische cuvéenamen als eerbetoon aan de vogel 'mordorée' die het domein zijn naam gaf.",
-    "x": 2470,
-    "y": 1140,
+    "x": 334,
+    "y": 1369,
     "wines": [
       {
         "cuvee": "La Reine des Bois Châteauneuf-du-Pape",
@@ -604,8 +604,8 @@
     "founded": "Familie Aubéry-Laurent, sinds 1978",
     "farming": "Biodynamisch (Demeter sinds 2010)",
     "description": "Michèle Aubéry zette het domein na het overlijden van haar man in 1999 alleen voort en bouwde het uit tot een van de meest gerespecteerde natuurlijke-wijn-domeinen van de Rhône, met oude Grenache-stokken tot 120 jaar oud.",
-    "x": 2700,
-    "y": 1140,
+    "x": 496,
+    "y": 894,
     "wines": [
       {
         "cuvee": "Domaine Gramenon Côtes du Rhône",
@@ -637,8 +637,8 @@
     "founded": "Huis gevestigd in Tain-l'Hermitage sinds 1808",
     "farming": "Biodynamisch pionier van de Rhône",
     "description": "Een van de eerste grote huizen die volledig overstapten op biodynamische wijnbouw, met wijngaarden op de steile hellingen rond Hermitage.",
-    "x": 2490,
-    "y": 540,
+    "x": 460,
+    "y": 272,
     "wines": [
       {
         "cuvee": "M. Chapoutier Crozes-Hermitage 2023",
@@ -669,8 +669,8 @@
     "founded": "Matthieu Barret, 7e generatie, nam over in 1998",
     "farming": "Biodynamisch sinds de omschakeling begin jaren 2000",
     "description": "Op steile, verweerde graniethellingen van Cornas werkt Matthieu Barret zijn wijngaarden zonder chemische hulpmiddelen; zijn cuvée Billes Noires kreeg 97/100 en een Coup de Cœur van de Revue du Vin de France.",
-    "x": 2700,
-    "y": 500,
+    "x": 406,
+    "y": 422,
     "wines": [
       {
         "cuvee": "Billes Noires Cornas",
@@ -700,8 +700,8 @@
     "founded": "Al zo'n 250 jaar in dezelfde familie",
     "farming": "Duurzaam, zeer terroir-gericht (minimale interventie)",
     "description": "Legendarisch domein dat Cornas op de kaart zette: Auguste Clape begon in de jaren '50 als een van de eersten in de appellation onder eigen naam te bottelen, zijn kleinzoon Olivier zet de traditie nu voort.",
-    "x": 2580,
-    "y": 640,
+    "x": 427,
+    "y": 393,
     "wines": [
       {
         "cuvee": "Domaine Clape Cornas",
