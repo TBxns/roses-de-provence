@@ -186,8 +186,76 @@
   @media (max-width:560px){ .picks{ padding:0 18px; } .picks-grid{ grid-template-columns: 1fr; } }
 
   /* ---------- WHY / MISSIE ---------- */
-  .mission{ max-width:720px; margin:10px auto 0; padding:36px 32px 10px; text-align:center; }
+  .mission{ max-width:640px; margin:10px auto 0; padding:36px 32px 10px; text-align:center; }
   .mission p{ font-size:14.5px; line-height:1.7; color: rgba(44,30,24,.75); }
+  .mission-eyebrow{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color: var(--rose); font-weight:600; margin-bottom:16px !important; }
+  .mission-signature{ font-family: var(--font-display); font-style:italic; font-size:16px; color: var(--shadow); opacity:.85; margin-top:18px !important; }
+
+  /* ---------- VAN DRUIF TOT FLES (speelse animatie van het wijnproces) ---------- */
+  .process{ max-width:980px; margin:14px auto 0; padding:50px 32px 10px; text-align:center; }
+  .process-eyebrow{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color: var(--rose); font-weight:600; margin:0 0 38px; }
+  .process-steps{ position:relative; display:flex; justify-content:space-between; gap:14px; }
+  .process-steps::before{
+    content:''; position:absolute; top:34px; left:34px; right:34px; height:1px;
+    background: rgba(44,30,24,.14); z-index:0;
+  }
+  .process-line-dot{
+    position:absolute; top:31px; width:7px; height:7px; border-radius:50%;
+    background: var(--rose); z-index:1; left:0;
+    animation: process-travel 9s linear infinite;
+  }
+  @keyframes process-travel{
+    0%{ left:0%; opacity:0; }
+    4%{ opacity:1; }
+    92%{ opacity:1; }
+    100%{ left:calc(100% - 7px); opacity:0; }
+  }
+  .step{ position:relative; z-index:2; flex:1; display:flex; flex-direction:column; align-items:center; max-width:170px; }
+  .step-icon{
+    width:68px; height:68px; border-radius:50%; background: var(--paper);
+    border:1px solid rgba(44,30,24,.12); display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px; box-shadow: 0 6px 14px rgba(44,30,24,.08);
+  }
+  .step-icon svg{ width:32px; height:32px; overflow:visible; }
+  .step-title{ font-family: var(--font-display); font-style:italic; font-size:15px; margin:0 0 6px; color: var(--shadow); }
+  .step-text{ font-size:11.5px; line-height:1.5; color: rgba(44,30,24,.65); margin:0; }
+
+  /* iconanimaties per stap */
+  .icon-grape circle{ animation: grape-bounce 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin:center; }
+  .icon-grape circle:nth-child(2){ animation-delay:.1s; }
+  .icon-grape circle:nth-child(3){ animation-delay:.2s; }
+  .icon-grape circle:nth-child(4){ animation-delay:.3s; }
+  .icon-grape circle:nth-child(5){ animation-delay:.15s; }
+  @keyframes grape-bounce{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-1.6px); } }
+
+  .icon-harvest .blade-a{ transform-origin: 12px 12px; animation: snip-a 1.8s ease-in-out infinite; }
+  .icon-harvest .blade-b{ transform-origin: 12px 12px; animation: snip-b 1.8s ease-in-out infinite; }
+  @keyframes snip-a{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(10deg); } }
+  @keyframes snip-b{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(-10deg); } }
+
+  .icon-press .plate{ animation: press-down 2s ease-in-out infinite; transform-box: fill-box; transform-origin:center; }
+  @keyframes press-down{ 0%,100%{ transform:translateY(0); } 45%{ transform:translateY(3.4px); } 55%{ transform:translateY(3.4px); } }
+
+  .icon-ferment .bubble{ animation: bubble-rise 2.4s ease-in infinite; opacity:0; transform-origin:center; }
+  .icon-ferment .bubble:nth-child(2){ animation-delay:.5s; }
+  .icon-ferment .bubble:nth-child(3){ animation-delay:1s; }
+  .icon-ferment .bubble:nth-child(4){ animation-delay:1.5s; }
+  @keyframes bubble-rise{
+    0%{ transform:translateY(0); opacity:0; }
+    12%{ opacity:.9; }
+    85%{ opacity:0; }
+    100%{ transform:translateY(-11px); opacity:0; }
+  }
+
+  .icon-bottle .liquid{ animation: bottle-fill 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom; }
+  @keyframes bottle-fill{ 0%{ transform:scaleY(.18); } 50%{ transform:scaleY(1); } 100%{ transform:scaleY(.18); } }
+
+  @media (max-width:760px){
+    .process{ padding:40px 24px 6px; }
+    .process-steps{ flex-direction:column; gap:26px; }
+    .process-steps::before, .process-line-dot{ display:none; }
+    .step{ max-width:none; }
+  }
 
   footer{
     padding: 30px 32px 46px; font-size:11px; color: rgba(44,30,24,.5);
@@ -357,8 +425,92 @@
   </section>
 
   <section class="mission">
-    <p>Proefwaaier vergelijkt drank zoals een goede slijter dat zou doen: op terroir, druif, stijl en het echte verhaal achter een huis — niet op advertentiebudget. Per categorie brengen we bekende, makkelijk verkrijgbare namen samen met kleinere, moeilijker te vinden producenten, zodat je zowel een betrouwbare instapfles als een unieke ontdekking vindt.</p>
-    <p>We begonnen bij rosé uit de Provence, bouwden door naar rode wijn uit Bordeaux en de Rhônevallei, en blijven uitbreiden. Mousserend, witte wijn en op termijn ook whisky volgen met dezelfde aanpak: geverifieerde feiten, geen gegenereerde vulling.</p>
+    <p class="mission-eyebrow">Waarom Proefwaaier bestaat</p>
+    <p>Proefwaaier begon met ergernis: te veel wijnsites die vooral verkopen, met teksten die overal hetzelfde klinken. Ik wilde weten waar een fles vandaan komt, wie hem maakt en waarom hij anders smaakt dan de fles ernaast — niet de zin op het etiket. Dus ben ik zelf, huis voor huis, gaan uitzoeken wat er klopt: het terroir, de druif, de mensen erachter.</p>
+    <p>Proefwaaier is die uitzoekerij, gebundeld voor iedereen die hetzelfde wil weten voordat de kurk eruit gaat. We beginnen bewust klein en breiden langzaam uit — liever een paar categorieën goed dan alles half.</p>
+    <p class="mission-signature">— Tijmen, oprichter van Proefwaaier</p>
+  </section>
+
+  <section class="process" aria-label="Van druif tot fles">
+    <p class="process-eyebrow">Van druif tot fles</p>
+    <div class="process-steps">
+      <div class="process-line-dot" aria-hidden="true"></div>
+
+      <div class="step">
+        <div class="step-icon icon-grape">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2c1 1.4 1 2.6 0 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+            <path d="M11 3.4c-2.4-.6-3.6.6-3.2 2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+            <circle cx="12" cy="8" r="2.3" fill="currentColor"/>
+            <circle cx="8.4" cy="11" r="2.3" fill="currentColor"/>
+            <circle cx="15.6" cy="11" r="2.3" fill="currentColor"/>
+            <circle cx="10.6" cy="15.4" r="2.3" fill="currentColor"/>
+            <circle cx="13.6" cy="15.4" r="2.3" fill="currentColor"/>
+            <circle cx="12" cy="19.4" r="2.3" fill="currentColor"/>
+          </svg>
+        </div>
+        <p class="step-title">1. Druif</p>
+        <p class="step-text">Alles begint met een druif die geduldig wacht op de zon.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-icon icon-harvest">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
+            <path class="blade-a" d="M12 12 L21 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path class="blade-b" d="M12 12 L21 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="4.5" cy="5" r="2.6" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            <circle cx="4.5" cy="19" r="2.6" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            <path d="M6.6 6.4 12 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M6.6 17.6 12 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="step-title">2. Oogst</p>
+        <p class="step-text">Bij de oogst wordt precies bepaald: nu, en niet één dag later.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-icon icon-press">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="4" y="14" width="16" height="6" rx="1.4" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            <circle cx="8" cy="17" r="1" fill="currentColor" opacity=".55"/>
+            <circle cx="12" cy="17" r="1" fill="currentColor" opacity=".55"/>
+            <circle cx="16" cy="17" r="1" fill="currentColor" opacity=".55"/>
+            <rect class="plate" x="5" y="6" width="14" height="3" rx="1" fill="currentColor"/>
+            <path class="plate" d="M12 3 L12 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="step-title">3. Persen</p>
+        <p class="step-text">Persen scheidt sap van schil — hoe korter dat contact, hoe lichter de kleur.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-icon icon-ferment">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 5 L6 15 Q6 20 12 20 Q18 20 18 15 L18 5 Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            <path d="M4.6 5 L19.4 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <circle class="bubble" cx="9.5" cy="16" r="1" fill="currentColor"/>
+            <circle class="bubble" cx="13" cy="17" r="1.1" fill="currentColor"/>
+            <circle class="bubble" cx="11" cy="14" r="0.9" fill="currentColor"/>
+            <circle class="bubble" cx="14.5" cy="14.5" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <p class="step-title">4. Gisten</p>
+        <p class="step-text">Gist zet suiker om in alcohol — hier krijgt de wijn zijn karakter.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-icon icon-bottle">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 2h4v4.4c2 1 3 3 3 5.6v8a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2v-8c0-2.6 1-4.6 3-5.6Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            <rect class="liquid" x="7.7" y="12" width="8.6" height="10" rx="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <p class="step-title">5. Fles</p>
+        <p class="step-text">Maanden (of jaren) later gaat de kurk erin — en begint het wachten opnieuw, nu in jouw kast.</p>
+      </div>
+
+    </div>
   </section>
 
   <footer>
