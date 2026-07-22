@@ -518,6 +518,18 @@
   .sidebar-title{ font-family: var(--font-display); font-style:italic; font-size:28px; margin:0 0 8px; max-width:300px; }
   .sidebar-commune{ font-size:12px; color: rgba(233,216,198,.65); margin-bottom:14px; }
   .sidebar-desc{ font-size:13px; line-height:1.6; color: rgba(233,216,198,.8); }
+  .sidebar-story{
+    margin-top:14px; padding:12px 14px; border-left:2px solid var(--rose);
+    background: rgba(228,175,160,.08); border-radius:0 8px 8px 0;
+  }
+  .sidebar-story .story-label{
+    font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color: var(--rose);
+    font-weight:600; margin-bottom:5px;
+  }
+  .sidebar-story .story-text{
+    font-family: var(--font-display); font-style:italic; font-size:13px; line-height:1.55;
+    color: rgba(233,216,198,.88);
+  }
   .sidebar-wines{ padding: 8px 26px 30px; }
   .sidebar-wine{ padding:18px 0; border-bottom:1px solid rgba(233,216,198,.12); display:flex; gap:16px; }
   .sidebar-wine:last-child{ border-bottom:none; }
@@ -752,6 +764,10 @@
       <h3 class="sidebar-title" id="sb-title"></h3>
       <div class="sidebar-commune" id="sb-commune"></div>
       <div class="sidebar-desc" id="sb-desc"></div>
+      <div class="sidebar-story" id="sb-story" style="display:none;">
+        <div class="story-label">Het verhaal</div>
+        <div class="story-text" id="sb-story-text"></div>
+      </div>
     </div>
     <div class="sidebar-wines" id="sb-wines"></div>
   </aside>
@@ -1653,6 +1669,14 @@ function selectHouse(houseId){
   document.getElementById("sb-title").textContent = h.name;
   document.getElementById("sb-commune").textContent = h.commune;
   document.getElementById("sb-desc").textContent = h.desc;
+
+  const storyBox = document.getElementById("sb-story");
+  if(h.story){
+    document.getElementById("sb-story-text").textContent = h.story;
+    storyBox.style.display = "";
+  } else {
+    storyBox.style.display = "none";
+  }
 
   const wines = document.getElementById("sb-wines");
   wines.innerHTML = h.wines.map(w=>`
