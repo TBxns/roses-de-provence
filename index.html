@@ -37,27 +37,46 @@
   }
   a{ color:inherit; text-decoration:none; }
 
-  /* ---------- TOPNAV ---------- */
+  /* ---------- TOPNAV / HERO ---------- */
   .topnav{
     position:relative; overflow:hidden;
     display:flex; align-items:center; justify-content:center; flex-direction:column;
-    padding: 36px 24px 28px;
+    padding: 64px 24px 36px;
     background:
-      radial-gradient(ellipse 900px 400px at 50% -12%, rgba(228,175,160,.22), transparent 62%),
-      linear-gradient(180deg, #33241c 0%, var(--shadow) 100%);
+      linear-gradient(180deg, rgba(31,20,15,.62) 0%, rgba(31,20,15,.86) 65%, var(--shadow) 100%),
+      url('https://commons.wikimedia.org/wiki/Special:FilePath/Vineyards_of_Napa_Valley_panorama.jpg?width=1800') center 40%/cover no-repeat;
     color: var(--stone); text-align:center;
     border-bottom: 1px solid rgba(228,175,160,.28);
   }
-  .topnav .brand-logo{ width:min(280px, 62vw); height:auto; margin-bottom:2px; position:relative; z-index:1; }
+  .topnav .brand-logo{ width:min(220px, 50vw); height:auto; margin-bottom:2px; position:relative; z-index:1; }
   .visually-hidden{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   .topnav .wordmark{
     font-family: var(--font-display); font-style:italic; font-weight:400;
     font-size: clamp(38px, 6vw, 58px); margin:0 0 14px; letter-spacing:.01em;
   }
+  /* Groot kopstatement — het eerste wat opvalt, in plaats van de kleine tagline van eerder. */
+  .hero-statement{
+    font-family: var(--font-display); font-style:italic; font-weight:500;
+    font-size: clamp(26px, 4.4vw, 38px); line-height:1.22; max-width:660px;
+    margin: 4px 0 10px; position:relative; z-index:1;
+    text-shadow: 0 2px 18px rgba(0,0,0,.35);
+  }
   .topnav .tagline{
-    font-size:14.5px; line-height:1.6; max-width:480px; opacity:.82; margin:0;
+    font-size:14.5px; line-height:1.6; max-width:480px; opacity:.85; margin:0;
     position:relative; z-index:1;
   }
+  .hero-cta{
+    position:relative; z-index:1; display:flex; flex-wrap:wrap; justify-content:center;
+    gap:12px; margin-top:24px;
+  }
+  .hero-btn{
+    padding:13px 28px; border-radius:999px; font-size:13px; font-weight:600;
+    letter-spacing:.02em; transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  .hero-btn.primary{ background: var(--stone); color: var(--shadow); }
+  .hero-btn.primary:hover{ background: var(--paper); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,.25); }
+  .hero-btn.secondary{ border:1px solid rgba(233,216,198,.55); color: var(--stone); }
+  .hero-btn.secondary:hover{ border-color: var(--paper); transform: translateY(-1px); }
   .eyebrow{
     font-size:11px; letter-spacing:.24em; text-transform:uppercase; color: var(--rose);
     display:flex; align-items:center; gap:10px; margin-bottom:10px;
@@ -65,11 +84,11 @@
   }
   .eyebrow::before, .eyebrow::after{ content:''; width:22px; height:1px; background: var(--rose); display:inline-block; }
 
-  /* ---------- WAARDEPROPOSITIE (onder de tagline in de header) ---------- */
+  /* ---------- WAARDEPROPOSITIE (onder de CTA-knoppen in de header) ---------- */
   .value-props{
     position:relative; z-index:1;
     display:flex; flex-wrap:wrap; justify-content:center; gap:0;
-    max-width:760px; margin:18px 0 0; padding-top:16px;
+    max-width:760px; margin:30px 0 0; padding-top:18px;
     border-top:1px solid rgba(233,216,198,.18);
   }
   .value-props .vp{
@@ -184,7 +203,12 @@
     <div class="eyebrow">Dé vergelijker voor drank &amp; herkomst</div>
     <img class="brand-logo" src="Proefwaaier%20logo%20-%205.png" alt="Proefwaaier">
     <h1 class="wordmark visually-hidden">Proefwaaier</h1>
-    <p class="tagline">Per drankcategorie het echte verhaal achter een huis: terroir, druif en karakter — niet de marketingtekst. Van een fles van vijftien euro tot een grand cru.</p>
+    <p class="hero-statement">Het echte verhaal achter elke fles — terroir, druif en karakter, niet de marketingtekst.</p>
+    <p class="tagline">Per drankcategorie zorgvuldig vergeleken. Van een fles van vijftien euro tot een grand cru.</p>
+    <div class="hero-cta">
+      <a class="hero-btn primary" href="/rose/">Bekijk Rosé →</a>
+      <a class="hero-btn primary" href="/rood/">Bekijk Rood →</a>
+    </div>
     <div class="value-props">
       <div class="vp">
         <p class="vp-title">Geverifieerd</p>
