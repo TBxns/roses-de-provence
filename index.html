@@ -191,7 +191,8 @@
   .mission-eyebrow{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color: var(--rose); font-weight:600; margin-bottom:16px !important; }
   .mission-signature{ font-family: var(--font-display); font-style:italic; font-size:16px; color: var(--shadow); opacity:.85; margin-top:18px !important; }
 
-  /* ---------- VAN DRUIF TOT FLES (speelse animatie van het wijnproces) ---------- */
+  /* ---------- HOE PROEFWAAIER VERGELIJKT (categorie-onafhankelijk, dus geen
+     winemaking-stappen hier — die kloppen niet voor whisky of mousserend) ---------- */
   .process{ max-width:980px; margin:14px auto 0; padding:50px 32px 10px; text-align:center; }
   .process-eyebrow{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color: var(--rose); font-weight:600; margin:0 0 38px; }
   .process-steps{ position:relative; display:flex; justify-content:space-between; gap:14px; }
@@ -221,34 +222,27 @@
   .step-text{ font-size:11.5px; line-height:1.5; color: rgba(44,30,24,.65); margin:0; }
 
   /* iconanimaties per stap */
-  .icon-grape circle{ animation: grape-bounce 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin:center; }
-  .icon-grape circle:nth-child(2){ animation-delay:.1s; }
-  .icon-grape circle:nth-child(3){ animation-delay:.2s; }
-  .icon-grape circle:nth-child(4){ animation-delay:.3s; }
-  .icon-grape circle:nth-child(5){ animation-delay:.15s; }
-  @keyframes grape-bounce{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-1.6px); } }
+  .icon-origin .ping{ animation: ping-pulse 2.4s ease-out infinite; transform-box: fill-box; transform-origin:center; }
+  @keyframes ping-pulse{ 0%{ transform:scale(.6); opacity:.5; } 70%{ transform:scale(1.15); opacity:0; } 100%{ transform:scale(.6); opacity:0; } }
 
-  .icon-harvest .blade-a{ transform-origin: 12px 12px; animation: snip-a 1.8s ease-in-out infinite; }
-  .icon-harvest .blade-b{ transform-origin: 12px 12px; animation: snip-b 1.8s ease-in-out infinite; }
-  @keyframes snip-a{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(10deg); } }
-  @keyframes snip-b{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(-10deg); } }
+  .icon-producer .window{ animation: window-glow 2.6s ease-in-out infinite; }
+  @keyframes window-glow{ 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
 
-  .icon-press .plate{ animation: press-down 2s ease-in-out infinite; transform-box: fill-box; transform-origin:center; }
-  @keyframes press-down{ 0%,100%{ transform:translateY(0); } 45%{ transform:translateY(3.4px); } 55%{ transform:translateY(3.4px); } }
+  .icon-taste .glass{ animation: glass-sway 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+  @keyframes glass-sway{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(6deg); } }
 
-  .icon-ferment .bubble{ animation: bubble-rise 2.4s ease-in infinite; opacity:0; transform-origin:center; }
-  .icon-ferment .bubble:nth-child(2){ animation-delay:.5s; }
-  .icon-ferment .bubble:nth-child(3){ animation-delay:1s; }
-  .icon-ferment .bubble:nth-child(4){ animation-delay:1.5s; }
-  @keyframes bubble-rise{
-    0%{ transform:translateY(0); opacity:0; }
-    12%{ opacity:.9; }
-    85%{ opacity:0; }
-    100%{ transform:translateY(-11px); opacity:0; }
+  .icon-verify .check{ stroke-dasharray:10; stroke-dashoffset:10; animation: check-draw 3s ease-in-out infinite; }
+  @keyframes check-draw{
+    0%{ stroke-dashoffset:10; opacity:1; }
+    30%{ stroke-dashoffset:0; opacity:1; }
+    75%{ stroke-dashoffset:0; opacity:1; }
+    88%{ opacity:0; }
+    89%{ stroke-dashoffset:10; }
+    100%{ stroke-dashoffset:10; opacity:1; }
   }
 
-  .icon-bottle .liquid{ animation: bottle-fill 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom; }
-  @keyframes bottle-fill{ 0%{ transform:scaleY(.18); } 50%{ transform:scaleY(1); } 100%{ transform:scaleY(.18); } }
+  .icon-star .star{ animation: star-twinkle 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin:center; }
+  @keyframes star-twinkle{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.15); } }
 
   @media (max-width:760px){
     .process{ padding:40px 24px 6px; }
@@ -431,83 +425,66 @@
     <p class="mission-signature">— Tijmen, oprichter van Proefwaaier</p>
   </section>
 
-  <section class="process" aria-label="Van druif tot fles">
-    <p class="process-eyebrow">Van druif tot fles</p>
+  <section class="process" aria-label="Hoe Proefwaaier vergelijkt">
+    <p class="process-eyebrow">Hoe Proefwaaier vergelijkt</p>
     <div class="process-steps">
       <div class="process-line-dot" aria-hidden="true"></div>
 
       <div class="step">
-        <div class="step-icon icon-grape">
+        <div class="step-icon icon-origin">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M12 2c1 1.4 1 2.6 0 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-            <path d="M11 3.4c-2.4-.6-3.6.6-3.2 2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-            <circle cx="12" cy="8" r="2.3" fill="currentColor"/>
-            <circle cx="8.4" cy="11" r="2.3" fill="currentColor"/>
-            <circle cx="15.6" cy="11" r="2.3" fill="currentColor"/>
-            <circle cx="10.6" cy="15.4" r="2.3" fill="currentColor"/>
-            <circle cx="13.6" cy="15.4" r="2.3" fill="currentColor"/>
-            <circle cx="12" cy="19.4" r="2.3" fill="currentColor"/>
+            <circle class="ping" cx="12" cy="10" r="7" fill="currentColor" opacity=".18"/>
+            <path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            <circle cx="12" cy="10" r="2.6" fill="currentColor"/>
           </svg>
         </div>
-        <p class="step-title">1. Druif</p>
-        <p class="step-text">Een druif rijpt tot de balans tussen suiker en zuur precies goed is — dát bepaalt het oogstmoment, niet de kalender.</p>
+        <p class="step-title">1. Oorsprong</p>
+        <p class="step-text">We beginnen bij het terroir: welke grond, welk klimaat, welke appellatie zit er achter dit huis.</p>
       </div>
 
       <div class="step">
-        <div class="step-icon icon-harvest">
+        <div class="step-icon icon-producer">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
-            <path class="blade-a" d="M12 12 L21 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            <path class="blade-b" d="M12 12 L21 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            <circle cx="4.5" cy="5" r="2.6" stroke="currentColor" stroke-width="1.4" fill="none"/>
-            <circle cx="4.5" cy="19" r="2.6" stroke="currentColor" stroke-width="1.4" fill="none"/>
-            <path d="M6.6 6.4 12 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M6.6 17.6 12 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M4 11 12 4 20 11" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 10.5V20h12v-9.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+            <rect class="window" x="10" y="13" width="4" height="4" fill="currentColor"/>
           </svg>
         </div>
-        <p class="step-title">2. Oogst</p>
-        <p class="step-text">Vaak in de vroege ochtend geplukt, als de druiven nog koel zijn — dat houdt de zuren en aroma's fris.</p>
+        <p class="step-title">2. Producent</p>
+        <p class="step-text">Wie maakt het, sinds wanneer, en met welke aanpak — de mensen achter het etiket.</p>
       </div>
 
       <div class="step">
-        <div class="step-icon icon-press">
+        <div class="step-icon icon-taste">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="4" y="14" width="16" height="6" rx="1.4" stroke="currentColor" stroke-width="1.4" fill="none"/>
-            <circle cx="8" cy="17" r="1" fill="currentColor" opacity=".55"/>
-            <circle cx="12" cy="17" r="1" fill="currentColor" opacity=".55"/>
-            <circle cx="16" cy="17" r="1" fill="currentColor" opacity=".55"/>
-            <rect class="plate" x="5" y="6" width="14" height="3" rx="1" fill="currentColor"/>
-            <path class="plate" d="M12 3 L12 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path class="glass" d="M8 3h8l-1 8c-.3 3-2.4 5-3 5s-2.7-2-3-5L8 3Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            <path d="M12 16v5M8 21h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
         </div>
-        <p class="step-title">3. Persen</p>
-        <p class="step-text">Bij rosé bepaalt het schilcontact de kleur: enkele uren tot twee dagen macereren geeft een bleke tint, langer een dieper roze.</p>
+        <p class="step-title">3. Proeven</p>
+        <p class="step-text">Stijl, karakter en prijsniveau worden vergeleken — niet alleen het verhaal, ook de inhoud van het glas.</p>
       </div>
 
       <div class="step">
-        <div class="step-icon icon-ferment">
+        <div class="step-icon icon-verify">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M6 5 L6 15 Q6 20 12 20 Q18 20 18 15 L18 5 Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
-            <path d="M4.6 5 L19.4 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <circle class="bubble" cx="9.5" cy="16" r="1" fill="currentColor"/>
-            <circle class="bubble" cx="13" cy="17" r="1.1" fill="currentColor"/>
-            <circle class="bubble" cx="11" cy="14" r="0.9" fill="currentColor"/>
-            <circle class="bubble" cx="14.5" cy="14.5" r="1" fill="currentColor"/>
+            <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.4" fill="none"/>
+            <path d="M15.2 15.2 20 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path class="check" d="M7.5 10.5 9.5 12.5 13.5 8" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <p class="step-title">4. Gisten</p>
-        <p class="step-text">Rosé gist meestal bij 12–16°C in roestvrijstalen tanks — kouder dan rode wijn, om de frisse aroma's te bewaren.</p>
+        <p class="step-title">4. Verifiëren</p>
+        <p class="step-text">Elk feit wordt aan de bron gecontroleerd — klopt het jaartal, de druif, het verhaal echt?</p>
       </div>
 
       <div class="step">
-        <div class="step-icon icon-bottle">
+        <div class="step-icon icon-star">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M10 2h4v4.4c2 1 3 3 3 5.6v8a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2v-8c0-2.6 1-4.6 3-5.6Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
-            <rect class="liquid" x="7.7" y="12" width="8.6" height="10" rx="1" fill="currentColor"/>
+            <path class="star" d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.6-4.1 6.1-.6Z" stroke="currentColor" stroke-width="1.2" fill="currentColor"/>
           </svg>
         </div>
-        <p class="step-title">5. Fles</p>
-        <p class="step-text">De meeste rosé drink je het lekkerst binnen een jaar of twee — sommige rode wijnen liggen juist decennia te wachten.</p>
+        <p class="step-title">5. Aanbeveling</p>
+        <p class="step-text">Pas dan komt de fles in de vergelijking — of het nu een instapper is of een grand cru.</p>
       </div>
 
     </div>
