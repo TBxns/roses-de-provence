@@ -406,61 +406,65 @@
      op laptop dus een nette, herkenbare kaartgrootte; inzoomen doe je met de +/− knoppen. */
   .map-wrap{ position:relative; padding: 30px 40px 60px; max-width: 900px; margin: 0 auto; }
 
-  /* ---------- KLEURENWAAIER ---------- */
-  /* Mobiel / smal scherm: eenvoudig, goed aantikbaar rooster (fallback). */
-  .color-wrap{ padding: 40px 40px 60px; }
-  .color-intro{ font-size:14px; color: rgba(44,30,24,.65); margin: 0 0 26px; max-width:560px; }
-  .color-proefwaaier{ display:flex; align-items:center; gap:7px; margin:24px 0 0; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color: rgba(44,30,24,.5); }
+  /* ---------- KLEURENWAAIER ----------
+     Dit ís het herkenningspunt van Proefwaaier, dus de vorm (kaartjes die rond één
+     scharnierpunt onderin uitwaaieren, net als een echte verf-/kleurenwaaier) staat
+     op elk schermformaat aan — alleen de afmetingen en de spreidingshoek schalen mee
+     met de beschikbare breedte. Op mobiel blijven de titels verborgen (geen hover
+     op een touchscreen); tikken opent direct de detailkaart. */
+  .color-wrap{ padding: 28px 20px 50px; display:flex; flex-direction:column; align-items:center; }
+  .color-intro{ font-size:13.5px; color: rgba(44,30,24,.65); margin: 0 0 20px; max-width:560px; text-align:center; }
+  .color-proefwaaier{ display:flex; align-items:center; gap:7px; margin:20px 0 0; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color: rgba(44,30,24,.5); }
   .color-proefwaaier svg{ width:15px; height:auto; flex-shrink:0; }
-  .color-strip{ display:flex; flex-wrap:wrap; gap:18px 14px; align-items:flex-end; }
-  .color-swatch{
-    display:flex; flex-direction:column; align-items:center; gap:8px; width:76px;
-    background:none; border:none; cursor:pointer; padding:0; text-align:center;
-    transition: transform .15s ease;
+
+  .color-strip{
+    --spread: 100deg;
+    position:relative; width:100%; max-width:900px; height:190px; margin: 4px 0 6px;
   }
-  .color-swatch:hover{ transform: translateY(-4px); }
+  .color-swatch{
+    position:absolute; left:50%; bottom:0; width:15px; gap:6px;
+    display:flex; flex-direction:column; align-items:center;
+    background:none; border:none; cursor:pointer; padding:0; text-align:center;
+    transform-origin: 50% 100%;
+    transform: translateX(-50%) rotate(calc(var(--pos, 0) * var(--spread))) scale(1);
+    transition: transform .16s ease-out, filter .16s ease-out;
+    filter: saturate(.9) brightness(.98);
+  }
   .color-swatch .chip{
-    width:44px; height:60px; border-radius:6px 6px 3px 3px;
+    width:100%; height:135px; border-radius:8px 8px 4px 4px;
     border:1px solid rgba(44,30,24,.18); box-shadow: 0 3px 8px rgba(44,30,24,.14);
   }
+  .color-swatch .cuvee, .color-swatch .house{ display:none; white-space:nowrap; }
   .color-swatch .cuvee{ font-family: var(--font-display); font-style:italic; font-size:11.5px; color: var(--shadow); line-height:1.2; }
   .color-swatch .house{ font-size:8.5px; letter-spacing:.06em; text-transform:uppercase; color: rgba(44,30,24,.5); }
+  .color-swatch:hover, .color-swatch:focus-visible{
+    /* Bewust geen rotatie- of positieverandering: alleen uitvergroten rond
+       dezelfde as, zodat het kaartje niet onder de cursor vandaan "wegschiet"
+       en je 'm rustig kunt raken en aanklikken. */
+    transition-delay: .09s;
+    transform: translateX(-50%) rotate(calc(var(--pos, 0) * var(--spread))) scale(1.16);
+    z-index: 999 !important;
+    filter: none;
+  }
+  .color-swatch:hover .chip, .color-swatch:focus-visible .chip{
+    box-shadow: 0 14px 24px rgba(44,30,24,.38);
+  }
 
-  /* Vanaf tablet/laptop-breedte: echte waaier, zoals een verf-/kleurenwaaier bij de
-     schilder — alle kaartjes draaien vanuit één gedeeld scharnierpunt onderin en
-     overlappen elkaar; hover trekt er eentje naar voren, net als bij een fysieke waaier. */
+  /* Grotere telefoons: iets bredere waaier, meer spreiding — nog steeds geen titels. */
+  @media (min-width: 480px){
+    .color-strip{ --spread: 120deg; height:210px; }
+    .color-swatch{ width:19px; }
+    .color-swatch .chip{ height:158px; }
+  }
+  /* Vanaf tablet/laptop-breedte: volle waaier zoals bij een fysieke verf-/
+     kleurenwaaier, met titels die pas bij hover tevoorschijn komen. */
   @media (min-width: 860px){
-    .color-wrap{ display:flex; flex-direction:column; align-items:center; }
-    .color-intro{ text-align:center; }
-    .color-strip{
-      position:relative; display:block;
-      width:100%; max-width:900px; height:250px;
-      margin: 6px 0 10px;
-    }
-    .color-swatch{
-      position:absolute; left:50%; bottom:0; width:32px; gap:6px;
-      transform-origin: 50% 100%;
-      transform: translateX(-50%) rotate(var(--angle,0deg)) scale(1);
-      transition: transform .16s ease-out, filter .16s ease-out;
-      filter: saturate(.9) brightness(.98);
-    }
-    .color-swatch .chip{
-      width:26px; height:190px; border-radius:13px 13px 5px 5px;
-    }
+    .color-wrap{ padding: 40px 40px 60px; }
+    .color-strip{ --spread: 150deg; height:250px; }
+    .color-swatch{ width:26px; }
+    .color-swatch .chip{ height:190px; border-radius:13px 13px 5px 5px; }
     .color-swatch .cuvee, .color-swatch .house{
-      opacity:0; transition: opacity .15s ease; white-space:nowrap;
-    }
-    .color-swatch:hover, .color-swatch:focus-visible{
-      /* Bewust geen rotatie- of positieverandering: alleen uitvergroten rond
-         dezelfde as, zodat het kaartje niet onder de cursor vandaan "wegschiet"
-         en je 'm rustig kunt raken en aanklikken. */
-      transition-delay: .09s;
-      transform: translateX(-50%) rotate(var(--angle,0deg)) scale(1.16);
-      z-index: 999 !important;
-      filter: none;
-    }
-    .color-swatch:hover .chip, .color-swatch:focus-visible .chip{
-      box-shadow: 0 14px 24px rgba(44,30,24,.38);
+      display:block; opacity:0; transition: opacity .15s ease;
     }
     .color-swatch:hover .cuvee, .color-swatch:focus-visible .cuvee,
     .color-swatch:hover .house, .color-swatch:focus-visible .house{
@@ -2136,11 +2140,10 @@ function perceivedLuminance(hex){
   return 0.299*r + 0.587*g + 0.114*b;
 }
 
-/* Totale spreiding van de waaier in graden (alleen relevant vanaf tablet/laptop-
-   breedte, zie CSS media query) — verdeeld over alle flessen zodat ze als een
-   fysieke verf-/kleurenwaaier vanuit één scharnierpunt uitwaaieren. */
-const FAN_SPREAD_DEG = 150;
-
+/* Positie van elke fles in de waaier als fractie (-0.5 .. 0.5) i.p.v. een vaste
+   hoek in graden — de daadwerkelijke spreiding (--spread) staat in CSS en schaalt
+   responsief mee per breakpoint, zodat de waaier op elk schermformaat een echte
+   waaier blijft in plaats van op mobiel terug te vallen op een plat rooster. */
 function renderColorPalette(){
   const strip = document.getElementById("color-strip");
   const all = [];
@@ -2148,10 +2151,10 @@ function renderColorPalette(){
   all.sort((a,b)=> perceivedLuminance(b.w.color) - perceivedLuminance(a.w.color));
   const n = all.length;
   strip.innerHTML = all.map(({h,w}, i)=>{
-    const angle = n > 1 ? (-FAN_SPREAD_DEG/2 + (i/(n-1)) * FAN_SPREAD_DEG) : 0;
+    const pos = n > 1 ? (-0.5 + i/(n-1)) : 0;
     return `
     <button class="color-swatch" data-house-id="${h.id}" data-wine-id="${w.id}" type="button"
-      style="--angle:${angle.toFixed(2)}deg; z-index:${i+1};"
+      style="--pos:${pos.toFixed(4)}; z-index:${i+1};"
       title="${w.cuvee} — ${h.name}">
       <span class="chip" style="background:${w.color}"></span>
       <span class="cuvee">${w.cuvee}</span>
