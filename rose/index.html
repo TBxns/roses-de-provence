@@ -149,6 +149,32 @@
   .landscape-caption{ position:absolute; left:18px; bottom:14px; z-index:2; color:#F5EAE0; font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-family: var(--font-ui); text-shadow:0 1px 4px rgba(0,0,0,.55); }
   .landscape-caption b{ display:block; font-family: var(--font-display); font-style:italic; text-transform:none; letter-spacing:0; font-size:16px; margin-top:2px; }
 
+  /* ---------- TWIJFEL JE? BEGIN HIER (curatie-instap, vóór de volledige lijst) ---------- */
+  .starter{ max-width:1100px; margin:36px auto 0; padding:0 32px; }
+  .starter-eyebrow{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--facade); font-weight:600; margin:0 0 8px; }
+  .starter-intro{ font-size:13px; line-height:1.6; color: rgba(44,30,24,.6); max-width:560px; margin:0 0 20px; }
+  .starter-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+  .starter-card{
+    display:block; border-radius:14px; padding:20px; background: var(--paper);
+    border:1px solid rgba(44,30,24,.1); text-decoration:none; color:inherit;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .starter-card:hover{ transform: translateY(-3px); box-shadow: 0 12px 24px rgba(44,30,24,.14); border-color: var(--rose); }
+  .starter-tag{ font-size:10px; letter-spacing:.14em; text-transform:uppercase; color: var(--facade); margin:0 0 10px; font-weight:600; }
+  .starter-name{ font-family: var(--font-display); font-style:italic; font-weight:400; font-size:18px; margin:0 0 4px; line-height:1.25; }
+  .starter-house{ font-size:11px; color: rgba(44,30,24,.55); margin:0 0 10px; }
+  .starter-why{ font-size:12.5px; line-height:1.5; color: rgba(44,30,24,.72); margin:0 0 16px; }
+  .starter-cta{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:700; letter-spacing:.02em;
+    color: var(--shadow); background: var(--rose);
+    padding:9px 16px; border-radius:999px;
+    box-shadow: 0 6px 14px rgba(44,30,24,.18), 0 2px 5px rgba(44,30,24,.12);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .starter-card:hover .starter-cta{ transform: translateY(-2px); box-shadow: 0 10px 22px rgba(44,30,24,.26), 0 3px 7px rgba(44,30,24,.16); }
+  @media (max-width:760px){ .starter{ padding:0 24px; } .starter-grid{ grid-template-columns:1fr; } }
+
   /* ---------- FILTER BAR ---------- */
   .filterbar{
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
@@ -358,6 +384,15 @@
   .wine-card .bottle-icon{ width:58px; height:143px; margin-bottom:10px; filter: drop-shadow(0 4px 7px rgba(44,30,24,.16)); }
   .wine-card .strip{ width:36px; height:5px; border-radius:2px; background: var(--card-color, var(--rose)); margin-bottom:12px; }
   .wine-card .cuvee{ font-family: var(--font-display); font-style:italic; font-size:19px; line-height:1.2; margin: 0 0 10px; }
+  /* Proefwaaier-keuze: badge voor de ene fles per huis die wij zelf het sterkst aanbevelen
+     (data-gedreven via het "pick"-veld in rose.json, geen los te klikken instelling). */
+  .pick-badge{
+    display:inline-flex; align-items:center; gap:5px; margin-bottom:8px;
+    background: var(--rose); color: var(--shadow); font-family: var(--font-ui);
+    font-size:9.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    padding:4px 10px; border-radius:999px;
+  }
+  .pick-reason{ font-size:11px; line-height:1.5; font-style:italic; color: var(--facade); margin: -4px 0 10px; }
   .wine-card .ornament{ font-size:10px; color: var(--card-color, var(--rose)); margin: 2px 0 10px; letter-spacing:.4em; }
   .wine-card .appellation-mini{ font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color: rgba(44,30,24,.5); margin-bottom:12px; }
   .wine-card .notes{ font-size:11.5px; line-height:1.5; color: rgba(44,30,24,.68); margin-bottom: auto; flex-grow:1; }
@@ -795,6 +830,34 @@
     </div>
   </section>
 
+  <section class="starter" aria-label="Twijfel je? Begin hier">
+    <p class="starter-eyebrow">Twijfel je? Begin hier</p>
+    <p class="starter-intro">Tweeëntwintig huizen is veel om doorheen te bladeren. Drie concrete startpunten — van instapper tot de fles waar wij zelf het meest van houden.</p>
+    <div class="starter-grid">
+      <a class="starter-card" href="https://www.gall.nl/mirabeau-classic-rose-rose-75cl-408417.html" target="_blank" rel="noopener">
+        <p class="starter-tag">De instapper</p>
+        <h3 class="starter-name">Mirabeau Classic Rosé</h3>
+        <p class="starter-house">Maison Mirabeau · Cotignac</p>
+        <p class="starter-why">Een Brits echtpaar verruilde Londen voor de Provence en maakte deze klassieke, toegankelijke blend — verrassend verfijnd voor de prijs.</p>
+        <span class="starter-cta">€ 12,99 · Bestel bij Gall &amp; Gall →</span>
+      </a>
+      <a class="starter-card" href="https://www.gall.nl/ch%C3%A2teau-leoube-rose-rose-75cl-163309.html" target="_blank" rel="noopener">
+        <p class="starter-tag">De allrounder</p>
+        <h3 class="starter-name">Château Léoube Rosé</h3>
+        <p class="starter-house">Château Léoube · Bormes-les-Mimosas</p>
+        <p class="starter-why">Wijngaarden pal aan de Middellandse Zee, gemaakt door Romain Ott — de zilte afdronk is geen marketingpraat, die proef je echt.</p>
+        <span class="starter-cta">€ 15,99 · Bestel bij Gall &amp; Gall →</span>
+      </a>
+      <a class="starter-card" href="https://www.gall.nl/domaines-ott-ch%C3%A2teau-de-selle-rose-rose-75cl-113360.html" target="_blank" rel="noopener">
+        <p class="starter-tag">★ Proefwaaier-keuze</p>
+        <h3 class="starter-name">Château de Selle</h3>
+        <p class="starter-house">Domaines Ott · Taradeau</p>
+        <p class="starter-why">Het domein waar de moderne Provence-rosé is uitgevonden. Dé referentie waar de meeste andere rosés zich aan meten.</p>
+        <span class="starter-cta">€ 47,29 · Bestel bij Gall &amp; Gall →</span>
+      </a>
+    </div>
+  </section>
+
   <div class="filterbar" id="filterbar">
     <span class="label">Appellation</span>
     <button class="pill active" data-filter="alle">Alle</button>
@@ -1006,8 +1069,10 @@
       <div class="detail-bottle" id="detail-bottle"></div>
       <div class="detail-info">
         <div class="detail-eyebrow" id="detail-eyebrow"></div>
+        <div class="pick-badge" id="detail-pick" style="display:none;">★ Proefwaaier-keuze</div>
         <div class="cuvee-row"><h3 class="detail-title" id="detail-title"></h3><button class="fav-heart" id="detail-fav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button></div>
         <div class="detail-house" id="detail-house"></div>
+        <p class="pick-reason" id="detail-pick-reason" style="display:none;"></p>
         <p class="detail-notes" id="detail-notes"></p>
         <div class="detail-grid" id="detail-grid"></div>
         <div class="detail-links">
@@ -1373,9 +1438,11 @@ function wineCardHTML(h, app, w){
     <div class="house">${h.name}</div>
     ${bottleSVG(w.color, w.cuvee)}
     <div class="strip"></div>
+    ${w.pick ? `<div class="pick-badge">★ Proefwaaier-keuze</div>` : ""}
     <h3 class="cuvee">${w.cuvee}</h3>
     <div class="ornament">◆</div>
     <div class="appellation-mini">${app.name} · ${h.commune}</div>
+    ${w.pick && w.pickReason ? `<div class="pick-reason">${w.pickReason}</div>` : ""}
     <div class="notes">${w.notes}</div>
     <div class="meta">
       <div class="row"><span>Druiven</span><span>${w.grapes.join(", ")}</span></div>
@@ -1909,11 +1976,13 @@ function selectHouse(houseId){
     <div class="sidebar-wine" data-wine="${w.cuvee}">
       ${bottleSVG(w.color, w.cuvee)}
       <div class="wine-text">
+        ${w.pick ? `<div class="pick-badge">★ Proefwaaier-keuze</div>` : ""}
         <div class="cuvee-row">
           <h4 class="cuvee">${w.cuvee}</h4>
           <button class="fav-heart ${favorites.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">${HEART_ICON}</button>
         </div>
         <div class="strip" style="background:${w.color}"></div>
+        ${w.pick && w.pickReason ? `<p class="pick-reason">${w.pickReason}</p>` : ""}
         <p class="notes">${w.notes}</p>
         <div class="meta">
           <span><b>Druiven</b> ${w.grapes.join(", ")}</span>
@@ -1965,6 +2034,17 @@ function openWineDetail(house, wine){
   document.getElementById("detail-house").textContent = house.name;
   document.getElementById("detail-notes").textContent = wine.notes;
   document.getElementById("detail-fav").classList.toggle("active", favorites.has(wine.id));
+
+  const pickBadge = document.getElementById("detail-pick");
+  const pickReasonEl = document.getElementById("detail-pick-reason");
+  if(wine.pick){
+    pickBadge.style.display = "";
+    pickReasonEl.style.display = wine.pickReason ? "" : "none";
+    pickReasonEl.textContent = wine.pickReason || "";
+  } else {
+    pickBadge.style.display = "none";
+    pickReasonEl.style.display = "none";
+  }
 
   document.getElementById("detail-grid").innerHTML = `
     <div class="item"><span class="k">Druiven</span><span class="v">${wine.grapes.join(", ")}</span></div>
