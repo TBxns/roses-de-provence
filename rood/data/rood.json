@@ -520,7 +520,9 @@
         "color": "#791D2A",
         "abv": 14.5,
         "aging": "Nu tot 2032",
-        "notes": "Rond en kruidig, met rijp rood fruit en de kenmerkende garrigue-tonen van de appellation."
+        "notes": "Rond en kruidig, met rijp rood fruit en de kenmerkende garrigue-tonen van de appellation.",
+        "pick": true,
+        "pickReason": "Een van de oudste huizen van de Rhône (1781) — deze Châteauneuf-du-Pape laat precies zien waarom de appellation zo geroemd is."
       },
       {
         "cuvee": "Vidal-Fleury Gigondas",
