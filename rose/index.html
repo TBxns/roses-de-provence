@@ -33,6 +33,7 @@
   }
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
   body{
     font-family: var(--font-ui);
     background: var(--paper);
@@ -129,6 +130,16 @@
   .hero-sub{
     font-size:15px; line-height:1.6; max-width:520px; color: rgba(44,30,24,.75);
   }
+  .hero-jump{
+    display:inline-flex; align-items:center; gap:8px; margin-top:22px;
+    padding:11px 22px; border-radius:999px; border:1px solid rgba(44,30,24,.28);
+    background: rgba(245,234,224,.55); color: var(--shadow);
+    font-family: var(--font-ui); font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+    text-decoration:none; transition: all .2s ease;
+  }
+  .hero-jump svg{ transition: transform .2s ease; }
+  .hero-jump:hover{ background: var(--rose); border-color: var(--rose); transform: translateY(-1px); }
+  .hero-jump:hover svg{ transform: translateY(2px); }
 
   /* ---------- LANDSCAPE STRIP ---------- */
   .landscape-strip{ display:grid; grid-template-columns: repeat(3,1fr); height:210px; }
@@ -643,54 +654,88 @@
   .agecheck-error{ color:var(--rose); font-size:13px; margin-top:16px; min-height:18px; }
   .agecheck-nix{ margin-top:26px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; opacity:.6; }
 
-  /* ---------- VAN DRUIF TOT FLES (rosé) ---------- */
+  /* ---------- VAN DRUIF TOT FLES (rosé) ----------
+     Interactief: bezoeker kan een stap aanklikken of de tijdlijn slepen. Tot de eerste
+     interactie loopt de tijdlijn vanzelf (idle-loop) zodat duidelijk is dat het beweegt.
+     Alleen de actieve stap speelt zijn icoon-animatie af — inactieve iconen staan stil. */
   .process{ max-width:980px; margin:56px auto 0; padding:0 32px 10px; text-align:center; }
-  .process-eyebrow{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color: var(--rose); font-weight:600; margin:0 0 38px; }
+  .process-eyebrow{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color: var(--rose); font-weight:600; margin:0 0 8px; }
+  .process-hint{ font-size:11.5px; font-style:italic; color: rgba(44,30,24,.5); margin:0 0 34px; }
   .process-steps{ position:relative; display:flex; justify-content:space-between; gap:14px; }
   .process-steps::before{ content:''; position:absolute; top:34px; left:34px; right:34px; height:1px; background: rgba(44,30,24,.14); z-index:0; }
   .process-line-dot{
     position:absolute; top:31px; width:7px; height:7px; border-radius:50%;
-    background: var(--rose); z-index:1; left:0; animation: process-travel 9s linear infinite;
+    background: var(--rose); z-index:1; left:34px; transform: translateX(-50%);
+    transition: left .45s cubic-bezier(.4,0,.2,1); box-shadow: 0 0 0 4px rgba(224,150,138,.28);
   }
-  @keyframes process-travel{ 0%{ left:0%; opacity:0; } 4%{ opacity:1; } 92%{ opacity:1; } 100%{ left:calc(100% - 7px); opacity:0; } }
-  .step{ position:relative; z-index:2; flex:1; display:flex; flex-direction:column; align-items:center; max-width:170px; }
+  /* Onzichtbare, sleepbare range bovenop de tijdlijn — de zichtbare bol (.process-line-dot)
+     en de actieve stap worden door JS bijgewerkt op basis van de waarde hiervan. */
+  .process-range{
+    position:absolute; top:0; left:20px; right:20px; height:68px; margin:0; z-index:3;
+    -webkit-appearance:none; appearance:none; background:transparent; cursor:grab;
+  }
+  .process-range:active{ cursor:grabbing; }
+  .process-range::-webkit-slider-runnable-track{ background:transparent; height:68px; }
+  .process-range::-webkit-slider-thumb{ -webkit-appearance:none; width:2px; height:2px; background:transparent; }
+  .process-range::-moz-range-track{ background:transparent; height:68px; border:none; }
+  .process-range::-moz-range-thumb{ width:2px; height:2px; background:transparent; border:none; }
+  .process-range:focus-visible ~ .process-line-dot{ box-shadow: 0 0 0 4px rgba(224,150,138,.5), 0 0 0 6px var(--shadow); }
+  .step{
+    position:relative; z-index:2; flex:1; display:flex; flex-direction:column; align-items:center;
+    max-width:170px; background:none; border:none; padding:0; font:inherit; color:inherit;
+    cursor:pointer; -webkit-tap-highlight-color:transparent;
+  }
+  .step:focus-visible{ outline:2px solid var(--rose); outline-offset:6px; border-radius:12px; }
   .step-icon{
     width:68px; height:68px; border-radius:50%; background: var(--paper);
     border:1px solid rgba(44,30,24,.12); display:flex; align-items:center; justify-content:center;
     margin-bottom:14px; box-shadow: 0 6px 14px rgba(44,30,24,.08); color: var(--facade);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease;
   }
   .step-icon svg{ width:32px; height:32px; overflow:visible; }
-  .step-title{ font-family: var(--font-display); font-style:italic; font-size:15px; margin:0 0 6px; color: var(--shadow); }
+  .step-title{ font-family: var(--font-display); font-style:italic; font-size:15px; margin:0 0 6px; color: var(--shadow); transition: color .25s ease; }
   .step-text{ font-size:11.5px; line-height:1.5; color: rgba(44,30,24,.65); margin:0; }
 
-  .icon-grape circle{ animation: grape-bounce 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin:center; }
+  .step.active .step-icon{
+    border-color: var(--rose); background: var(--rose); color: var(--paper);
+    transform: scale(1.08); box-shadow: 0 10px 22px rgba(224,150,138,.4);
+  }
+  .step.active .step-title{ color: var(--rose); }
+
+  .icon-grape circle{ transform-box: fill-box; transform-origin:center; }
+  .step.active .icon-grape circle{ animation: grape-bounce 2.6s ease-in-out infinite; }
   .icon-grape circle:nth-child(2){ animation-delay:.1s; }
   .icon-grape circle:nth-child(3){ animation-delay:.2s; }
   .icon-grape circle:nth-child(4){ animation-delay:.3s; }
   .icon-grape circle:nth-child(5){ animation-delay:.15s; }
   @keyframes grape-bounce{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-1.6px); } }
 
-  .icon-harvest .blade-a{ transform-origin: 12px 12px; animation: snip-a 1.8s ease-in-out infinite; }
-  .icon-harvest .blade-b{ transform-origin: 12px 12px; animation: snip-b 1.8s ease-in-out infinite; }
+  .icon-harvest .blade-a{ transform-origin: 12px 12px; }
+  .icon-harvest .blade-b{ transform-origin: 12px 12px; }
+  .step.active .icon-harvest .blade-a{ animation: snip-a 1.8s ease-in-out infinite; }
+  .step.active .icon-harvest .blade-b{ animation: snip-b 1.8s ease-in-out infinite; }
   @keyframes snip-a{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(10deg); } }
   @keyframes snip-b{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(-10deg); } }
 
-  .icon-press .plate{ animation: press-down 2s ease-in-out infinite; transform-box: fill-box; transform-origin:center; }
+  .icon-press .plate{ transform-box: fill-box; transform-origin:center; }
+  .step.active .icon-press .plate{ animation: press-down 2s ease-in-out infinite; }
   @keyframes press-down{ 0%,100%{ transform:translateY(0); } 45%{ transform:translateY(3.4px); } 55%{ transform:translateY(3.4px); } }
 
-  .icon-ferment .bubble{ animation: bubble-rise 2.4s ease-in infinite; opacity:0; transform-origin:center; }
+  .icon-ferment .bubble{ opacity:0; transform-origin:center; }
+  .step.active .icon-ferment .bubble{ animation: bubble-rise 2.4s ease-in infinite; }
   .icon-ferment .bubble:nth-child(2){ animation-delay:.5s; }
   .icon-ferment .bubble:nth-child(3){ animation-delay:1s; }
   .icon-ferment .bubble:nth-child(4){ animation-delay:1.5s; }
   @keyframes bubble-rise{ 0%{ transform:translateY(0); opacity:0; } 12%{ opacity:.9; } 85%{ opacity:0; } 100%{ transform:translateY(-11px); opacity:0; } }
 
-  .icon-bottle .liquid{ animation: bottle-fill 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom; }
+  .icon-bottle .liquid{ transform-box: fill-box; transform-origin: bottom; transform: scaleY(.18); }
+  .step.active .icon-bottle .liquid{ animation: bottle-fill 3.2s ease-in-out infinite; }
   @keyframes bottle-fill{ 0%{ transform:scaleY(.18); } 50%{ transform:scaleY(1); } 100%{ transform:scaleY(.18); } }
 
   @media (max-width:760px){
     .process{ padding:0 24px 6px; }
     .process-steps{ flex-direction:column; gap:26px; }
-    .process-steps::before, .process-line-dot{ display:none; }
+    .process-steps::before, .process-line-dot, .process-range{ display:none; }
     .step{ max-width:none; }
   }
 
@@ -732,6 +777,10 @@
     <div class="hero-eyebrow">Uitsluitend · Provence</div>
     <h1 class="hero-title">Les Rosés<br>de Provence</h1>
     <p class="hero-sub">Tweeëntwintig wijnhuizen, zes appellations, één regio die de wereld leerde hoe rosé gemaakt moet worden. Vergelijk terroirs, druiven en karakter — van de Alpilles tot de Golf van Saint-Tropez.</p>
+    <a class="hero-jump" href="#process">
+      Van druif tot fles
+      <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
   </header>
 
   <section class="landscape-strip" aria-hidden="true">
@@ -810,12 +859,14 @@
     </section>
   </main>
 
-  <section class="process" aria-label="Van druif tot fles">
+  <section class="process" id="process" aria-label="Van druif tot fles" style="scroll-margin-top:90px;">
     <p class="process-eyebrow">Van druif tot fles</p>
-    <div class="process-steps">
-      <div class="process-line-dot" aria-hidden="true"></div>
+    <p class="process-hint">Klik op een stap, of sleep de tijdlijn</p>
+    <div class="process-steps" id="process-steps">
+      <div class="process-line-dot" id="process-dot" aria-hidden="true"></div>
+      <input type="range" class="process-range" id="process-range" min="0" max="4" step="1" value="0" aria-label="Sleep om het wijnproces te doorlopen">
 
-      <div class="step">
+      <button class="step active" type="button" data-step="0" aria-current="step">
         <div class="step-icon icon-grape">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M12 2c1 1.4 1 2.6 0 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
@@ -830,9 +881,9 @@
         </div>
         <p class="step-title">1. Druif</p>
         <p class="step-text">Een druif rijpt tot de balans tussen suiker en zuur precies goed is — dát bepaalt het oogstmoment, niet de kalender.</p>
-      </div>
+      </button>
 
-      <div class="step">
+      <button class="step" type="button" data-step="1">
         <div class="step-icon icon-harvest">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
@@ -846,9 +897,9 @@
         </div>
         <p class="step-title">2. Oogst</p>
         <p class="step-text">Vaak in de vroege ochtend geplukt, als de druiven nog koel zijn — dat houdt de zuren en aroma's fris.</p>
-      </div>
+      </button>
 
-      <div class="step">
+      <button class="step" type="button" data-step="2">
         <div class="step-icon icon-press">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <rect x="4" y="14" width="16" height="6" rx="1.4" stroke="currentColor" stroke-width="1.4" fill="none"/>
@@ -860,10 +911,10 @@
           </svg>
         </div>
         <p class="step-title">3. Persen</p>
-        <p class="step-text">Direct persen met kort schilcontact geeft de bleekste tint; enkele uren tot twee dagen macereren geeft een dieper roze.</p>
-      </div>
+        <p class="step-text">Hoe langer het sap met de schil in contact blijft — van vrijwel meteen persen tot een dag of twee macereren — hoe dieper roze de kleur wordt.</p>
+      </button>
 
-      <div class="step">
+      <button class="step" type="button" data-step="3">
         <div class="step-icon icon-ferment">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M6 5 L6 15 Q6 20 12 20 Q18 20 18 15 L18 5 Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
@@ -876,9 +927,9 @@
         </div>
         <p class="step-title">4. Gisten</p>
         <p class="step-text">Gist zonder de schillen, meestal bij 12–16°C in roestvrijstalen tanks — kouder dan rode wijn, voor frisse aroma's.</p>
-      </div>
+      </button>
 
-      <div class="step">
+      <button class="step" type="button" data-step="4">
         <div class="step-icon icon-bottle">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M10 2h4v4.4c2 1 3 3 3 5.6v8a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2v-8c0-2.6 1-4.6 3-5.6Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
@@ -887,7 +938,7 @@
         </div>
         <p class="step-title">5. Fles</p>
         <p class="step-text">Meestal binnen een jaar of twee het lekkerst — rosé is gemaakt om jong gedronken te worden.</p>
-      </div>
+      </button>
 
     </div>
   </section>
@@ -2337,6 +2388,71 @@ if("serviceWorker" in navigator){
       err.textContent = 'Geen 18, geen alcohol. Deze website is niet voor jou bestemd.';
     }
   });
+})();
+</script>
+<!-- Interactieve "van druif tot fles"-tijdlijn: klik op een stap of sleep de tijdlijn.
+     Tot de eerste interactie loopt de tijdlijn vanzelf door (idle-loop), zodat duidelijk
+     is dat het klikbaar/sleepbaar is. Alleen de actieve stap speelt zijn icoon-animatie af. -->
+<script>
+(function(){
+  var wrap = document.getElementById('process-steps');
+  if (!wrap) return;
+  var steps = Array.prototype.slice.call(wrap.querySelectorAll('.step'));
+  var dot = document.getElementById('process-dot');
+  var range = document.getElementById('process-range');
+  var interacted = false;
+  var idleTimer = null;
+  var current = 0;
+
+  function positionDot(i){
+    var stepEl = steps[i];
+    if (!stepEl || !dot) return;
+    var icon = stepEl.querySelector('.step-icon');
+    var wrapRect = wrap.getBoundingClientRect();
+    var iconRect = icon.getBoundingClientRect();
+    var centerX = iconRect.left + iconRect.width / 2 - wrapRect.left;
+    dot.style.left = centerX + 'px';
+  }
+
+  function setActive(i, userInitiated){
+    current = i;
+    steps.forEach(function(s, idx){
+      var isActive = idx === i;
+      s.classList.toggle('active', isActive);
+      if (isActive) { s.setAttribute('aria-current', 'step'); }
+      else { s.removeAttribute('aria-current'); }
+    });
+    if (range) range.value = i;
+    positionDot(i);
+    if (userInitiated) {
+      interacted = true;
+      if (idleTimer) { clearInterval(idleTimer); idleTimer = null; }
+    }
+  }
+
+  steps.forEach(function(stepEl, idx){
+    stepEl.addEventListener('click', function(){ setActive(idx, true); });
+  });
+
+  if (range) {
+    range.addEventListener('input', function(){
+      setActive(parseInt(range.value, 10), true);
+    });
+  }
+
+  function startIdleLoop(){
+    idleTimer = setInterval(function(){
+      if (interacted) { clearInterval(idleTimer); return; }
+      setActive((current + 1) % steps.length, false);
+    }, 2600);
+  }
+
+  // Initiële positie zodra layout klaar is (fonts/afbeeldingen kunnen de breedte nog verschuiven).
+  window.addEventListener('load', function(){ positionDot(current); });
+  window.addEventListener('resize', function(){ positionDot(current); });
+
+  setActive(0, false);
+  startIdleLoop();
 })();
 </script>
 </body>
