@@ -92,7 +92,9 @@
         "abv": 13,
         "price": 3,
         "aging": "Nu – 3 jaar",
-        "notes": "Het oorspronkelijke domein bij Taradeau. Elegant, droog, met rode bosvruchten en garrigue-kruiden."
+        "notes": "Het oorspronkelijke domein bij Taradeau. Elegant, droog, met rode bosvruchten en garrigue-kruiden.",
+        "pick": true,
+        "pickReason": "Het domein waar de moderne Provence-rosé is uitgevonden — dé referentie waar de meeste andere rosés zich, bewust of niet, aan meten."
       }
     ]
   },
