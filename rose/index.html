@@ -446,7 +446,7 @@
     position:relative; width:100%; max-width:900px; height:190px; margin: 4px 0 6px;
   }
   .color-swatch{
-    position:absolute; left:50%; bottom:0; width:15px; gap:6px;
+    position:absolute; left:50%; bottom:0; width:15px;
     display:flex; flex-direction:column; align-items:center;
     background:none; border:none; cursor:pointer; padding:0; text-align:center;
     transform-origin: 50% 100%;
@@ -458,42 +458,67 @@
     width:100%; height:135px; border-radius:8px 8px 4px 4px;
     border:1px solid rgba(44,30,24,.18); box-shadow: 0 3px 8px rgba(44,30,24,.14);
   }
-  .color-swatch .cuvee, .color-swatch .house{ display:none; white-space:nowrap; }
+  /* Naamkaartje zweeft los boven het flesje (position:absolute, geen deel van de
+     flex-layout), zodat het nooit ruimte hoeft te reserveren en op elk schermformaat
+     hetzelfde werkt — geen aparte mobiel/desktop-regeling meer nodig. */
+  .color-swatch .tag{
+    position:absolute; left:50%; bottom: calc(100% + 8px); transform: translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:1px;
+    background: var(--paper); border:1px solid rgba(44,30,24,.18); border-radius:6px;
+    padding:5px 9px; box-shadow: 0 8px 18px rgba(44,30,24,.22);
+    opacity:0; pointer-events:none; transition: opacity .15s ease; white-space:nowrap;
+  }
   .color-swatch .cuvee{ font-family: var(--font-display); font-style:italic; font-size:11.5px; color: var(--shadow); line-height:1.2; }
   .color-swatch .house{ font-size:8.5px; letter-spacing:.06em; text-transform:uppercase; color: rgba(44,30,24,.5); }
-  .color-swatch:hover, .color-swatch:focus-visible{
-    /* Bewust geen rotatie- of positieverandering: alleen uitvergroten rond
-       dezelfde as, zodat het kaartje niet onder de cursor vandaan "wegschiet"
-       en je 'm rustig kunt raken en aanklikken. */
+
+  /* Uitvergroten + naamkaartje tonen. Bewust geen rotatie- of positieverandering:
+     alleen uitvergroten rond dezelfde as, zodat het kaartje niet vandaan "wegschiet".
+     Echte hover (muis/trackpad) staat los van de touch-variant hieronder: zo kan er
+     op een touchscreen nooit een "vastgeplakte" hover-status ontstaan die per ongeluk
+     bovenop de detailkaart bliift hangen — vandaar ook de gematigde z-index (ruim
+     onder de detailkaart, die op 60/61 zit) in plaats van een zeer hoge waarde. */
+  @media (hover:hover) and (pointer:fine){
+    .color-swatch:hover{
+      transition-delay: .09s;
+      transform: translateX(-50%) rotate(calc(var(--pos, 0) * var(--spread))) scale(1.16);
+      z-index: 40;
+      filter: none;
+    }
+    .color-swatch:hover .chip{ box-shadow: 0 14px 24px rgba(44,30,24,.38); }
+    .color-swatch:hover .tag{ opacity:1; }
+  }
+  .color-swatch:focus-visible{
     transition-delay: .09s;
     transform: translateX(-50%) rotate(calc(var(--pos, 0) * var(--spread))) scale(1.16);
-    z-index: 999 !important;
+    z-index: 40;
     filter: none;
   }
-  .color-swatch:hover .chip, .color-swatch:focus-visible .chip{
-    box-shadow: 0 14px 24px rgba(44,30,24,.38);
+  .color-swatch:focus-visible .chip{ box-shadow: 0 14px 24px rgba(44,30,24,.38); }
+  .color-swatch:focus-visible .tag{ opacity:1; }
+  /* Touch-equivalent van :hover, expliciet met JS gezet zodra een vinger op het
+     kaartje rust (zie renderColorPalette) — werkt hierdoor identiek op elk
+     touchscreen, ook als dat geen "echte" hover ondersteunt. */
+  .color-swatch.is-active{
+    transition-delay: 0s;
+    transform: translateX(-50%) rotate(calc(var(--pos, 0) * var(--spread))) scale(1.16);
+    z-index: 40;
+    filter: none;
   }
+  .color-swatch.is-active .chip{ box-shadow: 0 14px 24px rgba(44,30,24,.38); }
+  .color-swatch.is-active .tag{ opacity:1; }
 
-  /* Grotere telefoons: iets bredere waaier, meer spreiding — nog steeds geen titels. */
+  /* Grotere telefoons: iets bredere waaier, meer spreiding. */
   @media (min-width: 480px){
     .color-strip{ --spread: 120deg; height:210px; }
     .color-swatch{ width:19px; }
     .color-swatch .chip{ height:158px; }
   }
-  /* Vanaf tablet/laptop-breedte: volle waaier zoals bij een fysieke verf-/
-     kleurenwaaier, met titels die pas bij hover tevoorschijn komen. */
+  /* Vanaf tablet/laptop-breedte: volle waaier zoals bij een fysieke verf-/kleurenwaaier. */
   @media (min-width: 860px){
     .color-wrap{ padding: 40px 40px 60px; }
     .color-strip{ --spread: 150deg; height:250px; }
     .color-swatch{ width:26px; }
     .color-swatch .chip{ height:190px; border-radius:13px 13px 5px 5px; }
-    .color-swatch .cuvee, .color-swatch .house{
-      display:block; opacity:0; transition: opacity .15s ease;
-    }
-    .color-swatch:hover .cuvee, .color-swatch:focus-visible .cuvee,
-    .color-swatch:hover .house, .color-swatch:focus-visible .house{
-      opacity:1;
-    }
   }
   .map-legend{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom:18px; font-size:11px; color: rgba(44,30,24,.7); }
   .map-legend .item{ display:flex; align-items:center; gap:7px; }
@@ -2053,6 +2078,12 @@ function renderStars(score){
    NB: vervang deze URL's t.z.t. door Partnerize affiliate-deeplinks. */
 
 function openWineDetail(house, wine){
+  /* Vangnet: mocht een waaierkaartje nog "actief" (uitvergroot/gefocust) staan van
+     de aanraking die de detailkaart opende, haal die status er dan expliciet af —
+     zo kan hij nooit boven de net geopende detailkaart blijven hangen. */
+  if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  document.querySelectorAll(".color-swatch.is-active").forEach(el=> el.classList.remove("is-active"));
+
   currentDetailHouse = house;
   currentDetailWine = wine;
 
@@ -2181,8 +2212,10 @@ function renderColorPalette(){
       style="--pos:${pos.toFixed(4)}; z-index:${i+1};"
       title="${w.cuvee} — ${h.name}">
       <span class="chip" style="background:${w.color}"></span>
-      <span class="cuvee">${w.cuvee}</span>
-      <span class="house">${h.name}</span>
+      <span class="tag">
+        <span class="cuvee">${w.cuvee}</span>
+        <span class="house">${h.name}</span>
+      </span>
     </button>
   `;
   }).join("");
@@ -2192,6 +2225,15 @@ function renderColorPalette(){
       const wine = house && house.wines.find(w=>w.id===btn.dataset.wineId);
       if(house && wine) openWineDetail(house, wine);
     });
+    /* Er bestaat geen "hover" op een touchscreen: zodra een vinger op het kaartje
+       rust tonen we daarom hetzelfde uitvergrote naamkaartje als bij hover op
+       desktop. Loslaten/annuleren verwijdert het weer meteen, zodat er nooit een
+       "vastgeplakte" vergrote waaierpunt kan overblijven boven een geopende
+       detailkaart. */
+    const setTouch = on => btn.classList.toggle("is-active", on);
+    btn.addEventListener("touchstart", ()=> setTouch(true), { passive:true });
+    btn.addEventListener("touchend", ()=> setTouch(false));
+    btn.addEventListener("touchcancel", ()=> setTouch(false));
   });
 }
 
