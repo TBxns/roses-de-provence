@@ -190,13 +190,18 @@
      Twee korte vragen (budget + smaakvoorkeur) die naar één concrete aanbeveling
      leiden. Modal met dezelfde opmaak als de detailkaart, zodat het geheel als
      één stijl aanvoelt. */
-  .quiz-cta{ margin: 32px auto 0; max-width:520px; text-align:center; }
+  .quiz-cta{ margin: 32px auto 0; max-width:400px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .quiz-cta-badge{
+    width:72px; height:72px; border-radius:50%; border:1.5px solid var(--facade);
+    display:flex; align-items:center; justify-content:center; margin-bottom:14px;
+  }
+  .quiz-cta-badge svg{ width:20px; height:44px; display:block; }
   .quiz-cta-text{ font-size:13px; line-height:1.5; color: rgba(44,30,24,.62); margin:0 0 14px; }
   .quiz-trigger{
     display:inline-flex; align-items:center; gap:8px;
-    background: var(--rose); color: var(--shadow); font-weight:700;
+    background: var(--facade); color: var(--paper); font-weight:700;
     font-family: var(--font-ui); font-size:13px; letter-spacing:.01em;
-    border:none; border-radius:999px; padding:13px 26px; cursor:pointer;
+    border:none; border-radius:999px; padding:12px 24px; cursor:pointer;
     box-shadow: 0 6px 14px rgba(44,30,24,.18), 0 2px 5px rgba(44,30,24,.12);
     transition: transform .15s ease, box-shadow .15s ease;
   }
@@ -1010,8 +1015,14 @@
     </div>
 
     <div class="quiz-cta">
-      <p class="quiz-cta-text">Nog niet overtuigd door deze drie? Beantwoord 4 korte vragen en we kiezen de beste match voor jou.</p>
-      <button class="quiz-trigger" id="quiz-trigger" type="button">Doe de "Vind jouw wijn"-quiz →</button>
+      <div class="quiz-cta-badge">
+        <svg viewBox="0 0 20 40" role="img" aria-label="Flesje rode wijn">
+          <path d="M7,1 L13,1 L13,9 C13,12 17,13 17,17 L17,35 C17,37.5 15,39 12,39 L8,39 C5,39 3,37.5 3,35 L3,17 C3,13 7,12 7,9 Z" style="fill:var(--rose); stroke:var(--shadow); stroke-width:0.8;"/>
+          <rect x="6.5" y="0.5" width="7" height="4" style="fill:var(--shadow);"/>
+        </svg>
+      </div>
+      <p class="quiz-cta-text">Nog twijfelend? Beantwoord 4 korte vragen en we adviseren de beste match voor jou.</p>
+      <button class="quiz-trigger" id="quiz-trigger" type="button">Vind jouw wijn →</button>
     </div>
   </section>
 
