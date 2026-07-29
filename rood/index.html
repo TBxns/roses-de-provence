@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rood — Bordeaux &amp; Rhône Wijnhuizen | Proefwaaier</title>
+<meta name="description" content="Vergelijk 20 wijnhuizen uit Bordeaux en de Rhônevallei — van het Médoc tot Châteauneuf-du-Pape. Ontdek terroir, druiven en karakter, en bestel direct bij Gall &amp; Gall.">
+<link rel="canonical" href="https://proefwaaier.nl/rood/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Proefwaaier">
+<meta property="og:title" content="Rood — Bordeaux &amp; Rhône Wijnhuizen | Proefwaaier">
+<meta property="og:description" content="Vergelijk 20 wijnhuizen uit Bordeaux en de Rhônevallei — van het Médoc tot Châteauneuf-du-Pape. Bestel direct bij Gall &amp; Gall.">
+<meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Ch%C3%A2teau_Margaux_2014.JPG?width=1200">
+<meta property="og:url" content="https://proefwaaier.nl/rood/">
+<meta property="og:locale" content="nl_NL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rood — Bordeaux &amp; Rhône Wijnhuizen | Proefwaaier">
+<meta name="twitter:description" content="Vergelijk 20 wijnhuizen uit Bordeaux en de Rhônevallei — van het Médoc tot Châteauneuf-du-Pape. Bestel direct bij Gall &amp; Gall.">
+<meta name="twitter:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Ch%C3%A2teau_Margaux_2014.JPG?width=1200">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#2C1E18">
@@ -2467,7 +2480,41 @@ async function loadHousesData(){
   const res = await fetch("./data/rood.json");
   if(!res.ok) throw new Error(`data/rood.json laden mislukt (status ${res.status})`);
   HOUSES = await res.json();
+  injectStructuredData();
   processHousesData();
+}
+
+/* ---------- STRUCTURED DATA VOOR GOOGLE ----------
+   Een ItemList van alle wijnen op deze pagina, zodat zoekmachines de inhoud beter
+   herkennen. Bewust zonder prijzen/Offer-schema: prijzen bij Gall & Gall wijzigen
+   te vaak om betrouwbaar statisch te garanderen, en onjuiste prijsdata in
+   structured data levert in Search Console waarschuwingen op i.p.v. voordeel. */
+function injectStructuredData(){
+  let position = 0;
+  const items = [];
+  HOUSES.forEach(h=> h.wines.forEach(w=>{
+    position++;
+    items.push({
+      "@type": "ListItem",
+      "position": position,
+      "item": {
+        "@type": "Product",
+        "name": `${w.cuvee} — ${h.name}`,
+        "url": w.gall || h.website,
+        "brand": { "@type": "Brand", "name": h.name }
+      }
+    });
+  }));
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Rode wijnen op Proefwaaier — Bordeaux & Rhônevallei",
+    "itemListElement": items
+  };
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify(data);
+  document.head.appendChild(script);
 }
 
 async function initApp(){
@@ -2616,6 +2663,30 @@ if("serviceWorker" in navigator){
   setActive(0, false);
   startIdleLoop();
 })();
+</script>
+<!-- Privacyvriendelijke, cookievrije bezoekersstatistieken (GoatCounter — geen
+     cookiebanner nodig omdat er geen persoonsgegevens worden verzameld).
+     VERVANG "REPLACE-MET-JOUW-CODE" hieronder door je eigen GoatCounter-sitecode
+     zodra je een gratis account hebt aangemaakt op https://www.goatcounter.com. -->
+<script data-goatcounter="https://REPLACE-MET-JOUW-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+/* ---------- ANALYTICS: KLIK-TRACKING OP BESTEL-KNOPPEN ----------
+   Telt hoe vaak bezoekers daadwerkelijk doorklikken naar Gall & Gall — de
+   belangrijkste conversieknop op deze pagina — uitgesplitst naar de plek waar
+   geklikt werd (kaartrooster, zijbalk, detailkaart of de "Twijfel je?"-instapper).
+   Werkt via één document-brede listener, dus onafhankelijk van wanneer/hoe een
+   wijnkaart of modal wordt opgebouwd. */
+document.addEventListener("click", function(e){
+  const link = e.target.closest("a.gall-cta, #detail-gall-link, a.starter-card");
+  if(!link || !window.goatcounter || !window.goatcounter.count) return;
+  let plek = "onbekend";
+  if(link.closest(".starter-grid")) plek = "twijfel-je-instapper";
+  else if(link.closest(".detail-modal")) plek = "detailkaart";
+  else if(link.closest("#sidebar")) plek = "zijbalk";
+  else if(link.closest(".wine-card")) plek = "kaartrooster";
+  const label = (link.textContent || link.href || "").trim().slice(0, 60);
+  window.goatcounter.count({ path: `klik-gallgall/${plek}`, title: label, event: true });
+});
 </script>
 </body>
 </html>
