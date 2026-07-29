@@ -190,13 +190,17 @@
      Twee korte vragen (budget + smaakvoorkeur) die naar één concrete aanbeveling
      leiden. Modal met dezelfde opmaak als de detailkaart, zodat het geheel als
      één stijl aanvoelt. */
+  .quiz-cta{ margin: 32px auto 0; max-width:520px; text-align:center; }
+  .quiz-cta-text{ font-size:13px; line-height:1.5; color: rgba(44,30,24,.62); margin:0 0 14px; }
   .quiz-trigger{
-    display:inline-flex; align-items:center; gap:6px; margin: -6px 0 22px;
-    background:none; border:none; padding:0; font-family: var(--font-ui);
-    font-size:12.5px; font-weight:600; color: var(--facade); cursor:pointer;
-    text-decoration:underline; text-underline-offset:3px;
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--rose); color: var(--shadow); font-weight:700;
+    font-family: var(--font-ui); font-size:13px; letter-spacing:.01em;
+    border:none; border-radius:999px; padding:13px 26px; cursor:pointer;
+    box-shadow: 0 6px 14px rgba(44,30,24,.18), 0 2px 5px rgba(44,30,24,.12);
+    transition: transform .15s ease, box-shadow .15s ease;
   }
-  .quiz-trigger:hover{ color: var(--shadow); }
+  .quiz-trigger:hover{ transform: translateY(-2px); box-shadow: 0 10px 22px rgba(44,30,24,.26), 0 3px 7px rgba(44,30,24,.16); }
   .quiz-backdrop{
     position: fixed; inset:0; background: rgba(44,30,24,.55); backdrop-filter: blur(2px);
     opacity:0; pointer-events:none; transition: opacity .28s ease; z-index:60;
@@ -238,6 +242,14 @@
   .quiz-result-notes{ font-size:12.5px; line-height:1.5; color: rgba(44,30,24,.7); margin:0 0 12px; }
   .quiz-result-pairing{ font-size:11.5px; color: rgba(44,30,24,.55); margin:0 0 12px; font-style:italic; }
   .quiz-result-price{ font-size:12px; font-weight:600; color: var(--shadow); margin-bottom:14px; }
+  .quiz-alt{ margin-top:18px; padding-top:16px; border-top:1px solid rgba(44,30,24,.12); }
+  .quiz-alt-label{ font-size:11px; line-height:1.5; color: rgba(44,30,24,.55); margin:0 0 10px; }
+  .quiz-alt-card{ display:flex; gap:12px; align-items:flex-start; }
+  .quiz-alt-card .bottle-icon{ width:34px; height:84px; flex-shrink:0; }
+  .quiz-alt-info{ min-width:0; }
+  .quiz-alt-name{ font-family: var(--font-display); font-style:italic; font-size:14px; margin:0 0 2px; }
+  .quiz-alt-house{ font-size:10.5px; color: rgba(44,30,24,.5); margin:0 0 8px; }
+  .quiz-alt-card .gall-cta{ width:auto; display:inline-block; padding:6px 14px; }
   .quiz-restart{
     margin-top:18px; background:none; border:none; font-size:12px; color: rgba(44,30,24,.5);
     text-decoration:underline; cursor:pointer; display:block;
@@ -973,7 +985,6 @@
   <section class="starter" aria-label="Twijfel je? Begin hier">
     <p class="starter-eyebrow">Twijfel je? Begin hier</p>
     <p class="starter-intro">Twintig huizen, twee streken — best veel om doorheen te bladeren. Drie concrete startpunten — van instapper tot de fles waar wij zelf het meest van houden.</p>
-    <button class="quiz-trigger" id="quiz-trigger" type="button">Liever 2 vragen beantwoorden? Doe de quiz →</button>
     <div class="starter-grid">
       <a class="starter-card" href="https://www.gall.nl/louis-bernard-c%C3%B4tes-du-rh%C3%B4ne-rood-75cl-180815.html" target="_blank" rel="noopener">
         <p class="starter-tag">De instapper</p>
@@ -996,6 +1007,11 @@
         <p class="starter-why">Een van de oudste huizen van de Rhône (1781) — deze Châteauneuf-du-Pape laat precies zien waarom de appellation zo geroemd is.</p>
         <span class="starter-cta">€ 40,59 · Bestel bij Gall &amp; Gall →</span>
       </a>
+    </div>
+
+    <div class="quiz-cta">
+      <p class="quiz-cta-text">Nog niet overtuigd door deze drie? Beantwoord 4 korte vragen en we kiezen de beste match voor jou.</p>
+      <button class="quiz-trigger" id="quiz-trigger" type="button">Doe de "Vind jouw wijn"-quiz →</button>
     </div>
   </section>
 
@@ -2351,18 +2367,33 @@ function quizTasteScore(wine, taste){
   return words.reduce((total, w)=> total + (text.includes(w) ? 1 : 0), 0);
 }
 
+/* Geeft altijd de beste match terug (ongeacht of die bij Gall & Gall besteld
+   kan worden), plus — alléén als die beste match zelf geen gall-link heeft —
+   het best passende alternatief dat wél direct besteld kan worden. Zo blijft
+   het eerste advies onveranderd, maar staat er nooit een doodlopend
+   "bestel"-pad in het resultaat. */
 function findQuizMatch(answers){
   const all = [];
   HOUSES.forEach(h=> h.wines.forEach(w=> all.push({ h, w })));
   const inBudget = all.filter(({w})=> quizPriceTier(w) === answers.budget);
   const pool = inBudget.length ? inBudget : all;
-  pool.sort((a,b)=>{
-    const scoreOf = ({w})=> quizTasteScore(w, answers.taste)
-      + (quizOccasionBucket(w) === answers.occasion ? 2 : 0)
-      + (quizPowerBucket(w) === answers.power ? 2 : 0);
-    return scoreOf(b) - scoreOf(a);
-  });
-  return pool[0] || null;
+  const scoreOf = ({w})=> quizTasteScore(w, answers.taste)
+    + (quizOccasionBucket(w) === answers.occasion ? 2 : 0)
+    + (quizPowerBucket(w) === answers.power ? 2 : 0);
+  const sorted = [...pool].sort((a,b)=> scoreOf(b) - scoreOf(a));
+  const primary = sorted[0] || null;
+  let alternative = null;
+  if(primary && !primary.w.gall){
+    alternative = sorted.find(({w})=> w.gall) || null;
+    if(!alternative){
+      /* Geen enkele wijn binnen dit budget heeft een gall-link — zoek dan in
+         de volledige lijst naar de best passende bestelbare wijn, zodat er
+         altijd een alternatief is. */
+      const allSorted = [...all].sort((a,b)=> scoreOf(b) - scoreOf(a));
+      alternative = allSorted.find(({w})=> w.gall) || null;
+    }
+  }
+  return { primary, alternative };
 }
 
 function quizGoToStep(stepId){
@@ -2384,16 +2415,29 @@ function closeQuiz(){
 }
 
 function showQuizResult(){
-  const match = findQuizMatch(quizAnswers);
+  const { primary, alternative } = findQuizMatch(quizAnswers);
   quizGoToStep("quiz-step-result");
   const card = document.getElementById("quiz-result-card");
-  if(!match){
+  if(!primary){
     card.innerHTML = `<p>Geen goede match gevonden — probeer het met een andere combinatie.</p>`;
     return;
   }
-  const { h: house, w: wine } = match;
+  const { h: house, w: wine } = primary;
   const orderHref = wine.gall || house.website || "";
   const orderLabel = wine.gall ? "Bestel bij Gall &amp; Gall →" : `Bezoek ${house.name} →`;
+  const altBlock = alternative ? `
+    <div class="quiz-alt">
+      <p class="quiz-alt-label">Liever meteen bestellen? Deze past ook goed en is direct leverbaar:</p>
+      <div class="quiz-alt-card">
+        ${bottleSVG(alternative.w.color, alternative.w.cuvee)}
+        <div class="quiz-alt-info">
+          <div class="quiz-alt-name">${alternative.w.cuvee}</div>
+          <div class="quiz-alt-house">${alternative.h.name}</div>
+          <a class="gall-cta" data-wine-id="${alternative.w.id}" href="${alternative.w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>
+        </div>
+      </div>
+    </div>
+  ` : "";
   card.innerHTML = `
     ${bottleSVG(wine.color, wine.cuvee)}
     <div class="quiz-result-info">
@@ -2404,6 +2448,7 @@ function showQuizResult(){
       <div class="quiz-result-price">${wine.price}</div>
       ${orderHref ? `<a class="gall-cta" data-wine-id="${wine.id}" href="${orderHref}" target="_blank" rel="noopener">${orderLabel}</a>` : ""}
       <button class="quiz-back" id="quiz-view-details" type="button">Bekijk alle details →</button>
+      ${altBlock}
     </div>
   `;
   document.getElementById("quiz-view-details").addEventListener("click", ()=>{
