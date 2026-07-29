@@ -188,6 +188,68 @@
   .starter-card:hover .starter-cta{ transform: translateY(-2px); box-shadow: 0 10px 22px rgba(44,30,24,.26), 0 3px 7px rgba(44,30,24,.16); }
   @media (max-width:760px){ .starter{ padding:0 24px; } .starter-grid{ grid-template-columns:1fr; } }
 
+  /* ---------- "VIND JOUW WIJN"-QUIZ ----------
+     Twee korte vragen (budget + smaakvoorkeur) die op basis van de bestaande
+     wijndata (prijs + notities) tot één concrete aanbeveling leiden — voor
+     bezoekers die liever niet de hele lijst doorspitten. Hergebruikt bewust
+     dezelfde modal-opmaak als de detailkaart, zodat het geheel als één stijl
+     aanvoelt. */
+  .quiz-trigger{
+    display:inline-flex; align-items:center; gap:6px; margin: -6px 0 22px;
+    background:none; border:none; padding:0; font-family: var(--font-ui);
+    font-size:12.5px; font-weight:600; color: var(--facade); cursor:pointer;
+    text-decoration:underline; text-underline-offset:3px;
+  }
+  .quiz-trigger:hover{ color: var(--shadow); }
+  .quiz-backdrop{
+    position: fixed; inset:0; background: rgba(44,30,24,.55); backdrop-filter: blur(2px);
+    opacity:0; pointer-events:none; transition: opacity .28s ease; z-index:60;
+  }
+  .quiz-backdrop.open{ opacity:1; pointer-events:auto; }
+  .quiz-modal{
+    position: fixed; top:50%; left:50%; z-index:61;
+    width:min(480px, 90vw); max-height:86vh; overflow-y:auto;
+    background: var(--paper); border-radius:6px; box-shadow: 0 30px 70px rgba(0,0,0,.4);
+    transform: translate(-50%,-50%) scale(.94); opacity:0; pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease;
+    padding:36px 34px;
+  }
+  .quiz-modal.open{ opacity:1; pointer-events:auto; transform: translate(-50%,-50%) scale(1); }
+  .quiz-close{
+    position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px;
+    color: rgba(44,30,24,.55); line-height:1; z-index:2;
+  }
+  .quiz-close:hover{ color: var(--shadow); }
+  .quiz-eyebrow{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color: var(--facade); font-weight:600; margin:0 0 10px; }
+  .quiz-question{ font-family: var(--font-display); font-style:italic; font-size:22px; margin:0 0 20px; }
+  .quiz-options{ display:flex; flex-direction:column; gap:10px; }
+  .quiz-option{
+    text-align:left; padding:13px 16px; border-radius:8px; border:1px solid rgba(44,30,24,.16);
+    background:none; font-family: var(--font-ui); font-size:14px; color: var(--shadow); cursor:pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .quiz-option:hover{ border-color: var(--rose); background: rgba(44,30,24,.03); }
+  .quiz-back{
+    margin-top:16px; background:none; border:none; font-size:12px; color: rgba(44,30,24,.5);
+    text-decoration:underline; cursor:pointer;
+  }
+  .quiz-back:hover{ color: var(--shadow); }
+  .quiz-result-card{ display:flex; gap:20px; }
+  .quiz-result-card .bottle-icon{ width:64px; height:158px; flex-shrink:0; }
+  .quiz-result-info{ min-width:0; }
+  .quiz-result-house{ font-size:11px; letter-spacing:.1em; text-transform:uppercase; color: rgba(44,30,24,.5); margin-bottom:4px; }
+  .quiz-result-cuvee{ font-family: var(--font-display); font-style:italic; font-size:20px; margin:0 0 8px; }
+  .quiz-result-notes{ font-size:12.5px; line-height:1.5; color: rgba(44,30,24,.7); margin:0 0 12px; }
+  .quiz-result-pairing{ font-size:11.5px; color: rgba(44,30,24,.55); margin:0 0 12px; font-style:italic; }
+  .quiz-result-price{ font-size:12px; font-weight:600; color: var(--shadow); margin-bottom:14px; }
+  .quiz-result-price .price-euro{ display:block; font-size:10.5px; font-weight:400; color: rgba(44,30,24,.55); margin-top:2px; font-style:italic; }
+  .quiz-restart{
+    margin-top:18px; background:none; border:none; font-size:12px; color: rgba(44,30,24,.5);
+    text-decoration:underline; cursor:pointer; display:block;
+  }
+  .quiz-restart:hover{ color: var(--shadow); }
+  @media (max-width:480px){ .quiz-result-card{ flex-direction:column; } .quiz-result-card .bottle-icon{ width:56px; height:138px; } }
+
   /* ---------- FILTER BAR ---------- */
   .filterbar{
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
@@ -430,6 +492,17 @@
     padding:4px 10px; border-radius:999px;
   }
   .pick-reason{ font-size:11px; line-height:1.5; font-style:italic; color: var(--facade); margin: -4px 0 10px; }
+  /* Populair-badge: gebaseerd op echte doorklikcijfers naar Gall & Gall (via het
+     "popular"-veld in de data) — geen redactionele keuze zoals de Proefwaaier-
+     keuze badge hierboven, maar puur gedrag van bezoekers. Vandaar bewust een
+     andere, subtielere stijl: outline i.p.v. gevuld, zodat de twee badges nooit
+     door elkaar gehaald worden. */
+  .popular-badge{
+    display:inline-flex; align-items:center; gap:5px; margin-bottom:8px;
+    background:none; border:1px solid var(--facade); color: var(--facade); font-family: var(--font-ui);
+    font-size:9.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    padding:3px 10px; border-radius:999px;
+  }
   .wine-card .ornament{ font-size:10px; color: var(--card-color, var(--rose)); margin: 2px 0 10px; letter-spacing:.4em; }
   .wine-card .appellation-mini{ font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color: rgba(44,30,24,.5); margin-bottom:12px; }
   .wine-card .notes{ font-size:11.5px; line-height:1.5; color: rgba(44,30,24,.68); margin-bottom: auto; flex-grow:1; }
@@ -899,6 +972,7 @@
   <section class="starter" aria-label="Twijfel je? Begin hier">
     <p class="starter-eyebrow">Twijfel je? Begin hier</p>
     <p class="starter-intro">Tweeëntwintig huizen is veel om doorheen te bladeren. Drie concrete startpunten — van instapper tot de fles waar wij zelf het meest van houden.</p>
+    <button class="quiz-trigger" id="quiz-trigger" type="button">Liever 2 vragen beantwoorden? Doe de quiz →</button>
     <div class="starter-grid">
       <a class="starter-card" href="https://www.gall.nl/mirabeau-classic-rose-rose-75cl-408417.html" target="_blank" rel="noopener">
         <p class="starter-tag">De instapper</p>
@@ -1136,6 +1210,7 @@
       <div class="detail-info">
         <div class="detail-eyebrow" id="detail-eyebrow"></div>
         <div class="pick-badge" id="detail-pick" style="display:none;">★ Proefwaaier-keuze</div>
+        <div class="popular-badge" id="detail-popular" style="display:none;">Populair bij bezoekers</div>
         <div class="cuvee-row"><h3 class="detail-title" id="detail-title"></h3><button class="fav-heart" id="detail-fav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button></div>
         <div class="detail-house" id="detail-house"></div>
         <p class="pick-reason" id="detail-pick-reason" style="display:none;"></p>
@@ -1152,6 +1227,60 @@
           <textarea class="personal-note" id="detail-note" placeholder="Jouw eigen proefnotitie…"></textarea>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="quiz-backdrop" id="quiz-backdrop"></div>
+  <div class="quiz-modal" id="quiz-modal" role="dialog" aria-modal="true" aria-label="Vind jouw wijn">
+    <button class="quiz-close" id="quiz-close" type="button">&times;</button>
+
+    <div class="quiz-step" id="quiz-step-1">
+      <p class="quiz-eyebrow">Vind jouw wijn — vraag 1 van 4</p>
+      <h3 class="quiz-question">Wat is je budget?</h3>
+      <div class="quiz-options">
+        <button class="quiz-option" type="button" data-budget="laag">Tot € 15 — voor de dagelijkse fles</button>
+        <button class="quiz-option" type="button" data-budget="midden">€ 15 – 40 — voor een goed etentje</button>
+        <button class="quiz-option" type="button" data-budget="hoog">Maakt niet uit — iets bijzonders</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" id="quiz-step-2" hidden>
+      <p class="quiz-eyebrow">Vind jouw wijn — vraag 2 van 4</p>
+      <h3 class="quiz-question">Welke smaak spreekt je aan?</h3>
+      <div class="quiz-options">
+        <button class="quiz-option" type="button" data-taste="fris">Fris &amp; licht</button>
+        <button class="quiz-option" type="button" data-taste="rond">Rond &amp; fruitig</button>
+        <button class="quiz-option" type="button" data-taste="vol">Vol &amp; kruidig</button>
+      </div>
+      <button class="quiz-back" id="quiz-back-1" type="button">← Vorige vraag</button>
+    </div>
+
+    <div class="quiz-step" id="quiz-step-3" hidden>
+      <p class="quiz-eyebrow">Vind jouw wijn — vraag 3 van 4</p>
+      <h3 class="quiz-question">Waarbij ga je ‘m drinken?</h3>
+      <div class="quiz-options">
+        <button class="quiz-option" type="button" data-occasion="aperitief">Aperitief of iets lichts</button>
+        <button class="quiz-option" type="button" data-occasion="vis">Vis of zeevruchten</button>
+        <button class="quiz-option" type="button" data-occasion="vlees">Stevig gerecht (vlees, wild of kaas)</button>
+      </div>
+      <button class="quiz-back" id="quiz-back-2" type="button">← Vorige vraag</button>
+    </div>
+
+    <div class="quiz-step" id="quiz-step-4" hidden>
+      <p class="quiz-eyebrow">Vind jouw wijn — vraag 4 van 4</p>
+      <h3 class="quiz-question">Welke kleur roze heb je het liefst?</h3>
+      <div class="quiz-options">
+        <button class="quiz-option" type="button" data-color="bleek">Bleek en doorschijnend</button>
+        <button class="quiz-option" type="button" data-color="klassiek">Klassiek zalmroze</button>
+        <button class="quiz-option" type="button" data-color="diep">Dieper, bijna koperkleurig</button>
+      </div>
+      <button class="quiz-back" id="quiz-back-3" type="button">← Vorige vraag</button>
+    </div>
+
+    <div class="quiz-step" id="quiz-step-result" hidden>
+      <p class="quiz-eyebrow">Onze match voor jou</p>
+      <div class="quiz-result-card" id="quiz-result-card"></div>
+      <button class="quiz-restart" id="quiz-restart" type="button">↺ Opnieuw beginnen</button>
     </div>
   </div>
 
@@ -1505,6 +1634,7 @@ function wineCardHTML(h, app, w){
     ${bottleSVG(w.color, w.cuvee)}
     <div class="strip"></div>
     ${w.pick ? `<div class="pick-badge">★ Proefwaaier-keuze</div>` : ""}
+    ${w.popular ? `<div class="popular-badge">Populair bij bezoekers</div>` : ""}
     <h3 class="cuvee">${w.cuvee}</h3>
     <div class="ornament">◆</div>
     <div class="appellation-mini">${app.name} · ${h.commune}</div>
@@ -2043,6 +2173,7 @@ function selectHouse(houseId){
       ${bottleSVG(w.color, w.cuvee)}
       <div class="wine-text">
         ${w.pick ? `<div class="pick-badge">★ Proefwaaier-keuze</div>` : ""}
+        ${w.popular ? `<div class="popular-badge">Populair bij bezoekers</div>` : ""}
         <div class="cuvee-row">
           <h4 class="cuvee">${w.cuvee}</h4>
           <button class="fav-heart ${favorites.has(w.id)?"active":""}" data-wine-id="${w.id}" type="button">${HEART_ICON}</button>
@@ -2117,6 +2248,7 @@ function openWineDetail(house, wine){
     pickBadge.style.display = "none";
     pickReasonEl.style.display = "none";
   }
+  document.getElementById("detail-popular").style.display = wine.popular ? "" : "none";
 
   document.getElementById("detail-grid").innerHTML = `
     <div class="item"><span class="k">Druiven</span><span class="v">${wine.grapes.join(", ")}</span></div>
@@ -2157,6 +2289,149 @@ function closeWineDetail(){
   document.getElementById("detail-modal").classList.remove("open");
   document.getElementById("detail-backdrop").classList.remove("open");
 }
+
+/* ---------- "VIND JOUW WIJN"-QUIZ ----------
+   Vier korte vragen (budget, smaak, gerecht/moment, kleurdiepte) die op basis
+   van de bestaande wijndata tot één concrete aanbeveling leiden. Elke vraag
+   leunt op een écht veld dat al ergens anders op de site gebruikt wordt (de
+   stijltags uit het filter, het afgeleide gerecht-advies, de daadwerkelijke
+   flescliker) — er wordt niets verzonnen. Gebruikt bewust geen aparte
+   quiz-dataset, zodat de uitkomst nooit uit de pas kan lopen met de rest van
+   de site. */
+let quizAnswers = { budget:null, taste:null, occasion:null, color:null };
+
+/* Smaak: gekoppeld aan de echte stijltags (ALL_STYLES), dezelfde tags die ook
+   in de filterbalk staan — geen losse trefwoorden in vrije tekst meer. */
+const QUIZ_TASTE_TAGS = {
+  fris: ["Fris & licht","Mineraal","Bloemig"],
+  rond: ["Fruitig"],
+  vol:  ["Vol & structuurrijk","Bewaarrosé","Kruidig"]
+};
+
+/* Rose-prijzen zijn een numeriek niveau 1-4 (zie priceDots/PRICE_LEGEND). */
+function quizPriceTier(wine){
+  return wine.price <= 2 ? "laag" : (wine.price === 3 ? "midden" : "hoog");
+}
+
+function quizTasteScore(wine, taste){
+  const tags = QUIZ_TASTE_TAGS[taste] || [];
+  return (wine.style || []).some(s=> tags.includes(s)) ? 1 : 0;
+}
+
+/* Gerecht/moment: dezelfde onderliggende logica als derivePairing() hierboven
+   (appellation + stijltags), zodat de bucket altijd overeenkomt met het
+   spijsadvies dat ook echt bij de wijn getoond wordt. */
+function quizOccasionBucket(house, wine){
+  const stevig = house.appellation === "bandol" || house.appellation === "palette"
+    || (wine.style||[]).includes("Bewaarrosé") || (wine.style||[]).includes("Vol & structuurrijk");
+  if(stevig) return "vlees";
+  if((wine.style||[]).includes("Mineraal")) return "vis";
+  return "aperitief";
+}
+
+/* Kleurdiepte: echte helderheid van de fleskleur (hex uit de data), verdeeld
+   in drie ongeveer even grote groepen op basis van de daadwerkelijke spreiding
+   in data/rose.json (bleek t/m dieper koperkleurig). */
+function quizColorBucket(wine){
+  const { r, g, b } = hexToRgb(wine.color);
+  const lum = 0.299*r + 0.587*g + 0.114*b;
+  if(lum > 216) return "bleek";
+  if(lum > 190) return "klassiek";
+  return "diep";
+}
+
+function findQuizMatch(answers){
+  const all = [];
+  HOUSES.forEach(h=> h.wines.forEach(w=> all.push({ h, w })));
+  const inBudget = all.filter(({w})=> quizPriceTier(w) === answers.budget);
+  const pool = inBudget.length ? inBudget : all;
+  pool.sort((a,b)=>{
+    const scoreOf = ({h,w})=> quizTasteScore(w, answers.taste)
+      + (quizOccasionBucket(h,w) === answers.occasion ? 1 : 0)
+      + (quizColorBucket(w) === answers.color ? 1 : 0);
+    return scoreOf(b) - scoreOf(a);
+  });
+  return pool[0] || null;
+}
+
+function quizGoToStep(stepId){
+  ["quiz-step-1","quiz-step-2","quiz-step-3","quiz-step-4","quiz-step-result"].forEach(id=>{
+    document.getElementById(id).hidden = (id !== stepId);
+  });
+}
+
+function openQuiz(){
+  quizAnswers = { budget:null, taste:null, occasion:null, color:null };
+  quizGoToStep("quiz-step-1");
+  document.getElementById("quiz-backdrop").classList.add("open");
+  document.getElementById("quiz-modal").classList.add("open");
+}
+
+function closeQuiz(){
+  document.getElementById("quiz-backdrop").classList.remove("open");
+  document.getElementById("quiz-modal").classList.remove("open");
+}
+
+function showQuizResult(){
+  const match = findQuizMatch(quizAnswers);
+  quizGoToStep("quiz-step-result");
+  const card = document.getElementById("quiz-result-card");
+  if(!match){
+    card.innerHTML = `<p>Geen goede match gevonden — probeer het met een andere combinatie.</p>`;
+    return;
+  }
+  const { h: house, w: wine } = match;
+  const orderHref = wine.gall || house.website || "";
+  const orderLabel = wine.gall ? "Bestel bij Gall &amp; Gall →" : `Bezoek ${house.name} →`;
+  card.innerHTML = `
+    ${bottleSVG(wine.color, wine.cuvee)}
+    <div class="quiz-result-info">
+      <div class="quiz-result-house">${house.name}</div>
+      <h3 class="quiz-result-cuvee">${wine.cuvee}</h3>
+      <p class="quiz-result-notes">${wine.notes}</p>
+      <p class="quiz-result-pairing">Lekker bij: ${wine.pairing}</p>
+      <div class="quiz-result-price">${priceDots(wine.price)}<span class="price-euro">${PRICE_LEGEND[wine.price]}</span></div>
+      ${orderHref ? `<a class="gall-cta" data-wine-id="${wine.id}" href="${orderHref}" target="_blank" rel="noopener">${orderLabel}</a>` : ""}
+      <button class="quiz-back" id="quiz-view-details" type="button">Bekijk alle details →</button>
+    </div>
+  `;
+  document.getElementById("quiz-view-details").addEventListener("click", ()=>{
+    closeQuiz();
+    openWineDetail(house, wine);
+  });
+}
+
+document.getElementById("quiz-trigger").addEventListener("click", openQuiz);
+document.getElementById("quiz-close").addEventListener("click", closeQuiz);
+document.getElementById("quiz-backdrop").addEventListener("click", closeQuiz);
+document.getElementById("quiz-restart").addEventListener("click", openQuiz);
+document.getElementById("quiz-back-1").addEventListener("click", ()=> quizGoToStep("quiz-step-1"));
+document.getElementById("quiz-back-2").addEventListener("click", ()=> quizGoToStep("quiz-step-2"));
+document.getElementById("quiz-back-3").addEventListener("click", ()=> quizGoToStep("quiz-step-3"));
+document.querySelectorAll("#quiz-step-1 .quiz-option").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    quizAnswers.budget = btn.dataset.budget;
+    quizGoToStep("quiz-step-2");
+  });
+});
+document.querySelectorAll("#quiz-step-2 .quiz-option").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    quizAnswers.taste = btn.dataset.taste;
+    quizGoToStep("quiz-step-3");
+  });
+});
+document.querySelectorAll("#quiz-step-3 .quiz-option").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    quizAnswers.occasion = btn.dataset.occasion;
+    quizGoToStep("quiz-step-4");
+  });
+});
+document.querySelectorAll("#quiz-step-4 .quiz-option").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    quizAnswers.color = btn.dataset.color;
+    showQuizResult();
+  });
+});
 
 /* ---------- DELEN (deep links) ---------- */
 function buildShareUrl(house, wine){
@@ -2390,7 +2665,7 @@ document.getElementById("sidebar-backdrop").addEventListener("click", closeSideb
 document.getElementById("detail-close").addEventListener("click", closeWineDetail);
 document.getElementById("detail-backdrop").addEventListener("click", closeWineDetail);
 document.addEventListener("keydown", (e)=>{
-  if(e.key==="Escape"){ closeWineDetail(); closeCompareModal(); }
+  if(e.key==="Escape"){ closeWineDetail(); closeCompareModal(); closeQuiz(); }
 });
 
 document.getElementById("detail-fav").addEventListener("click", ()=>{
@@ -2685,17 +2960,28 @@ document.addEventListener("click", function(e){
 
   let plek = "onbekend";
   if(link.closest(".starter-grid")) plek = "twijfel-je-instapper";
+  else if(link.closest("#quiz-modal")) plek = "quiz";
   else if(link.closest(".detail-modal")) plek = "detailkaart";
   else if(link.closest("#sidebar")) plek = "zijbalk";
   else if(link.closest(".wine-card")) plek = "kaartrooster";
 
   let wineLabel = "";
-  if(link.id === "detail-gall-link" && currentDetailWine && currentDetailHouse){
+  if(link.dataset.wineId){
+    /* Directe id op de link zelf (o.a. het quizresultaat) — geen omweg via
+       een favorieten-hartje in een omliggende kaart nodig. */
+    let match = null;
+    for(const h of HOUSES){
+      const w = h.wines.find(x=> x.id === link.dataset.wineId);
+      if(w){ match = `${w.cuvee} — ${h.name}`; break; }
+    }
+    wineLabel = match || "";
+  }
+  if(!wineLabel && link.id === "detail-gall-link" && currentDetailWine && currentDetailHouse){
     wineLabel = `${currentDetailWine.cuvee} — ${currentDetailHouse.name}`;
-  } else if(link.classList.contains("starter-card")){
+  } else if(!wineLabel && link.classList.contains("starter-card")){
     const nameEl = link.querySelector(".starter-name");
     wineLabel = nameEl ? nameEl.textContent : "";
-  } else {
+  } else if(!wineLabel){
     const container = link.closest(".wine-card, .sidebar-wine");
     const heart = container && container.querySelector(".fav-heart[data-wine-id]");
     const wineId = heart && heart.dataset.wineId;
