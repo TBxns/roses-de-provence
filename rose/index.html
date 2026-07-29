@@ -194,13 +194,17 @@
      bezoekers die liever niet de hele lijst doorspitten. Hergebruikt bewust
      dezelfde modal-opmaak als de detailkaart, zodat het geheel als één stijl
      aanvoelt. */
+  .quiz-cta{ margin: 32px auto 0; max-width:520px; text-align:center; }
+  .quiz-cta-text{ font-size:13px; line-height:1.5; color: rgba(44,30,24,.62); margin:0 0 14px; }
   .quiz-trigger{
-    display:inline-flex; align-items:center; gap:6px; margin: -6px 0 22px;
-    background:none; border:none; padding:0; font-family: var(--font-ui);
-    font-size:12.5px; font-weight:600; color: var(--facade); cursor:pointer;
-    text-decoration:underline; text-underline-offset:3px;
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--rose); color: var(--shadow); font-weight:700;
+    font-family: var(--font-ui); font-size:13px; letter-spacing:.01em;
+    border:none; border-radius:999px; padding:13px 26px; cursor:pointer;
+    box-shadow: 0 6px 14px rgba(44,30,24,.18), 0 2px 5px rgba(44,30,24,.12);
+    transition: transform .15s ease, box-shadow .15s ease;
   }
-  .quiz-trigger:hover{ color: var(--shadow); }
+  .quiz-trigger:hover{ transform: translateY(-2px); box-shadow: 0 10px 22px rgba(44,30,24,.26), 0 3px 7px rgba(44,30,24,.16); }
   .quiz-backdrop{
     position: fixed; inset:0; background: rgba(44,30,24,.55); backdrop-filter: blur(2px);
     opacity:0; pointer-events:none; transition: opacity .28s ease; z-index:60;
@@ -243,6 +247,14 @@
   .quiz-result-pairing{ font-size:11.5px; color: rgba(44,30,24,.55); margin:0 0 12px; font-style:italic; }
   .quiz-result-price{ font-size:12px; font-weight:600; color: var(--shadow); margin-bottom:14px; }
   .quiz-result-price .price-euro{ display:block; font-size:10.5px; font-weight:400; color: rgba(44,30,24,.55); margin-top:2px; font-style:italic; }
+  .quiz-alt{ margin-top:18px; padding-top:16px; border-top:1px solid rgba(44,30,24,.12); }
+  .quiz-alt-label{ font-size:11px; line-height:1.5; color: rgba(44,30,24,.55); margin:0 0 10px; }
+  .quiz-alt-card{ display:flex; gap:12px; align-items:flex-start; }
+  .quiz-alt-card .bottle-icon{ width:34px; height:84px; flex-shrink:0; }
+  .quiz-alt-info{ min-width:0; }
+  .quiz-alt-name{ font-family: var(--font-display); font-style:italic; font-size:14px; margin:0 0 2px; }
+  .quiz-alt-house{ font-size:10.5px; color: rgba(44,30,24,.5); margin:0 0 8px; }
+  .quiz-alt-card .gall-cta{ width:auto; display:inline-block; padding:6px 14px; }
   .quiz-restart{
     margin-top:18px; background:none; border:none; font-size:12px; color: rgba(44,30,24,.5);
     text-decoration:underline; cursor:pointer; display:block;
@@ -972,7 +984,6 @@
   <section class="starter" aria-label="Twijfel je? Begin hier">
     <p class="starter-eyebrow">Twijfel je? Begin hier</p>
     <p class="starter-intro">Tweeëntwintig huizen is veel om doorheen te bladeren. Drie concrete startpunten — van instapper tot de fles waar wij zelf het meest van houden.</p>
-    <button class="quiz-trigger" id="quiz-trigger" type="button">Liever 2 vragen beantwoorden? Doe de quiz →</button>
     <div class="starter-grid">
       <a class="starter-card" href="https://www.gall.nl/mirabeau-classic-rose-rose-75cl-408417.html" target="_blank" rel="noopener">
         <p class="starter-tag">De instapper</p>
@@ -995,6 +1006,11 @@
         <p class="starter-why">Het domein waar de moderne Provence-rosé is uitgevonden. Dé referentie waar de meeste andere rosés zich aan meten.</p>
         <span class="starter-cta">€ 47,29 · Bestel bij Gall &amp; Gall →</span>
       </a>
+    </div>
+
+    <div class="quiz-cta">
+      <p class="quiz-cta-text">Nog niet overtuigd door deze drie? Beantwoord 4 korte vragen en we kiezen de beste match voor jou.</p>
+      <button class="quiz-trigger" id="quiz-trigger" type="button">Doe de "Vind jouw wijn"-quiz →</button>
     </div>
   </section>
 
@@ -1268,7 +1284,7 @@
 
     <div class="quiz-step" id="quiz-step-4" hidden>
       <p class="quiz-eyebrow">Vind jouw wijn — vraag 4 van 4</p>
-      <h3 class="quiz-question">Welke kleur roze heb je het liefst?</h3>
+      <h3 class="quiz-question">Welke kleur rosé heb je het liefst?</h3>
       <div class="quiz-options">
         <button class="quiz-option" type="button" data-color="bleek">Bleek en doorschijnend</button>
         <button class="quiz-option" type="button" data-color="klassiek">Klassiek zalmroze</button>
@@ -1447,11 +1463,11 @@ function wrapLabel(name, maxWidth, fontSizePx){
     else { cur = test; }
   });
   if(cur) lines.push(cur.trim());
-  if(lines.length > 3){
-    lines.length = 3;
-    let last = lines[2];
+  if(lines.length > 4){
+    lines.length = 4;
+    let last = lines[3];
     while(last.length > 1 && measureLabelWidth(last + "…", fontSizePx) > maxWidth){ last = last.slice(0, -1); }
-    lines[2] = last + "…";
+    lines[3] = last + "…";
   }
   return lines;
 }
@@ -1468,8 +1484,8 @@ function bottleSVG(hex, name){
   const uid = "b" + (bottleUid++);
   const top = lighten(hex, .24);
   const deep = darken(hex, .14);
-  const lines = wrapLabel(name || "", 30, 8.6);
-  const lineH = 10.5;
+  const lines = wrapLabel(name || "", 31, 7.2);
+  const lineH = 9;
   const startY = 118 - (lines.length-1) * (lineH/2);
   const tspans = lines.map((ln,i)=>`<tspan x="35" y="${startY + i*lineH}">${ln}</tspan>`).join("");
   return `
@@ -1490,10 +1506,10 @@ function bottleSVG(hex, name){
     <!-- schouderlijn -->
     <path d="M17,63 C17,52 29,48 29,36" fill="none" stroke="#2C1E18" stroke-opacity=".16" stroke-width="1"/>
     <!-- etiket -->
-    <rect x="17.5" y="${startY - lineH - 4}" width="35" height="${lines.length*lineH + 12}" fill="#FBF4EC" opacity=".95" stroke="#2C1E18" stroke-opacity=".24" stroke-width=".6"/>
-    <line x1="20" y1="${startY - lineH - 1}" x2="50" y2="${startY - lineH - 1}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
-    <line x1="20" y1="${startY + lines.length*lineH - lineH/2 + 5}" x2="50" y2="${startY + lines.length*lineH - lineH/2 + 5}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
-    <text text-anchor="middle" font-family="'Fraunces','Hoefler Text',Georgia,'Times New Roman',serif" font-style="italic" font-size="8.6" fill="#2C1E18">${tspans}</text>
+    <rect x="16.5" y="${startY - lineH - 4}" width="37" height="${lines.length*lineH + 12}" fill="#FBF4EC" opacity=".95" stroke="#2C1E18" stroke-opacity=".24" stroke-width=".6"/>
+    <line x1="19" y1="${startY - lineH - 1}" x2="51" y2="${startY - lineH - 1}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
+    <line x1="19" y1="${startY + lines.length*lineH - lineH/2 + 5}" x2="51" y2="${startY + lines.length*lineH - lineH/2 + 5}" stroke="#2C1E18" stroke-opacity=".28" stroke-width=".5"/>
+    <text text-anchor="middle" font-family="'Fraunces','Hoefler Text',Georgia,'Times New Roman',serif" font-style="italic" font-size="7.2" fill="#2C1E18">${tspans}</text>
     <!-- glans op het glas -->
     <path d="M20,66 L20,144" stroke="#ffffff" stroke-opacity=".4" stroke-width="2" stroke-linecap="round"/>
     <path d="M50,70 L50,140" stroke="#2C1E18" stroke-opacity=".08" stroke-width="1.4" stroke-linecap="round"/>
@@ -2340,18 +2356,33 @@ function quizColorBucket(wine){
   return "diep";
 }
 
+/* Geeft altijd de beste match terug (ongeacht of die bij Gall & Gall
+   besteld kan worden), plus — alléén als die beste match zelf geen
+   gall-link heeft — het best passende alternatief dat wél direct
+   besteld kan worden. Zo blijft het eerste advies onveranderd, maar staat
+   er nooit een doodlopend "bestel"-pad in het resultaat. */
 function findQuizMatch(answers){
   const all = [];
   HOUSES.forEach(h=> h.wines.forEach(w=> all.push({ h, w })));
   const inBudget = all.filter(({w})=> quizPriceTier(w) === answers.budget);
   const pool = inBudget.length ? inBudget : all;
-  pool.sort((a,b)=>{
-    const scoreOf = ({h,w})=> quizTasteScore(w, answers.taste)
-      + (quizOccasionBucket(h,w) === answers.occasion ? 1 : 0)
-      + (quizColorBucket(w) === answers.color ? 1 : 0);
-    return scoreOf(b) - scoreOf(a);
-  });
-  return pool[0] || null;
+  const scoreOf = ({h,w})=> quizTasteScore(w, answers.taste)
+    + (quizOccasionBucket(h,w) === answers.occasion ? 1 : 0)
+    + (quizColorBucket(w) === answers.color ? 1 : 0);
+  const sorted = [...pool].sort((a,b)=> scoreOf(b) - scoreOf(a));
+  const primary = sorted[0] || null;
+  let alternative = null;
+  if(primary && !primary.w.gall){
+    alternative = sorted.find(({w})=> w.gall) || null;
+    if(!alternative){
+      /* Geen enkele wijn binnen dit budget heeft een gall-link (komt voor bij
+         de duurste selectie) — zoek dan in de volledige lijst naar de best
+         passende bestelbare wijn, zodat er altijd een alternatief is. */
+      const allSorted = [...all].sort((a,b)=> scoreOf(b) - scoreOf(a));
+      alternative = allSorted.find(({w})=> w.gall) || null;
+    }
+  }
+  return { primary, alternative };
 }
 
 function quizGoToStep(stepId){
@@ -2373,16 +2404,29 @@ function closeQuiz(){
 }
 
 function showQuizResult(){
-  const match = findQuizMatch(quizAnswers);
+  const { primary, alternative } = findQuizMatch(quizAnswers);
   quizGoToStep("quiz-step-result");
   const card = document.getElementById("quiz-result-card");
-  if(!match){
+  if(!primary){
     card.innerHTML = `<p>Geen goede match gevonden — probeer het met een andere combinatie.</p>`;
     return;
   }
-  const { h: house, w: wine } = match;
+  const { h: house, w: wine } = primary;
   const orderHref = wine.gall || house.website || "";
   const orderLabel = wine.gall ? "Bestel bij Gall &amp; Gall →" : `Bezoek ${house.name} →`;
+  const altBlock = alternative ? `
+    <div class="quiz-alt">
+      <p class="quiz-alt-label">Liever meteen bestellen? Deze past ook goed en is direct leverbaar:</p>
+      <div class="quiz-alt-card">
+        ${bottleSVG(alternative.w.color, alternative.w.cuvee)}
+        <div class="quiz-alt-info">
+          <div class="quiz-alt-name">${alternative.w.cuvee}</div>
+          <div class="quiz-alt-house">${alternative.h.name}</div>
+          <a class="gall-cta" data-wine-id="${alternative.w.id}" href="${alternative.w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>
+        </div>
+      </div>
+    </div>
+  ` : "";
   card.innerHTML = `
     ${bottleSVG(wine.color, wine.cuvee)}
     <div class="quiz-result-info">
@@ -2393,6 +2437,7 @@ function showQuizResult(){
       <div class="quiz-result-price">${priceDots(wine.price)}<span class="price-euro">${PRICE_LEGEND[wine.price]}</span></div>
       ${orderHref ? `<a class="gall-cta" data-wine-id="${wine.id}" href="${orderHref}" target="_blank" rel="noopener">${orderLabel}</a>` : ""}
       <button class="quiz-back" id="quiz-view-details" type="button">Bekijk alle details →</button>
+      ${altBlock}
     </div>
   `;
   document.getElementById("quiz-view-details").addEventListener("click", ()=>{
