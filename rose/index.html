@@ -2674,6 +2674,11 @@ function slugify(s){
     .replace(/^-+|-+$/g, "")
     .slice(0, 60) || "onbekend";
 }
+/* Belangrijk: dit moet in de CAPTURE-fase (laatste argument true) geregistreerd
+   worden. De "Bestel bij Gall & Gall"-knop op de kaart zelf roept namelijk
+   e.stopPropagation() aan (om te voorkomen dat een klik ook de hele kaart
+   opent), wat een gewone bubble-listener op document nooit zou bereiken. In de
+   capture-fase loopt dit script juist vóórdat die stopPropagation kan toeslaan. */
 document.addEventListener("click", function(e){
   const link = e.target.closest("a.gall-cta, #detail-gall-link, a.starter-card");
   if(!link || !window.goatcounter || !window.goatcounter.count) return;
@@ -2710,7 +2715,7 @@ document.addEventListener("click", function(e){
     title: wineLabel,
     event: true
   });
-});
+}, true);
 </script>
 </body>
 </html>
