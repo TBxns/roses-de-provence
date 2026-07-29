@@ -2660,25 +2660,58 @@ if("serviceWorker" in navigator){
      cookiebanner nodig omdat er geen persoonsgegevens worden verzameld).
      VERVANG "REPLACE-MET-JOUW-CODE" hieronder door je eigen GoatCounter-sitecode
      zodra je een gratis account hebt aangemaakt op https://www.goatcounter.com. -->
-<script data-goatcounter="https://proefwaaier.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://REPLACE-MET-JOUW-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 /* ---------- ANALYTICS: KLIK-TRACKING OP BESTEL-KNOPPEN ----------
    Telt hoe vaak bezoekers daadwerkelijk doorklikken naar Gall & Gall — de
    belangrijkste conversieknop op deze pagina — uitgesplitst naar de plek waar
-   geklikt werd (kaartrooster, zijbalk, detailkaart of de "Twijfel je?"-instapper).
-   Werkt via één document-brede listener, dus onafhankelijk van wanneer/hoe een
-   wijnkaart of modal wordt opgebouwd. */
+   geklikt werd (kaartrooster, zijbalk, detailkaart of de "Twijfel je?"-instapper)
+   ÉN naar de specifieke wijn, zodat zichtbaar wordt welke wijnen daadwerkelijk
+   tot een klik leiden. GoatCounter groepeert in het dashboard op het "path",
+   dus de wijn moet daar ook in zitten — alleen de titel invullen is niet genoeg. */
+function slugify(s){
+  return (s || "").toLowerCase()
+    .normalize("NFD").replace(new RegExp("[\\u0300-\\u036f]", "g"), "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60) || "onbekend";
+}
 document.addEventListener("click", function(e){
   const link = e.target.closest("a.gall-cta, #detail-gall-link, a.starter-card");
   if(!link || !window.goatcounter || !window.goatcounter.count) return;
+
   let plek = "onbekend";
   if(link.closest(".starter-grid")) plek = "twijfel-je-instapper";
   else if(link.closest(".detail-modal")) plek = "detailkaart";
   else if(link.closest("#sidebar")) plek = "zijbalk";
   else if(link.closest(".wine-card")) plek = "kaartrooster";
-  const label = (link.textContent || link.href || "").trim().slice(0, 60);
-  window.goatcounter.count({ path: `klik-gallgall/${plek}`, title: label, event: true });
+
+  let wineLabel = "";
+  if(link.id === "detail-gall-link" && currentDetailWine && currentDetailHouse){
+    wineLabel = `${currentDetailWine.cuvee} — ${currentDetailHouse.name}`;
+  } else if(link.classList.contains("starter-card")){
+    const nameEl = link.querySelector(".starter-name");
+    wineLabel = nameEl ? nameEl.textContent : "";
+  } else {
+    const container = link.closest(".wine-card, .sidebar-wine");
+    const heart = container && container.querySelector(".fav-heart[data-wine-id]");
+    const wineId = heart && heart.dataset.wineId;
+    let match = null;
+    if(wineId){
+      for(const h of HOUSES){
+        const w = h.wines.find(x=> x.id === wineId);
+        if(w){ match = `${w.cuvee} — ${h.name}`; break; }
+      }
+    }
+    wineLabel = match || (container && container.querySelector(".cuvee") ? container.querySelector(".cuvee").textContent : "");
+  }
+  if(!wineLabel) wineLabel = (link.textContent || link.href || "").trim().slice(0, 60);
+
+  window.goatcounter.count({
+    path: `klik-gallgall/${plek}/${slugify(wineLabel)}`,
+    title: wineLabel,
+    event: true
+  });
 });
 </script>
 </body>
