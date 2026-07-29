@@ -2141,8 +2141,13 @@ function openWineDetail(house, wine){
   `;
 
   const link = document.getElementById("detail-link");
-  link.href = house.website;
-  link.textContent = `Bezoek ${house.name} →`;
+  if (house.website) {
+    link.style.display = "";
+    link.href = house.website;
+    link.textContent = `Bezoek ${house.name} →`;
+  } else {
+    link.style.display = "none";
+  }
 
   const gallLink = document.getElementById("detail-gall-link");
   if (wine.gall) {
