@@ -267,6 +267,46 @@
   .quiz-restart:hover{ color: var(--shadow); }
   @media (max-width:480px){ .quiz-result-card{ flex-direction:column; } .quiz-result-card .bottle-icon{ width:56px; height:138px; } }
 
+  /* ---------- WERELDBOL ----------
+     Interactieve 3D-globe (Three.js) met een echte NASA-aardetextuur, via een
+     CSS-filter kleurgegradeerd naar het eigen palet van de site — zodat het
+     fotorealistisch oogt maar toch bij de rest van Proefwaaier past. Sleep om
+     te draaien; de zoekbalk draait de bol naar het gevonden wijnhuis. */
+  .globe-wrap{ max-width:640px; margin:0 auto; padding:30px 32px 50px; }
+  .globe-search{ position:relative; margin-bottom:20px; }
+  .globe-search-input{
+    width:100%; box-sizing:border-box; padding:12px 18px; border-radius:999px;
+    border:1px solid rgba(44,30,24,.18); font-family:var(--font-ui); font-size:13px;
+    background: var(--paper); color: var(--shadow);
+  }
+  .globe-search-input:focus{ outline:none; border-color: var(--facade); }
+  .globe-search-results{
+    position:absolute; top:calc(100% + 8px); left:0; right:0; background: var(--paper);
+    border:1px solid rgba(44,30,24,.14); border-radius:12px; box-shadow:0 12px 28px rgba(44,30,24,.18);
+    max-height:280px; overflow-y:auto; z-index:5;
+  }
+  .globe-search-result{
+    display:block; width:100%; text-align:left; padding:11px 18px; background:none; border:none;
+    border-bottom:1px solid rgba(44,30,24,.08); font-family:var(--font-ui); cursor:pointer;
+  }
+  .globe-search-result:last-child{ border-bottom:none; }
+  .globe-search-result:hover{ background: rgba(44,30,24,.04); }
+  .globe-search-result b{ display:block; font-size:13px; font-weight:600; color: var(--shadow); }
+  .globe-search-result span{ display:block; font-size:11px; color: rgba(44,30,24,.5); margin-top:2px; }
+  .globe-stage{ position:relative; width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto; cursor:grab; touch-action:none; }
+  .globe-stage.dragging{ cursor:grabbing; }
+  .globe-stage canvas{
+    width:100%; height:100%; display:block;
+    filter: sepia(.55) saturate(2) hue-rotate(-14deg) brightness(1.05) contrast(1.08);
+  }
+  .globe-tooltip{
+    position:absolute; transform:translate(-50%,-125%); background: var(--shadow); color: var(--paper);
+    font-family:var(--font-ui); font-size:11.5px; padding:6px 11px; border-radius:8px; white-space:nowrap;
+    pointer-events:none; z-index:4;
+  }
+  .globe-hint{ text-align:center; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color: rgba(44,30,24,.45); margin:16px 0 0; }
+  @media (max-width:600px){ .globe-wrap{ padding:24px 20px 40px; } }
+
   /* ---------- FILTER BAR ---------- */
   .filterbar{
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
@@ -961,6 +1001,7 @@
       <button id="btn-list" class="active" data-view="list">Lijst</button>
       <button id="btn-map" data-view="map">Kaart</button>
       <button id="btn-color" data-view="color" title="Naar de kleurwaaier">Proefwaaier</button>
+      <button id="btn-globe" data-view="globe" title="Naar de wereldbol">Wereldbol</button>
     </div>
   </nav>
 
@@ -1085,6 +1126,19 @@
           <svg viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M32 36 1.93 25.06M32 36 13.65 9.79M32 36 32 4M32 36 50.35 9.79M32 36 62.07 25.06" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M1.93 25.06A32 32 0 0 1 62.07 25.06" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="36" r="2.6" fill="currentColor"/></svg>
           Deze kleurwaaier is onderdeel van <a href="/" style="text-decoration:underline;">Proefwaaier</a>
         </p>
+      </div>
+    </section>
+    <section class="view" id="view-globe">
+      <div class="globe-wrap">
+        <div class="globe-search">
+          <input type="search" id="globe-search-input" class="globe-search-input" placeholder="Zoek op land, streek of wijn…" aria-label="Zoek een wijnstreek op de wereldbol">
+          <div class="globe-search-results" id="globe-search-results" hidden></div>
+        </div>
+        <div class="globe-stage" id="globe-stage">
+          <canvas id="globe-canvas"></canvas>
+          <div class="globe-tooltip" id="globe-tooltip" hidden></div>
+        </div>
+        <p class="globe-hint" id="globe-hint">Sleep om te draaien</p>
       </div>
     </section>
   </main>
@@ -1324,6 +1378,9 @@
     <button class="go-btn" id="compare-go">Vergelijk</button>
   </div>
 
+<!-- Three.js: alleen gebruikt voor de "Wereldbol"-weergave, wordt pas
+     daadwerkelijk geïnitialiseerd zodra iemand die weergave opent. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* =====================================================================
    DATA
@@ -2489,6 +2546,251 @@ document.querySelectorAll("#quiz-step-4 .quiz-option").forEach(btn=>{
   });
 });
 
+/* ---------- WERELDBOL ----------
+   Interactieve 3D-globe (Three.js) met een echte NASA-aardetextuur
+   (Wikimedia Commons, publiek domein), zodat de reliëf/kustlijnen klopfen —
+   een CSS-filter op het canvas kleurt die textuur naar het eigen palet van
+   de site. Wordt pas geïnitialiseerd (textuur geladen, WebGL-context
+   aangemaakt) zodra iemand de weergave voor het eerst opent, zodat de
+   eerste paginalading er niets zwaarder van wordt. Pins staan op de echte
+   lat/lng uit data/rose.json (zie project #71). */
+let globeInitialized = false;
+let globeScene, globeCamera, globeRenderer, globeGroup, globeMarkers = [];
+let globeDragging = false, globeMoved = false, globeAutoRotate = true;
+let globeVelX = 0, globeVelY = 0;
+const GLOBE_MARKER_COLOR = 0xC07068;
+
+function latLngToVector3(lat, lng, radius){
+  const phi = (90 - lat) * Math.PI / 180;
+  const theta = (lng + 180) * Math.PI / 180;
+  return new THREE.Vector3(
+    -radius * Math.sin(phi) * Math.cos(theta),
+    radius * Math.cos(phi),
+    radius * Math.sin(phi) * Math.sin(theta)
+  );
+}
+
+function initGlobe(){
+  if(globeInitialized || typeof THREE === "undefined") return;
+  globeInitialized = true;
+
+  const stage = document.getElementById("globe-stage");
+  const canvas = document.getElementById("globe-canvas");
+  const size = stage.clientWidth || 400;
+
+  globeScene = new THREE.Scene();
+  globeCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  globeCamera.position.z = 6.4;
+
+  globeRenderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  globeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  globeRenderer.setSize(size, size);
+
+  globeScene.add(new THREE.AmbientLight(0xffffff, .7));
+  const sun = new THREE.DirectionalLight(0xfff2e0, 1.05);
+  sun.position.set(4, 3, 5);
+  globeScene.add(sun);
+
+  globeGroup = new THREE.Group();
+  globeScene.add(globeGroup);
+
+  const loader = new THREE.TextureLoader();
+  loader.crossOrigin = "anonymous";
+  loader.load(
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Land_ocean_ice_2048.jpg",
+    (tex)=>{
+      const geo = new THREE.SphereGeometry(2, 64, 64);
+      const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: .9, metalness: 0 });
+      const sphere = new THREE.Mesh(geo, mat);
+      globeGroup.add(sphere);
+      addGlobeMarkers();
+      animateGlobe();
+    },
+    undefined,
+    ()=>{ document.getElementById("globe-hint").textContent = "De aardetextuur kon niet geladen worden."; }
+  );
+
+  wireGlobeInteraction(stage);
+  window.addEventListener("resize", resizeGlobe);
+}
+
+function addGlobeMarkers(){
+  const seen = new Map();
+  HOUSES.forEach(h=>{
+    if(typeof h.lat !== "number" || typeof h.lng !== "number") return;
+    const key = h.lat + "," + h.lng;
+    if(!seen.has(key)) seen.set(key, []);
+    seen.get(key).push(h.id);
+  });
+  seen.forEach((houseIds, key)=>{
+    const [lat, lng] = key.split(",").map(Number);
+    const pos = latLngToVector3(lat, lng, 2.035);
+    const dot = new THREE.Mesh(
+      new THREE.SphereGeometry(0.032, 12, 12),
+      new THREE.MeshBasicMaterial({ color: GLOBE_MARKER_COLOR })
+    );
+    dot.position.copy(pos);
+    dot.userData.houseIds = houseIds;
+    globeGroup.add(dot);
+    globeMarkers.push(dot);
+  });
+}
+
+function wireGlobeInteraction(stage){
+  let lastX = 0, lastY = 0, resumeTimer = null;
+  const start = (x, y)=>{
+    globeDragging = true; globeMoved = false; globeAutoRotate = false;
+    lastX = x; lastY = y;
+    stage.classList.add("dragging");
+    clearTimeout(resumeTimer);
+  };
+  const move = (x, y)=>{
+    if(!globeDragging) return;
+    const dx = x - lastX, dy = y - lastY;
+    lastX = x; lastY = y;
+    if(Math.abs(dx) + Math.abs(dy) > 2) globeMoved = true;
+    globeGroup.rotation.y += dx * 0.006;
+    globeGroup.rotation.x += dy * 0.006;
+    globeGroup.rotation.x = Math.max(-1.15, Math.min(1.15, globeGroup.rotation.x));
+    globeVelX = dx * 0.006; globeVelY = dy * 0.006;
+  };
+  const end = (clientX, clientY)=>{
+    globeDragging = false;
+    stage.classList.remove("dragging");
+    if(!globeMoved && typeof clientX === "number") onGlobeClick(clientX, clientY);
+    resumeTimer = setTimeout(()=>{ globeAutoRotate = true; }, 2400);
+  };
+  stage.addEventListener("mousedown", e=> start(e.clientX, e.clientY));
+  window.addEventListener("mousemove", e=> move(e.clientX, e.clientY));
+  window.addEventListener("mouseup", e=> end(e.clientX, e.clientY));
+  stage.addEventListener("touchstart", e=>{ const t = e.touches[0]; start(t.clientX, t.clientY); }, { passive:true });
+  stage.addEventListener("touchmove", e=>{ const t = e.touches[0]; move(t.clientX, t.clientY); }, { passive:true });
+  stage.addEventListener("touchend", e=>{ const t = e.changedTouches[0]; end(t.clientX, t.clientY); });
+}
+
+function animateGlobe(){
+  requestAnimationFrame(animateGlobe);
+  if(!globeGroup || !globeRenderer) return;
+  if(globeAutoRotate){
+    globeGroup.rotation.y += 0.0016;
+  } else if(!globeDragging){
+    globeGroup.rotation.y += globeVelX;
+    globeGroup.rotation.x += globeVelY;
+    globeVelX *= 0.92; globeVelY *= 0.92;
+  }
+  globeRenderer.render(globeScene, globeCamera);
+}
+
+function resizeGlobe(){
+  if(!globeInitialized) return;
+  const stage = document.getElementById("globe-stage");
+  const size = stage.clientWidth;
+  if(!size) return;
+  globeCamera.aspect = 1;
+  globeCamera.updateProjectionMatrix();
+  globeRenderer.setSize(size, size);
+}
+
+function onGlobeClick(clientX, clientY){
+  const stage = document.getElementById("globe-stage");
+  const rect = stage.getBoundingClientRect();
+  const mouse = new THREE.Vector2(
+    ((clientX - rect.left) / rect.width) * 2 - 1,
+    -((clientY - rect.top) / rect.height) * 2 + 1
+  );
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, globeCamera);
+  const hits = raycaster.intersectObjects(globeMarkers);
+  if(!hits.length) return;
+  const marker = hits[0].object;
+  const names = marker.userData.houseIds
+    .map(id=> HOUSES.find(h=> h.id === id))
+    .filter(Boolean)
+    .map(h=> h.name);
+  showGlobeTooltip(marker, names.join(", "));
+}
+
+function showGlobeTooltip(marker, text){
+  const tooltip = document.getElementById("globe-tooltip");
+  const stage = document.getElementById("globe-stage");
+  const v = marker.getWorldPosition(new THREE.Vector3()).project(globeCamera);
+  const rect = stage.getBoundingClientRect();
+  tooltip.style.left = ((v.x * 0.5 + 0.5) * rect.width) + "px";
+  tooltip.style.top = ((-v.y * 0.5 + 0.5) * rect.height) + "px";
+  tooltip.textContent = text;
+  tooltip.hidden = false;
+  clearTimeout(tooltip._hideTimer);
+  tooltip._hideTimer = setTimeout(()=>{ tooltip.hidden = true; }, 2800);
+}
+
+function animateGlobeRotationTo(targetY, targetX){
+  if(!globeGroup) return;
+  const startY = globeGroup.rotation.y, startX = globeGroup.rotation.x;
+  let deltaY = ((targetY - startY + Math.PI) % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
+  if(deltaY > Math.PI) deltaY -= 2*Math.PI;
+  const duration = 800;
+  const startTime = performance.now();
+  (function step(){
+    const t = Math.min(1, (performance.now() - startTime) / duration);
+    const ease = 1 - Math.pow(1 - t, 3);
+    globeGroup.rotation.y = startY + deltaY * ease;
+    globeGroup.rotation.x = startX + (targetX - startX) * ease;
+    if(t < 1) requestAnimationFrame(step);
+  })();
+}
+
+function focusGlobeOnHouse(house){
+  if(!globeGroup) return;
+  globeAutoRotate = false;
+  const pos = latLngToVector3(house.lat, house.lng, 2.035);
+  const targetY = Math.atan2(-pos.x, pos.z);
+  animateGlobeRotationTo(targetY, -0.18);
+  const marker = globeMarkers.find(m=> m.userData.houseIds.includes(house.id));
+  if(marker) setTimeout(()=> showGlobeTooltip(marker, house.name), 820);
+}
+
+/* Zoeken op land, wijnstreek (appellation), huis of cuvée — dezelfde
+   HOUSES-data als de rest van de pagina, dus nooit uit de pas. */
+function globeSearchMatches(query){
+  const q = query.trim().toLowerCase();
+  if(!q) return [];
+  const results = [];
+  HOUSES.forEach(h=>{
+    if(typeof h.lat !== "number") return;
+    const appellationName = APPELLATIONS[h.appellation] ? APPELLATIONS[h.appellation].name : "";
+    const wineNames = h.wines.map(w=> w.cuvee).join(" ");
+    const haystack = [h.name, h.commune, h.country, appellationName, wineNames, "Europa"].join(" ").toLowerCase();
+    if(haystack.includes(q)) results.push(h);
+  });
+  return results.slice(0, 8);
+}
+
+function renderGlobeSearchResults(query){
+  const box = document.getElementById("globe-search-results");
+  const matches = globeSearchMatches(query);
+  if(!matches.length){ box.hidden = true; box.innerHTML = ""; return; }
+  box.innerHTML = matches.map(h=>{
+    const appellationName = APPELLATIONS[h.appellation] ? APPELLATIONS[h.appellation].name : "";
+    return `
+      <button class="globe-search-result" type="button" data-house-id="${h.id}">
+        <b>${h.name}</b>
+        <span>${appellationName} · ${h.commune}, ${h.country}</span>
+      </button>
+    `;
+  }).join("");
+  box.hidden = false;
+  box.querySelectorAll(".globe-search-result").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const house = HOUSES.find(h=> h.id === btn.dataset.houseId);
+      box.hidden = true;
+      if(house){
+        document.getElementById("globe-search-input").value = house.name;
+        focusGlobeOnHouse(house);
+      }
+    });
+  });
+}
+
 /* ---------- DELEN (deep links) ---------- */
 function buildShareUrl(house, wine){
   const base = location.origin + location.pathname;
@@ -2709,12 +3011,25 @@ function switchView(view){
   document.getElementById("view-list").classList.toggle("active", view==="list");
   document.getElementById("view-map").classList.toggle("active", view==="map");
   document.getElementById("view-color").classList.toggle("active", view==="color");
+  document.getElementById("view-globe").classList.toggle("active", view==="globe");
 }
 
 /* ---------- INIT ---------- */
 document.getElementById("btn-list").addEventListener("click", ()=>switchView("list"));
 document.getElementById("btn-map").addEventListener("click", ()=>switchView("map"));
 document.getElementById("btn-color").addEventListener("click", ()=>switchView("color"));
+document.getElementById("btn-globe").addEventListener("click", ()=>{
+  switchView("globe");
+  initGlobe();
+  if(globeInitialized) resizeGlobe();
+});
+document.getElementById("globe-search-input").addEventListener("input", (e)=>{
+  renderGlobeSearchResults(e.target.value);
+});
+document.addEventListener("click", (e)=>{
+  const wrap = document.getElementById("globe-search");
+  if(wrap && !wrap.contains(e.target)) document.getElementById("globe-search-results").hidden = true;
+});
 document.getElementById("export-tastinglist").addEventListener("click", exportTastingListImage);
 document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
 document.getElementById("sidebar-backdrop").addEventListener("click", closeSidebar);
