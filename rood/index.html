@@ -2608,7 +2608,7 @@ function initGlobe(){
   const loader = new THREE.TextureLoader();
   loader.crossOrigin = "anonymous";
   loader.load(
-    "https://commons.wikimedia.org/wiki/Special:FilePath/Land_ocean_ice_2048.jpg",
+    "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg",
     (tex)=>{
       const geo = new THREE.SphereGeometry(2, 64, 64);
       const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: .9, metalness: 0 });
