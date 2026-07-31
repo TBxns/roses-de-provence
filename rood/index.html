@@ -294,6 +294,7 @@
     width:100%; height:100%; display:block;
     filter: sepia(.6) saturate(2.1) hue-rotate(-28deg) brightness(.92) contrast(1.12);
   }
+  .globe-controls{ right:6px; bottom:6px; }
   .globe-tooltip{
     position:absolute; transform:translate(-50%,-125%); background: var(--shadow); color: var(--paper);
     font-family:var(--font-ui); font-size:11.5px; padding:6px 11px; border-radius:8px; white-space:nowrap;
@@ -1142,8 +1143,12 @@
         <div class="globe-stage" id="globe-stage">
           <canvas id="globe-canvas"></canvas>
           <div class="globe-tooltip" id="globe-tooltip" hidden></div>
+          <div class="map-controls globe-controls">
+            <button id="globe-zoom-in" type="button" title="Inzoomen">+</button>
+            <button id="globe-zoom-out" type="button" title="Uitzoomen">−</button>
+          </div>
         </div>
-        <p class="globe-hint" id="globe-hint">Sleep om te draaien</p>
+        <p class="globe-hint" id="globe-hint">Sleep om te draaien · scroll om in/uit te zoomen</p>
       </div>
     </section>
   </main>
@@ -2569,7 +2574,10 @@ let globeInitialized = false;
 let globeScene, globeCamera, globeRenderer, globeGroup, globeMarkers = [];
 let globeDragging = false, globeMoved = false, globeAutoRotate = true;
 let globeVelX = 0, globeVelY = 0;
+let globeHoveredMarker = null, globeSearchHighlighted = [];
 const GLOBE_MARKER_COLOR = 0xA8763E;
+const GLOBE_MARKER_HIGHLIGHT_COLOR = 0xFFD27A;
+const GLOBE_ZOOM_MIN = 3.2, GLOBE_ZOOM_MAX = 9, GLOBE_ZOOM_STEP = 0.7;
 
 function latLngToVector3(lat, lng, radius){
   const phi = (90 - lat) * Math.PI / 180;
@@ -2653,6 +2661,7 @@ function wireGlobeInteraction(stage){
     globeDragging = true; globeMoved = false; globeAutoRotate = false;
     lastX = x; lastY = y;
     stage.classList.add("dragging");
+    stage.style.cursor = "";
     clearTimeout(resumeTimer);
   };
   const move = (x, y)=>{
@@ -2674,9 +2683,85 @@ function wireGlobeInteraction(stage){
   stage.addEventListener("mousedown", e=> start(e.clientX, e.clientY));
   window.addEventListener("mousemove", e=> move(e.clientX, e.clientY));
   window.addEventListener("mouseup", e=> end(e.clientX, e.clientY));
-  stage.addEventListener("touchstart", e=>{ const t = e.touches[0]; start(t.clientX, t.clientY); }, { passive:true });
-  stage.addEventListener("touchmove", e=>{ const t = e.touches[0]; move(t.clientX, t.clientY); }, { passive:true });
-  stage.addEventListener("touchend", e=>{ const t = e.changedTouches[0]; end(t.clientX, t.clientY); });
+  stage.addEventListener("touchstart", e=>{
+    if(e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive:true });
+  stage.addEventListener("touchmove", e=>{
+    if(e.touches.length === 2){
+      globeDragging = false;
+      handlePinchZoom(e.touches[0], e.touches[1]);
+      return;
+    }
+    if(e.touches.length === 1) move(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive:true });
+  stage.addEventListener("touchend", e=>{
+    pinchStartDist = null;
+    if(e.changedTouches[0]) end(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  });
+
+  /* Scrollen/wielen om in en uit te zoomen, geklemd tussen GLOBE_ZOOM_MIN/MAX. */
+  stage.addEventListener("wheel", (e)=>{
+    e.preventDefault();
+    setGlobeZoom(globeCamera.position.z + e.deltaY * 0.0035);
+  }, { passive:false });
+
+  let pinchStartDist = null, pinchStartZ = 0;
+  function handlePinchZoom(t1, t2){
+    const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+    if(pinchStartDist === null){
+      pinchStartDist = dist;
+      pinchStartZ = globeCamera.position.z;
+      return;
+    }
+    const ratio = pinchStartDist / dist;
+    setGlobeZoom(pinchStartZ * ratio);
+  }
+
+  /* Hoveren (zonder te slepen) licht de pin onder de cursor op. */
+  stage.addEventListener("mousemove", (e)=>{
+    if(globeDragging) return;
+    updateGlobeHover(e.clientX, e.clientY);
+  });
+  stage.addEventListener("mouseleave", ()=> setGlobeHover(null));
+}
+
+function setGlobeZoom(z){
+  if(!globeCamera) return;
+  globeCamera.position.z = Math.max(GLOBE_ZOOM_MIN, Math.min(GLOBE_ZOOM_MAX, z));
+}
+
+function updateGlobeHover(clientX, clientY){
+  const stage = document.getElementById("globe-stage");
+  const rect = stage.getBoundingClientRect();
+  const mouse = new THREE.Vector2(
+    ((clientX - rect.left) / rect.width) * 2 - 1,
+    -((clientY - rect.top) / rect.height) * 2 + 1
+  );
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, globeCamera);
+  const hits = raycaster.intersectObjects(globeMarkers);
+  setGlobeHover(hits.length ? hits[0].object : null);
+  stage.style.cursor = hits.length ? "pointer" : "grab";
+}
+
+function setGlobeHover(marker){
+  if(marker === globeHoveredMarker) return;
+  if(globeHoveredMarker && !globeSearchHighlighted.includes(globeHoveredMarker)){
+    globeHoveredMarker.scale.set(1, 1, 1);
+    globeHoveredMarker.material.color.setHex(GLOBE_MARKER_COLOR);
+  }
+  globeHoveredMarker = marker;
+  if(marker){
+    marker.scale.set(1.7, 1.7, 1.7);
+    marker.material.color.setHex(GLOBE_MARKER_HIGHLIGHT_COLOR);
+    const names = marker.userData.houseIds
+      .map(id=> HOUSES.find(h=> h.id === id))
+      .filter(Boolean)
+      .map(h=> h.name);
+    showGlobeTooltip(marker, names.join(", "), true);
+  } else {
+    document.getElementById("globe-tooltip").hidden = true;
+  }
 }
 
 function animateGlobe(){
@@ -2688,6 +2773,15 @@ function animateGlobe(){
     globeGroup.rotation.y += globeVelX;
     globeGroup.rotation.x += globeVelY;
     globeVelX *= 0.92; globeVelY *= 0.92;
+  }
+  /* De bol blijft draaien terwijl een pin oplicht (hover), dus het
+     tooltipje moet elk frame meebewegen met de projectie op het scherm. */
+  if(globeHoveredMarker){
+    const names = globeHoveredMarker.userData.houseIds
+      .map(id=> HOUSES.find(h=> h.id === id))
+      .filter(Boolean)
+      .map(h=> h.name);
+    showGlobeTooltip(globeHoveredMarker, names.join(", "), true);
   }
   globeRenderer.render(globeScene, globeCamera);
 }
@@ -2714,14 +2808,16 @@ function onGlobeClick(clientX, clientY){
   const hits = raycaster.intersectObjects(globeMarkers);
   if(!hits.length) return;
   const marker = hits[0].object;
-  const names = marker.userData.houseIds
+  const house = marker.userData.houseIds
     .map(id=> HOUSES.find(h=> h.id === id))
-    .filter(Boolean)
-    .map(h=> h.name);
-  showGlobeTooltip(marker, names.join(", "));
+    .filter(Boolean)[0];
+  /* Klikken op een pin opent nu direct de pagina van dat wijnhuis met
+     zijn wijnen (dezelfde sidebar als de 2D-kaart gebruikt), i.p.v.
+     alleen een naampjes-tooltip te tonen. */
+  if(house) selectHouse(house.id);
 }
 
-function showGlobeTooltip(marker, text){
+function showGlobeTooltip(marker, text, persist){
   const tooltip = document.getElementById("globe-tooltip");
   const stage = document.getElementById("globe-stage");
   const v = marker.getWorldPosition(new THREE.Vector3()).project(globeCamera);
@@ -2731,7 +2827,7 @@ function showGlobeTooltip(marker, text){
   tooltip.textContent = text;
   tooltip.hidden = false;
   clearTimeout(tooltip._hideTimer);
-  tooltip._hideTimer = setTimeout(()=>{ tooltip.hidden = true; }, 2800);
+  if(!persist) tooltip._hideTimer = setTimeout(()=>{ tooltip.hidden = true; }, 2800);
 }
 
 function animateGlobeRotationTo(targetY, targetX){
@@ -2776,9 +2872,32 @@ function globeSearchMatches(query){
   return results.slice(0, 8);
 }
 
+/* Zet (of wist) de gouden oplichting op alle pins die bij de gegeven
+   huizen horen — zo licht de bol al op terwijl je typt, nog vóór je
+   een resultaat aanklikt. */
+function setGlobeSearchHighlight(houses){
+  globeSearchHighlighted.forEach(marker=>{
+    if(marker !== globeHoveredMarker){
+      marker.scale.set(1, 1, 1);
+      marker.material.color.setHex(GLOBE_MARKER_COLOR);
+    }
+  });
+  globeSearchHighlighted = [];
+  if(!houses || !houses.length || !globeMarkers.length) return;
+  const ids = new Set(houses.map(h=> h.id));
+  globeMarkers.forEach(marker=>{
+    if(marker.userData.houseIds.some(id=> ids.has(id))){
+      marker.scale.set(1.6, 1.6, 1.6);
+      marker.material.color.setHex(GLOBE_MARKER_HIGHLIGHT_COLOR);
+      globeSearchHighlighted.push(marker);
+    }
+  });
+}
+
 function renderGlobeSearchResults(query){
   const box = document.getElementById("globe-search-results");
   const matches = globeSearchMatches(query);
+  setGlobeSearchHighlight(matches);
   if(!matches.length){ box.hidden = true; box.innerHTML = ""; return; }
   box.innerHTML = matches.map(h=>{
     const appellationName = APPELLATIONS[h.appellation] ? APPELLATIONS[h.appellation].name : "";
@@ -2797,6 +2916,8 @@ function renderGlobeSearchResults(query){
       if(house){
         document.getElementById("globe-search-input").value = house.name;
         focusGlobeOnHouse(house);
+        /* Klikken opent gelijk de pagina van het wijnhuis met zijn wijnen. */
+        selectHouse(house.id);
       }
     });
   });
@@ -3036,6 +3157,12 @@ document.getElementById("btn-globe").addEventListener("click", ()=>{
 });
 document.getElementById("globe-search-input").addEventListener("input", (e)=>{
   renderGlobeSearchResults(e.target.value);
+});
+document.getElementById("globe-zoom-in").addEventListener("click", ()=>{
+  if(globeCamera) setGlobeZoom(globeCamera.position.z - GLOBE_ZOOM_STEP);
+});
+document.getElementById("globe-zoom-out").addEventListener("click", ()=>{
+  if(globeCamera) setGlobeZoom(globeCamera.position.z + GLOBE_ZOOM_STEP);
 });
 document.addEventListener("click", (e)=>{
   const wrap = document.getElementById("globe-search");
