@@ -2564,6 +2564,7 @@ let globeScene, globeCamera, globeRenderer, globeGroup, globeMarkers = [];
 let globeDragging = false, globeMoved = false, globeAutoRotate = true;
 let globeVelX = 0, globeVelY = 0;
 let globeHoveredMarker = null, globeSearchHighlighted = [];
+let globeClouds = null, globeStars = null;
 const GLOBE_MARKER_COLOR = 0xC07068;
 const GLOBE_MARKER_HIGHLIGHT_COLOR = 0xFFD27A;
 const GLOBE_ZOOM_MIN = 3.2, GLOBE_ZOOM_MAX = 9, GLOBE_ZOOM_STEP = 0.7;
@@ -2588,7 +2589,7 @@ function initGlobe(){
 
   globeScene = new THREE.Scene();
   globeCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-  globeCamera.position.z = 6.4;
+  globeCamera.position.z = 4.6; /* dichter ingezoomd dan voorheen (was 6.4) */
 
   globeRenderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
   globeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -2600,7 +2601,15 @@ function initGlobe(){
   globeScene.add(sun);
 
   globeGroup = new THREE.Group();
+  /* Start gecentreerd op Frankrijk i.p.v. het willekeurige nulpunt, zodat de
+     wijnstreken meteen groot en duidelijk in beeld staan bij het openen. */
+  const francePos = latLngToVector3(46.2, 2.4, 2.035);
+  globeGroup.rotation.y = Math.atan2(-francePos.x, francePos.z);
+  globeGroup.rotation.x = -0.22;
   globeScene.add(globeGroup);
+
+  addGlobeStars();
+  addGlobeAtmosphere();
 
   const loader = new THREE.TextureLoader();
   loader.crossOrigin = "anonymous";
@@ -2611,6 +2620,38 @@ function initGlobe(){
       const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: .9, metalness: 0 });
       const sphere = new THREE.Mesh(geo, mat);
       globeGroup.add(sphere);
+
+      /* Reliëf: een normal map geeft bergen en kustlijnen echte schaduwdiepte.
+         Dit is een niet-kritieke laag — lukt het laden niet, dan blijft de
+         aarde gewoon mooi renderen zoals hij al deed. */
+      loader.load(
+        "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_normal_2048.jpg",
+        (normalTex)=>{
+          mat.normalMap = normalTex;
+          mat.normalScale = new THREE.Vector2(.85, .85);
+          mat.needsUpdate = true;
+        },
+        undefined,
+        ()=>{}
+      );
+
+      /* Wolkenlaag: een dun bolletje net iets groter dan de aarde, dat een
+         fractie sneller meedraait — ook deze laag faalt stil als hij niet
+         laadt. */
+      loader.load(
+        "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_1024.png",
+        (cloudTex)=>{
+          const cloudGeo = new THREE.SphereGeometry(2.015, 64, 64);
+          const cloudMat = new THREE.MeshStandardMaterial({
+            map: cloudTex, transparent:true, opacity:.55, depthWrite:false, roughness:1
+          });
+          globeClouds = new THREE.Mesh(cloudGeo, cloudMat);
+          globeGroup.add(globeClouds);
+        },
+        undefined,
+        ()=>{}
+      );
+
       addGlobeMarkers();
       animateGlobe();
     },
@@ -2620,6 +2661,61 @@ function initGlobe(){
 
   wireGlobeInteraction(stage);
   window.addEventListener("resize", resizeGlobe);
+
+  /* Even laten bezinken op Frankrijk voordat de rustige auto-rotatie
+     begint, zodat de openingsblik echt op de wijnstreken valt. */
+  globeAutoRotate = false;
+  setTimeout(()=>{ if(!globeDragging) globeAutoRotate = true; }, 3000);
+}
+
+/* Vaste sterrenhemel op de achtergrond — staat los van globeGroup zodat
+   hij niet meedraait met het slepen aan de aarde (net als echte sterren
+   die effectief oneindig ver weg staan). */
+function addGlobeStars(){
+  const count = 900;
+  const positions = new Float32Array(count * 3);
+  for(let i=0; i<count; i++){
+    const r = 24 + Math.random() * 18;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos((Math.random() * 2) - 1);
+    positions[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+    positions[i*3+1] = r * Math.cos(phi);
+    positions[i*3+2] = r * Math.sin(phi) * Math.sin(theta);
+  }
+  const starGeo = new THREE.BufferGeometry();
+  starGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const starMat = new THREE.PointsMaterial({ color:0xffffff, size:.11, sizeAttenuation:true, transparent:true, opacity:.8 });
+  globeStars = new THREE.Points(starGeo, starMat);
+  globeScene.add(globeStars);
+}
+
+/* Zachte blauwe gloed rond de rand van de bol (Fresnel-achtig effect via
+   een iets grotere bolschil met de binnenkant naar buiten gericht). */
+function addGlobeAtmosphere(){
+  const atmoGeo = new THREE.SphereGeometry(2.12, 64, 64);
+  const atmoMat = new THREE.ShaderMaterial({
+    uniforms: { glowColor: { value: new THREE.Color(0x6fb7ff) } },
+    vertexShader: `
+      varying vec3 vNormal;
+      void main(){
+        vNormal = normalize(normalMatrix * normal);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vNormal;
+      uniform vec3 glowColor;
+      void main(){
+        float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.5);
+        gl_FragColor = vec4(glowColor, intensity);
+      }
+    `,
+    side: THREE.BackSide,
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    depthWrite: false
+  });
+  globeScene.add(new THREE.Mesh(atmoGeo, atmoMat));
 }
 
 function addGlobeMarkers(){
@@ -2630,6 +2726,7 @@ function addGlobeMarkers(){
     if(!seen.has(key)) seen.set(key, []);
     seen.get(key).push(h.id);
   });
+  let i = 0;
   seen.forEach((houseIds, key)=>{
     const [lat, lng] = key.split(",").map(Number);
     const pos = latLngToVector3(lat, lng, 2.035);
@@ -2639,9 +2736,30 @@ function addGlobeMarkers(){
     );
     dot.position.copy(pos);
     dot.userData.houseIds = houseIds;
+    dot.userData.pulsePhase = i * 0.7;
+
+    /* Zachte pulserende gloed achter elke pin, als een radar-ping —
+       maakt de wijnhuizen op de bol veel opvallender. */
+    const halo = new THREE.Mesh(
+      new THREE.SphereGeometry(0.032, 10, 10),
+      new THREE.MeshBasicMaterial({
+        color: GLOBE_MARKER_COLOR, transparent:true, opacity:.4,
+        blending: THREE.AdditiveBlending, depthWrite:false
+      })
+    );
+    dot.add(halo);
+    dot.userData.halo = halo;
+
     globeGroup.add(dot);
     globeMarkers.push(dot);
+    i++;
   });
+}
+
+/* Zet de kleur van een pin én zijn gloed-halo tegelijk. */
+function setMarkerColor(marker, hex){
+  marker.material.color.setHex(hex);
+  if(marker.userData.halo) marker.userData.halo.material.color.setHex(hex);
 }
 
 function wireGlobeInteraction(stage){
@@ -2737,12 +2855,12 @@ function setGlobeHover(marker){
   if(marker === globeHoveredMarker) return;
   if(globeHoveredMarker && !globeSearchHighlighted.includes(globeHoveredMarker)){
     globeHoveredMarker.scale.set(1, 1, 1);
-    globeHoveredMarker.material.color.setHex(GLOBE_MARKER_COLOR);
+    setMarkerColor(globeHoveredMarker, GLOBE_MARKER_COLOR);
   }
   globeHoveredMarker = marker;
   if(marker){
     marker.scale.set(1.7, 1.7, 1.7);
-    marker.material.color.setHex(GLOBE_MARKER_HIGHLIGHT_COLOR);
+    setMarkerColor(marker, GLOBE_MARKER_HIGHLIGHT_COLOR);
     const names = marker.userData.houseIds
       .map(id=> HOUSES.find(h=> h.id === id))
       .filter(Boolean)
@@ -2763,6 +2881,22 @@ function animateGlobe(){
     globeGroup.rotation.x += globeVelY;
     globeVelX *= 0.92; globeVelY *= 0.92;
   }
+  /* Wolken driften iets sneller dan de aarde zelf mee (relatief t.o.v. de
+     globeGroup, dus onafhankelijk van slepen/auto-rotatie). */
+  if(globeClouds) globeClouds.rotation.y += 0.00035;
+
+  /* Pins krijgen een zachte, ademende gloed — als een radar-ping, elk met
+     een eigen faseverschil zodat ze niet allemaal in de pas lopen. */
+  const t = performance.now() * 0.0016;
+  globeMarkers.forEach(dot=>{
+    const halo = dot.userData.halo;
+    if(!halo) return;
+    const wave = Math.sin(t + dot.userData.pulsePhase);
+    const s = 1.6 + wave * 0.5;
+    halo.scale.set(s, s, s);
+    halo.material.opacity = 0.26 + (wave * 0.5 + 0.5) * 0.18;
+  });
+
   /* De bol blijft draaien terwijl een pin oplicht (hover), dus het
      tooltipje moet elk frame meebewegen met de projectie op het scherm. */
   if(globeHoveredMarker){
@@ -2868,7 +3002,7 @@ function setGlobeSearchHighlight(houses){
   globeSearchHighlighted.forEach(marker=>{
     if(marker !== globeHoveredMarker){
       marker.scale.set(1, 1, 1);
-      marker.material.color.setHex(GLOBE_MARKER_COLOR);
+      setMarkerColor(marker, GLOBE_MARKER_COLOR);
     }
   });
   globeSearchHighlighted = [];
@@ -2877,7 +3011,7 @@ function setGlobeSearchHighlight(houses){
   globeMarkers.forEach(marker=>{
     if(marker.userData.houseIds.some(id=> ids.has(id))){
       marker.scale.set(1.6, 1.6, 1.6);
-      marker.material.color.setHex(GLOBE_MARKER_HIGHLIGHT_COLOR);
+      setMarkerColor(marker, GLOBE_MARKER_HIGHLIGHT_COLOR);
       globeSearchHighlighted.push(marker);
     }
   });
