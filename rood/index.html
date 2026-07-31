@@ -1003,7 +1003,7 @@
       <button id="btn-list" class="active" data-view="list">Lijst</button>
       <button id="btn-map" data-view="map">Kaart</button>
       <button id="btn-color" data-view="color" title="Naar de kleurwaaier">Proefwaaier</button>
-      <button id="btn-globe" data-view="globe" title="Naar de wereldbol">Wereldbol</button>
+      <button id="btn-globe" data-view="globe" title="Naar de wijnatlas">Wijnatlas</button>
     </div>
   </nav>
 
@@ -1137,7 +1137,7 @@
     <section class="view" id="view-globe">
       <div class="globe-wrap">
         <div class="globe-search">
-          <input type="search" id="globe-search-input" class="globe-search-input" placeholder="Zoek op land, streek of wijn…" aria-label="Zoek een wijnstreek op de wereldbol">
+          <input type="search" id="globe-search-input" class="globe-search-input" placeholder="Zoek op land, streek of wijn…" aria-label="Zoek een wijnstreek in de wijnatlas">
           <div class="globe-search-results" id="globe-search-results" hidden></div>
         </div>
         <div class="globe-stage" id="globe-stage">
@@ -1388,7 +1388,7 @@
     <button class="go-btn" id="compare-go">Vergelijk</button>
   </div>
 
-<!-- Three.js: alleen gebruikt voor de "Wereldbol"-weergave, wordt pas
+<!-- Three.js: alleen gebruikt voor de "Wijnatlas"-weergave, wordt pas
      daadwerkelijk geïnitialiseerd zodra iemand die weergave opent. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -2578,7 +2578,10 @@ let globeHoveredMarker = null, globeSearchHighlighted = [];
 let globeClouds = null, globeStars = null;
 const GLOBE_MARKER_COLOR = 0xA8763E;
 const GLOBE_MARKER_HIGHLIGHT_COLOR = 0xFFD27A;
-const GLOBE_ZOOM_MIN = 3.2, GLOBE_ZOOM_MAX = 9, GLOBE_ZOOM_STEP = 0.7;
+/* GLOBE_ZOOM_MIN staat dicht bij het aardoppervlak (straal 2 + de dunne
+   wolken-/atmosfeerschil) zodat je er nu echt op in kunt zoomen voor detail;
+   GLOBE_ZOOM_MAX blijft ruim zodat de hele bol nooit wordt afgesneden. */
+const GLOBE_ZOOM_MIN = 2.3, GLOBE_ZOOM_MAX = 9, GLOBE_ZOOM_STEP = 0.6;
 
 function latLngToVector3(lat, lng, radius){
   const phi = (90 - lat) * Math.PI / 180;
@@ -2600,7 +2603,10 @@ function initGlobe(){
 
   globeScene = new THREE.Scene();
   globeCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-  globeCamera.position.z = 4.6; /* dichter ingezoomd dan voorheen (was 6.4) */
+  /* Ver genoeg naar achteren dat de hele bol (incl. de atmosfeer-gloedschil)
+     altijd volledig in beeld past — dichterbij zou de rand van de aarde
+     afsnijden buiten het canvas. */
+  globeCamera.position.z = 6;
 
   globeRenderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
   globeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -2616,7 +2622,7 @@ function initGlobe(){
      wijnstreken meteen groot en duidelijk in beeld staan bij het openen. */
   const francePos = latLngToVector3(46.2, 2.4, 2.035);
   globeGroup.rotation.y = Math.atan2(-francePos.x, francePos.z);
-  globeGroup.rotation.x = -0.22;
+  globeGroup.rotation.x = 0.68;
   globeScene.add(globeGroup);
 
   addGlobeStars();
@@ -2650,7 +2656,7 @@ function initGlobe(){
          fractie sneller meedraait — ook deze laag faalt stil als hij niet
          laadt. */
       loader.load(
-        "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_1024.png",
+        "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_2048.png",
         (cloudTex)=>{
           const cloudGeo = new THREE.SphereGeometry(2.015, 64, 64);
           const cloudMat = new THREE.MeshStandardMaterial({
@@ -2742,20 +2748,22 @@ function addGlobeMarkers(){
     const [lat, lng] = key.split(",").map(Number);
     const pos = latLngToVector3(lat, lng, 2.035);
     const dot = new THREE.Mesh(
-      new THREE.SphereGeometry(0.032, 12, 12),
+      new THREE.SphereGeometry(0.022, 12, 12),
       new THREE.MeshBasicMaterial({ color: GLOBE_MARKER_COLOR })
     );
     dot.position.copy(pos);
     dot.userData.houseIds = houseIds;
     dot.userData.pulsePhase = i * 0.7;
 
-    /* Zachte pulserende gloed achter elke pin, als een radar-ping —
-       maakt de wijnhuizen op de bol veel opvallender. */
+    /* Heel subtiele, kleine ademende gloed achter elke pin — géén felle
+       additive blob (die liet dicht-op-elkaar-staande huizen samensmelten
+       tot één grote gloed). Normale blending + laag bereik houdt dit klein
+       en rustig, ook bij veel pins dicht bij elkaar. */
     const halo = new THREE.Mesh(
-      new THREE.SphereGeometry(0.032, 10, 10),
+      new THREE.SphereGeometry(0.022, 10, 10),
       new THREE.MeshBasicMaterial({
-        color: GLOBE_MARKER_COLOR, transparent:true, opacity:.4,
-        blending: THREE.AdditiveBlending, depthWrite:false
+        color: GLOBE_MARKER_COLOR, transparent:true, opacity:.22,
+        depthWrite:false
       })
     );
     dot.add(halo);
@@ -2896,16 +2904,17 @@ function animateGlobe(){
      globeGroup, dus onafhankelijk van slepen/auto-rotatie). */
   if(globeClouds) globeClouds.rotation.y += 0.00035;
 
-  /* Pins krijgen een zachte, ademende gloed — als een radar-ping, elk met
-     een eigen faseverschil zodat ze niet allemaal in de pas lopen. */
+  /* Pins krijgen een héél subtiele, kleine ademende gloed — bewust met een
+     klein bereik zodat het bij veel dicht-op-elkaar-staande huizen nooit
+     meer een grote samengesmolten gloed vormt. */
   const t = performance.now() * 0.0016;
   globeMarkers.forEach(dot=>{
     const halo = dot.userData.halo;
     if(!halo) return;
     const wave = Math.sin(t + dot.userData.pulsePhase);
-    const s = 1.6 + wave * 0.5;
+    const s = 1.1 + wave * 0.15;
     halo.scale.set(s, s, s);
-    halo.material.opacity = 0.26 + (wave * 0.5 + 0.5) * 0.18;
+    halo.material.opacity = 0.14 + (wave * 0.5 + 0.5) * 0.1;
   });
 
   /* De bol blijft draaien terwijl een pin oplicht (hover), dus het
@@ -2985,7 +2994,7 @@ function focusGlobeOnHouse(house){
   globeAutoRotate = false;
   const pos = latLngToVector3(house.lat, house.lng, 2.035);
   const targetY = Math.atan2(-pos.x, pos.z);
-  animateGlobeRotationTo(targetY, -0.18);
+  animateGlobeRotationTo(targetY, 0.68);
   const marker = globeMarkers.find(m=> m.userData.houseIds.includes(house.id));
   if(marker) setTimeout(()=> showGlobeTooltip(marker, house.name), 820);
 }
