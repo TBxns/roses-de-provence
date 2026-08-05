@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Les Rosés de Provence — Wijnhuizen &amp; Terroirs | Proefwaaier</title>
-<meta name="description" content="Vergelijk 25 wijnhuizen uit Provence en Toscane — van Bandol tot Bolgheri. Ontdek terroir, druiven en karakter, en bestel direct bij Gall &amp; Gall.">
+<meta name="description" content="Vergelijk 22 wijnhuizen en zes appellations van Provence-rosé — van Bandol tot Coteaux Varois. Ontdek terroir, druiven en karakter, en bestel direct bij Gall &amp; Gall.">
 <link rel="canonical" href="https://proefwaaier.nl/rose/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Proefwaaier">
 <meta property="og:title" content="Les Rosés de Provence — Wijnhuizen &amp; Terroirs | Proefwaaier">
-<meta property="og:description" content="Vergelijk 25 wijnhuizen uit Provence en Toscane — van Bandol tot Bolgheri. Bestel direct bij Gall &amp; Gall.">
+<meta property="og:description" content="Vergelijk 22 wijnhuizen en zes appellations van Provence-rosé — van Bandol tot Coteaux Varois. Bestel direct bij Gall &amp; Gall.">
 <meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Farmhouse_in_Provence,_1888,_Vincent_van_Gogh,_NGA.jpg?width=1200">
 <meta property="og:url" content="https://proefwaaier.nl/rose/">
 <meta property="og:locale" content="nl_NL">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Les Rosés de Provence — Wijnhuizen &amp; Terroirs | Proefwaaier">
-<meta name="twitter:description" content="Vergelijk 25 wijnhuizen uit Provence en Toscane — van Bandol tot Bolgheri. Bestel direct bij Gall &amp; Gall.">
+<meta name="twitter:description" content="Vergelijk 22 wijnhuizen en zes appellations van Provence-rosé — van Bandol tot Coteaux Varois. Bestel direct bij Gall &amp; Gall.">
 <meta name="twitter:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Farmhouse_in_Provence,_1888,_Vincent_van_Gogh,_NGA.jpg?width=1200">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -43,7 +43,6 @@
     --zone-lesbaux: #EFCBC0;
     --zone-coteaux: #DCC6AC;
     --zone-coteauxvarois: #B9C79A;
-    --zone-toscane: #C98A4E;
   }
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
@@ -1010,10 +1009,14 @@
   <header class="hero">
     <div class="hero-eyebrow">Uitsluitend · Provence</div>
     <h1 class="hero-title">Les Rosés<br>de Provence</h1>
-    <p class="hero-sub">Vijfentwintig wijnhuizen, zeven regio's — de Provence die de wereld leerde hoe rosé gemaakt moet worden, met een eerste uitstapje naar Toscane. Vergelijk terroirs, druiven en karakter — van de Alpilles tot de Toscaanse kust van Bolgheri.</p>
+    <p class="hero-sub">Tweeëntwintig wijnhuizen, zes appellations, één regio die de wereld leerde hoe rosé gemaakt moet worden. Vergelijk terroirs, druiven en karakter — van de Alpilles tot de Golf van Saint-Tropez.</p>
     <a class="hero-jump" href="#process">
       Van druif tot fles
       <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a class="hero-jump" href="../toscane/" style="margin-left:12px;">
+      Ontdek ook: Toscane
+      <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </header>
 
@@ -1398,7 +1401,6 @@ const APPELLATIONS = {
   lesbaux: { name:"Les Baux-de-Provence",         tag:"AOC Les Baux-de-Provence",          zoneColor:"var(--zone-lesbaux)", desc:"Biologisch bolwerk tussen de kalkrotsen van de Alpilles. Droge, winderige hellingen rond het middeleeuwse Les Baux geven kruidige, mediterrane rosés." },
   coteaux: { name:"Coteaux d'Aix-en-Provence",    tag:"AOC Coteaux d'Aix-en-Provence",     zoneColor:"var(--zone-coteaux)", desc:"Uitgestrekt gebied rond Aix-en-Provence, van kalksteenplateaus tot rivierdalen. Historische domeinen naast eigentijdse, design-gedreven wijnhuizen." },
   coteauxvarois: { name:"Coteaux Varois en Provence", tag:"AOC Coteaux Varois en Provence", zoneColor:"var(--zone-coteauxvarois)", desc:"Hoger en landinwaarts gelegen appellation rond Brignoles, tussen de Coteaux d'Aix en de kern van de Côtes de Provence. Bosrijk en overwegend biologisch, met een frissere, kruidige stijl door de hoogte." },
-  toscane: { name:"Toscane (Italië)", tag:"IGT Toscana · Bolgheri DOC", zoneColor:"var(--zone-toscane)", desc:"De eerste stap buiten de Provence: rosati uit Toscane, eveneens bij Gall & Gall te vinden. Andere druiven (Sangiovese, Cabernet Sauvignon, Merlot, Syrah) en vaak een tikje voller en kruidiger dan de bleke Provence-stijl. Deze huizen staan niet op de kaart hiernaast — bekijk ze in de lijst of op de Wijnatlas." },
 };
 
 /* Wijnhuis- en wijndata: geladen uit een los JSON-bestand (data/rose.json) i.p.v.
