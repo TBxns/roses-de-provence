@@ -90,5 +90,147 @@
         "notes": "Delicaat roze, met verse aardbei, framboos en subtiele bloementonen. Sappig rood fruit, levendige zuren en een kruidige, verfrissende afdronk."
       }
     ]
+  },
+  {
+    "category": "toscane",
+    "id": "toscane-frescobaldi",
+    "name": "Frescobaldi — Tenuta Ammiraglia",
+    "appellation": "maremma",
+    "commune": "Magliano in Toscana (GR)",
+    "country": "Italië",
+    "lat": 42.60,
+    "lng": 11.10,
+    "website": "https://www.frescobaldi.com/en/estates/tenuta-ammiraglia",
+    "x": 1318,
+    "y": 2979,
+    "desc": "Kustdomein van de Frescobaldi's aan de Maremma-kust, een van Toscanes oudste wijnfamilies (30 generaties, ruim 700 jaar geschiedenis). Rosé van Syrah en Vermentino, genoemd naar een zeenimf uit de Griekse mythologie.",
+    "story": "De Frescobaldi's maken al meer dan zeven eeuwen wijn in Toscane, verspreid over meerdere domeinen. Tenuta Ammiraglia, hun kustdomein in de Maremma, kreeg een opvallend moderne kelder van architecten Piero Sartogo en Nathalie Grenon. Alìe is vernoemd naar een zeenimf uit de Griekse mythologie — toepasselijk voor een rosé die zo dicht bij zee wordt gemaakt.",
+    "wines": [
+      {
+        "cuvee": "Alìe Rosé Toscana IGT",
+        "color": "#F2CBC0",
+        "grapes": [
+          "Syrah",
+          "Vermentino"
+        ],
+        "abv": 12.5,
+        "price": 2,
+        "aging": "Nu – 2 jaar",
+        "notes": "Bleekroze met een vleugje perzik, met citrus en grapefruit, bloemige tonen van roos en pioenroos, mediterrane kruiden en een zilte toets van zeewind."
+      }
+    ]
+  },
+  {
+    "category": "toscane",
+    "id": "toscane-poggioaltesoro",
+    "name": "Poggio al Tesoro (Allegrini)",
+    "appellation": "bolgheri",
+    "commune": "Bolgheri (Castagneto Carducci)",
+    "country": "Italië",
+    "lat": 43.235,
+    "lng": 10.6014,
+    "website": "https://www.poggioaltesoro.it/en/wines/cassiopea",
+    "x": 591,
+    "y": 1716,
+    "desc": "Bolgheri-domein van de Valpolicella-familie Allegrini (bekend van Amarone), sinds 2001. Rosé van Cabernet Franc en Merlot uit het Le Sondraie-wijngoed, naast het legendarische Ornellaia.",
+    "story": "Marilisa Allegrini en haar broer Walter, telgen van de beroemde Amarone-familie uit Valpolicella, zochten in 2001 nieuwe horizonten en vonden die in Bolgheri. Cassiopea, genoemd naar het sterrenbeeld boven het landgoed, groeit op het Le Sondraie-perceel — pal naast dat van Ornellaia.",
+    "wines": [
+      {
+        "cuvee": "Cassiopea Rosato Toscana IGT",
+        "color": "#E2A7A5",
+        "grapes": [
+          "Cabernet Franc 70%",
+          "Merlot 30%"
+        ],
+        "abv": 13,
+        "price": 2,
+        "aging": "Nu – 2 jaar",
+        "notes": "Intens roze met violette schijn, aroma's van braam en framboos met een kruidige ondertoon — de kleur van een Bolgheri-zomerzonsondergang."
+      }
+    ]
+  },
+  {
+    "category": "toscane",
+    "id": "toscane-mantellassi",
+    "name": "Fattoria Mantellassi",
+    "appellation": "maremma",
+    "commune": "Magliano in Toscana (GR)",
+    "country": "Italië",
+    "lat": 42.6171,
+    "lng": 11.32972,
+    "website": "http://www.fattoriamantellassi.it/14-prodotto-maestrale.html",
+    "x": 1652,
+    "y": 2945,
+    "desc": "Familiebedrijf in Banditaccia bij Magliano in Toscana, sinds 1960. Toegankelijke rosé van 100% Ciliegiolo, de vroegrijpe druif van de Maremma.",
+    "story": "De familie Mantellassi vestigde zich rond 1860 vanuit Pistoia in de Maremma. In 1960 begonnen de broers Aleardo en Giuseppe met vier hectare in Banditaccia — inmiddels zijn dat er honderd. Ze hielpen in 1978 mee de Morellino di Scansano DOC op te richten. Maestrale is vernoemd naar de noordwestenwind die via Corsica en de kustpijnbossen over hun heuvels waait.",
+    "wines": [
+      {
+        "cuvee": "Maestrale Maremma Toscana DOC Rosato",
+        "color": "#F3D6CE",
+        "grapes": [
+          "Ciliegiolo"
+        ],
+        "abv": 12.5,
+        "price": 1,
+        "aging": "Nu – 1 jaar",
+        "notes": "Bloemig en fruitig, zacht en toegankelijk op de tong. Een korte huidcontacttijd van slechts zes uur geeft een licht, fris karakter."
+      }
+    ]
+  },
+  {
+    "category": "toscane",
+    "id": "toscane-vecchiacantina",
+    "name": "Vecchia Cantina di Montepulciano",
+    "appellation": "montepulciano",
+    "commune": "Montepulciano (SI)",
+    "country": "Italië",
+    "lat": 43.0937,
+    "lng": 11.7871,
+    "website": "https://vecchiacantinadimontepulciano.com/en/",
+    "x": 2318,
+    "y": 1999,
+    "desc": "Historische coöperatie uit 1937, de oudste en grootste van Toscane met zo'n vierhonderd leden. Toegankelijke rosé van 100% Sangiovese uit het Montepulciano-gebied.",
+    "story": "Wie via de provinciale weg Montepulciano nadert, ziet het silhouet van de oude coöperatieve kelder al van ver. Veertien wijnbouwers richtten haar in 1937 op; inmiddels bundelen zo'n vierhonderd leden er hun oogst — met kwaliteit tegen een eerlijke prijs als gedeeld doel.",
+    "wines": [
+      {
+        "cuvee": "Sangiovese Rosato Toscana IGT",
+        "color": "#F5DAD6",
+        "grapes": [
+          "Sangiovese"
+        ],
+        "abv": 13,
+        "price": 1,
+        "aging": "Nu – 1 jaar",
+        "notes": "Bloemig met roos en klein rood fruit, fris en aanhoudend van smaak — een alledaagse tafelrosé zonder poespas."
+      }
+    ]
+  },
+  {
+    "category": "toscane",
+    "id": "toscane-roccadellemacie",
+    "name": "Rocca delle Macìe",
+    "appellation": "maremma",
+    "commune": "Scansano (GR)",
+    "country": "Italië",
+    "lat": 42.68972,
+    "lng": 11.33472,
+    "website": "https://roccadellemacie.com/en/tenuta-campomaccione/",
+    "x": 1659,
+    "y": 2802,
+    "desc": "Bekend Chianti Classico-huis dat sinds 1998 ook een eigen wijngoed in de Maremma heeft, Tenuta Campomaccione. Toegankelijke rosé van 100% Sangiovese, koraalrood van kleur.",
+    "story": "Rocca delle Macìe werd in 1973 opgericht door filmproducent Italo Zingarelli, bekend van de 'Trinity'-films met Bud Spencer en Terence Hill. In 1998 kocht de familie Zingarelli met Tenuta Campomaccione hun eerste domein buiten het vertrouwde Chianti — een bewuste stap naar de warmere, zeewind-doordrenkte Maremma voor frissere, toegankelijkere wijnen.",
+    "wines": [
+      {
+        "cuvee": "Campo Maccione Rosato Maremma Toscana DOC",
+        "color": "#E8836A",
+        "grapes": [
+          "Sangiovese"
+        ],
+        "abv": 12.5,
+        "price": 1,
+        "aging": "Nu – 1 jaar",
+        "notes": "Koraalrood van kleur, met aroma's van rode appel en framboos. Droog en soepel op de tong, met een fruitig-kruidige, aanhoudende afdronk."
+      }
+    ]
   }
 ]
