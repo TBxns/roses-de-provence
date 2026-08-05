@@ -2571,6 +2571,13 @@ const GLOBE_MARKER_HIGHLIGHT_COLOR = 0xFFD27A;
    wolken-/atmosfeerschil) zodat je er nu echt op in kunt zoomen voor detail;
    GLOBE_ZOOM_MAX blijft ruim zodat de hele bol nooit wordt afgesneden. */
 const GLOBE_ZOOM_MIN = 2.3, GLOBE_ZOOM_MAX = 9, GLOBE_ZOOM_STEP = 0.6;
+/* Referentie voor de schermgrootte van de pins: op deze camera-afstand
+   (gelijk aan de standaard-startzoom) is GLOBE_MARKER_BASE_SIZE de
+   wereldgrootte van de sprite — bij elke andere afstand wordt de schaal
+   evenredig herberekend (zie animateGlobe) zodat de pin er nooit groter
+   uitziet dan dit, ongeacht hoe ver je inzoomt. */
+const GLOBE_MARKER_REFERENCE_DIST = 6, GLOBE_MARKER_BASE_SIZE = 0.1;
+const tmpMarkerWorldPos = new THREE.Vector3();
 
 function latLngToVector3(lat, lng, radius){
   const phi = (90 - lat) * Math.PI / 180;
@@ -2736,7 +2743,39 @@ function addGlobeAtmosphere(){
   globeScene.add(new THREE.Mesh(atmoGeo, atmoMat));
 }
 
+/* Eén keer een dot+gloed-textuur tekenen op een canvas, hergebruikt door
+   alle pins. Een ruime transparante marge rond de zichtbare stip zorgt
+   ervoor dat het klikbare vlak (de hele sprite-rechthoek, ongeacht alpha)
+   veel groter is dan wat je ziet — makkelijker te raken zonder dat de pin
+   er zelf groot uitziet. */
+function makeGlobeDotTexture(){
+  const size = 128, cx = size/2, cy = size/2;
+  const canvas = document.createElement("canvas");
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, size*0.42);
+  glow.addColorStop(0, "rgba(255,255,255,.55)");
+  glow.addColorStop(0.35, "rgba(255,255,255,.16)");
+  glow.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, size, size);
+  ctx.beginPath();
+  ctx.arc(cx, cy, size*0.14, 0, Math.PI*2);
+  ctx.fillStyle = "#ffffff";
+  ctx.fill();
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.needsUpdate = true;
+  return tex;
+}
+let globeDotTexture = null;
+
+/* Pins zijn camera-facing sprites i.p.v. 3D-bolletjes, met een schaal die
+   elk frame herberekend wordt op basis van de afstand tot de camera (zie
+   animateGlobe). Zo blijven ze op het scherm altijd ongeveer even klein,
+   ook wanneer je vlak op het aardoppervlak inzoomt — een 3D-bol zou juist
+   met de camera meegroeien en al snel veel te groot ogen. */
 function addGlobeMarkers(){
+  if(!globeDotTexture) globeDotTexture = makeGlobeDotTexture();
   const seen = new Map();
   HOUSES.forEach(h=>{
     if(typeof h.lat !== "number" || typeof h.lng !== "number") return;
@@ -2748,38 +2787,23 @@ function addGlobeMarkers(){
   seen.forEach((houseIds, key)=>{
     const [lat, lng] = key.split(",").map(Number);
     const pos = latLngToVector3(lat, lng, 2.035);
-    const dot = new THREE.Mesh(
-      new THREE.SphereGeometry(0.022, 12, 12),
-      new THREE.MeshBasicMaterial({ color: GLOBE_MARKER_COLOR })
-    );
-    dot.position.copy(pos);
-    dot.userData.houseIds = houseIds;
-    dot.userData.pulsePhase = i * 0.7;
-
-    /* Heel subtiele, kleine ademende gloed achter elke pin — géén felle
-       additive blob (die liet dicht-op-elkaar-staande huizen in Frankrijk
-       samensmelten tot één grote gloed). Normale blending + laag bereik
-       houdt dit klein en rustig, ook bij veel pins dicht bij elkaar. */
-    const halo = new THREE.Mesh(
-      new THREE.SphereGeometry(0.022, 10, 10),
-      new THREE.MeshBasicMaterial({
-        color: GLOBE_MARKER_COLOR, transparent:true, opacity:.22,
-        depthWrite:false
-      })
-    );
-    dot.add(halo);
-    dot.userData.halo = halo;
-
-    globeGroup.add(dot);
-    globeMarkers.push(dot);
+    const mat = new THREE.SpriteMaterial({
+      map: globeDotTexture, color: GLOBE_MARKER_COLOR,
+      transparent: true, depthWrite: false
+    });
+    const marker = new THREE.Sprite(mat);
+    marker.position.copy(pos);
+    marker.userData.houseIds = houseIds;
+    marker.userData.pulsePhase = i * 0.7;
+    marker.userData.emphasis = 1;
+    globeGroup.add(marker);
+    globeMarkers.push(marker);
     i++;
   });
 }
 
-/* Zet de kleur van een pin én zijn gloed-halo tegelijk. */
 function setMarkerColor(marker, hex){
   marker.material.color.setHex(hex);
-  if(marker.userData.halo) marker.userData.halo.material.color.setHex(hex);
 }
 
 function wireGlobeInteraction(stage){
@@ -2874,12 +2898,12 @@ function updateGlobeHover(clientX, clientY){
 function setGlobeHover(marker){
   if(marker === globeHoveredMarker) return;
   if(globeHoveredMarker && !globeSearchHighlighted.includes(globeHoveredMarker)){
-    globeHoveredMarker.scale.set(1, 1, 1);
+    globeHoveredMarker.userData.emphasis = 1;
     setMarkerColor(globeHoveredMarker, GLOBE_MARKER_COLOR);
   }
   globeHoveredMarker = marker;
   if(marker){
-    marker.scale.set(1.7, 1.7, 1.7);
+    marker.userData.emphasis = 1.55;
     setMarkerColor(marker, GLOBE_MARKER_HIGHLIGHT_COLOR);
     const names = marker.userData.houseIds
       .map(id=> HOUSES.find(h=> h.id === id))
@@ -2905,17 +2929,22 @@ function animateGlobe(){
      globeGroup, dus onafhankelijk van slepen/auto-rotatie). */
   if(globeClouds) globeClouds.rotation.y += 0.00035;
 
-  /* Pins krijgen een héél subtiele, kleine ademende gloed — bewust met een
-     klein bereik zodat het bij veel dicht-op-elkaar-staande huizen nooit
-     meer een grote samengesmolten gloed vormt. */
+  /* Pins krijgen elk frame een schaal die evenredig is met de afstand tot
+     de camera, zodat ze op het scherm altijd ongeveer even (klein) groot
+     blijven — ook wanneer je vlak op het oppervlak inzoomt. Een vaste
+     wereldgrootte zou anders net zo hard meegroeien als het aardoppervlak
+     zelf. Er zit een heel subtiele ademende puls overheen (±6%), en een
+     "emphasis"-vermenigvuldiger voor hover/zoek-highlight. */
   const t = performance.now() * 0.0016;
-  globeMarkers.forEach(dot=>{
-    const halo = dot.userData.halo;
-    if(!halo) return;
-    const wave = Math.sin(t + dot.userData.pulsePhase);
-    const s = 1.1 + wave * 0.15;
-    halo.scale.set(s, s, s);
-    halo.material.opacity = 0.14 + (wave * 0.5 + 0.5) * 0.1;
+  const camPos = globeCamera.position;
+  globeMarkers.forEach(marker=>{
+    marker.getWorldPosition(tmpMarkerWorldPos);
+    const dist = tmpMarkerWorldPos.distanceTo(camPos);
+    const wave = Math.sin(t + marker.userData.pulsePhase);
+    const breathe = 1 + wave * 0.06;
+    const emphasis = marker.userData.emphasis || 1;
+    const s = GLOBE_MARKER_BASE_SIZE * (dist / GLOBE_MARKER_REFERENCE_DIST) * breathe * emphasis;
+    marker.scale.set(s, s, 1);
   });
 
   /* De bol blijft draaien terwijl een pin oplicht (hover), dus het
@@ -3022,7 +3051,7 @@ function globeSearchMatches(query){
 function setGlobeSearchHighlight(houses){
   globeSearchHighlighted.forEach(marker=>{
     if(marker !== globeHoveredMarker){
-      marker.scale.set(1, 1, 1);
+      marker.userData.emphasis = 1;
       setMarkerColor(marker, GLOBE_MARKER_COLOR);
     }
   });
@@ -3031,7 +3060,7 @@ function setGlobeSearchHighlight(houses){
   const ids = new Set(houses.map(h=> h.id));
   globeMarkers.forEach(marker=>{
     if(marker.userData.houseIds.some(id=> ids.has(id))){
-      marker.scale.set(1.6, 1.6, 1.6);
+      marker.userData.emphasis = 1.45;
       setMarkerColor(marker, GLOBE_MARKER_HIGHLIGHT_COLOR);
       globeSearchHighlighted.push(marker);
     }
