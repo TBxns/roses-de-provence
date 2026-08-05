@@ -2609,7 +2609,9 @@ function initGlobe(){
   globeCamera.position.z = 6;
 
   globeRenderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
-  globeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  /* Iets hogere cap dan voorheen (was 2) voor scherpere randen/tekst op
+     high-DPI schermen — het canvas is klein genoeg dat dit niets kost. */
+  globeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 3));
   globeRenderer.setSize(size, size);
 
   globeScene.add(new THREE.AmbientLight(0xffffff, .7));
@@ -2630,10 +2632,18 @@ function initGlobe(){
 
   const loader = new THREE.TextureLoader();
   loader.crossOrigin = "anonymous";
+  const maxAniso = globeRenderer.capabilities.getMaxAnisotropy();
   loader.load(
-    "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg",
+    /* Dubbele resolutie t.o.v. voorheen (4096×2048 i.p.v. 2048×1024) — dit
+       is wat écht scherpte geeft zodra je inzoomt: bij een lage-resolutie
+       textuur wordt elke pixel gewoon groter uitgerekt en dus waziger. */
+    "https://cdn.jsdelivr.net/gh/turban/webgl-earth/images/2_no_clouds_4k.jpg",
     (tex)=>{
-      const geo = new THREE.SphereGeometry(2, 64, 64);
+      /* Anisotropic filtering houdt de textuur scherp op de schuine hoek
+         waaronder je het aardoppervlak ziet bij het inzoomen — zonder dit
+         verwatert een bol-textuur juist het snelst richting de horizon. */
+      tex.anisotropy = maxAniso;
+      const geo = new THREE.SphereGeometry(2, 96, 96);
       const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: .9, metalness: 0 });
       const sphere = new THREE.Mesh(geo, mat);
       globeGroup.add(sphere);
@@ -2644,6 +2654,7 @@ function initGlobe(){
       loader.load(
         "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_normal_2048.jpg",
         (normalTex)=>{
+          normalTex.anisotropy = maxAniso;
           mat.normalMap = normalTex;
           mat.normalScale = new THREE.Vector2(.85, .85);
           mat.needsUpdate = true;
@@ -2658,7 +2669,8 @@ function initGlobe(){
       loader.load(
         "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_2048.png",
         (cloudTex)=>{
-          const cloudGeo = new THREE.SphereGeometry(2.015, 64, 64);
+          cloudTex.anisotropy = maxAniso;
+          const cloudGeo = new THREE.SphereGeometry(2.015, 96, 96);
           const cloudMat = new THREE.MeshStandardMaterial({
             map: cloudTex, transparent:true, opacity:.55, depthWrite:false, roughness:1
           });
