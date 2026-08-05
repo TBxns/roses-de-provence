@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rosati di Toscana — Wijnhuizen &amp; Terroirs | Proefwaaier</title>
-<meta name="description" content="Vergelijk 3 Toscaanse wijnhuizen — van Bolgheri tot Chianti. Ontdek terroir, druiven en karakter, en bestel direct bij Gall &amp; Gall.">
+<meta name="description" content="Vergelijk 8 Toscaanse wijnhuizen — van Bolgheri tot Montepulciano. Ontdek terroir, druiven en karakter, en bestel direct bij Gall &amp; Gall.">
 <link rel="canonical" href="https://proefwaaier.nl/rose/toscane/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Proefwaaier">
 <meta property="og:title" content="Rosati di Toscana — Wijnhuizen &amp; Terroirs | Proefwaaier">
-<meta property="og:description" content="Vergelijk 3 Toscaanse wijnhuizen — van Bolgheri tot Chianti. Bestel direct bij Gall &amp; Gall.">
+<meta property="og:description" content="Vergelijk 8 Toscaanse wijnhuizen — van Bolgheri tot Montepulciano. Bestel direct bij Gall &amp; Gall.">
 <meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Bolgheri_Viale_dei_Cipressi_001.JPG?width=1200">
 <meta property="og:url" content="https://proefwaaier.nl/rose/toscane/">
 <meta property="og:locale" content="nl_NL">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Rosati di Toscana — Wijnhuizen &amp; Terroirs | Proefwaaier">
-<meta name="twitter:description" content="Vergelijk 3 Toscaanse wijnhuizen — van Bolgheri tot Chianti. Bestel direct bij Gall &amp; Gall.">
+<meta name="twitter:description" content="Vergelijk 8 Toscaanse wijnhuizen — van Bolgheri tot Montepulciano. Bestel direct bij Gall &amp; Gall.">
 <meta name="twitter:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Bolgheri_Viale_dei_Cipressi_001.JPG?width=1200">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
@@ -40,6 +40,7 @@
     --zone-bolgheri: var(--rose);
     --zone-maremma: #7C8C4A;
     --zone-chianti: var(--lavender);
+    --zone-montepulciano: #9C4F4A;
   }
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
@@ -1006,7 +1007,7 @@
   <header class="hero">
     <div class="hero-eyebrow">Uitsluitend · Toscane</div>
     <h1 class="hero-title">Rosati<br>di Toscana</h1>
-    <p class="hero-sub">Drie wijnhuizen, drie Toscaanse gezichten — van de kust bij Bolgheri tot de heuvels van Chianti. Andere druiven, andere stijl dan de Provence: voller, kruidiger, vaak met Sangiovese als basis.</p>
+    <p class="hero-sub">Acht wijnhuizen, vier Toscaanse gezichten — van de kust bij Bolgheri tot de heuvels van Chianti en Montepulciano. Andere druiven, andere stijl dan de Provence: voller, kruidiger, vaak met Sangiovese als basis.</p>
     <a class="hero-jump" href="#process">
       Van druif tot fles
       <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1395,6 +1396,7 @@ const APPELLATIONS = {
   bolgheri: { name:"Bolgheri",  tag:"DOC Bolgheri",     zoneColor:"var(--zone-bolgheri)", desc:"Kleine maar wereldberoemde kustappellation, pas in 1994 erkend maar met internationale allure dankzij de 'Bolgheri amphitheater' — Cabernet, Merlot en Syrah op zandige, mineraalrijke bodems vlak bij zee." },
   maremma:  { name:"Maremma (Toscana IGT)", tag:"Toscana IGT · Maremma", zoneColor:"var(--zone-maremma)", desc:"Glooiende heuvels tussen Grosseto en de Tyrreense kust. Warmer en ruiger dan het binnenland, met Sangiovese en Syrah die een kruidige, geconcentreerde rosé geven." },
   chianti:  { name:"Chianti",  tag:"Toscana IGT · Chianti", zoneColor:"var(--zone-chianti)", desc:"Het hart van Toscane, tussen Firenze en Siena. Van oudsher rood-wijnland (Sangiovese), maar steeds vaker ook de basis voor een frisse, toegankelijke rosato." },
+  montepulciano: { name:"Montepulciano", tag:"Toscana IGT · Montepulciano", zoneColor:"var(--zone-montepulciano)", desc:"Rond de beroemde wijnstad Montepulciano, ten zuidoosten van Siena. Van oudsher het domein van de robuuste Vino Nobile, maar dezelfde Sangiovese levert hier ook toegankelijke, fruitige rosati onder de bredere Toscana IGT-noemer." },
 };
 
 /* Wijnhuis- en wijndata: geladen uit een los JSON-bestand (data/toscane.json) i.p.v.
@@ -1929,12 +1931,14 @@ const ZONES = [
   { app:"chianti",  d:"M1997,1257 C1993,1420 1993,1420 1889,1540 C1769,1666 1769,1666 1606,1685 C1465,1644 1465,1644 1361,1502 C1233,1398 1233,1398 1203,1257 C1196,1078 1196,1078 1295,946 C1427,824 1427,824 1606,815 C1741,868 1741,868 1841,1022 C1966,1122 1966,1122 1997,1257 Z" },
   { app:"bolgheri", d:"M833,1778 C822,1884 822,1884 755,1963 C658,2037 658,2037 547,2044 C456,1988 456,1988 404,1876 C371,1777 371,1777 400,1678 C458,1587 458,1587 555,1545 C648,1555 648,1555 732,1623 C808,1689 808,1689 833,1778 Z" },
   { app:"maremma",  d:"M1871,2800 C1803,2937 1803,2937 1628,3038 C1527,3119 1527,3119 1390,3116 C1192,3180 1192,3180 1045,3145 C994,2998 994,2998 1046,2800 C1056,2665 1056,2665 1154,2564 C1255,2419 1255,2419 1390,2373 C1542,2403 1542,2403 1654,2536 C1818,2648 1818,2648 1871,2800 Z" },
+  { app:"montepulciano", d:"M2318,1819 C2395,1826 2395,1826 2452,1878 C2519,1929 2519,1929 2533,1999 C2521,2070 2521,2070 2456,2123 C2397,2187 2397,2187 2318,2202 C2243,2184 2243,2184 2187,2117 C2125,2067 2125,2067 2113,1999 C2121,1928 2121,1928 2180,1875 C2239,1824 2239,1824 2318,1819 Z" },
 ];
 
 const MASSIFS = [
   { name:"Costa degli Etruschi", cx:520, cy:1480 },
   { name:"Colline del Chianti", cx:1606, cy:960 },
   { name:"Colline Metallifere", cx:1180, cy:2150 },
+  { name:"Val di Chiana", cx:2280, cy:1750 },
 ];
 
 /* Rasterkaart van OpenStreetMap (© OpenStreetMap-bijdragers, ODbL).
@@ -1998,7 +2002,7 @@ function buildMap(){
   });
 
   // zone labels
-  const zoneLabelPos = { chianti:[1606,1200], bolgheri:[608,1720], maremma:[1390,2760] };
+  const zoneLabelPos = { chianti:[1606,1200], bolgheri:[608,1720], maremma:[1390,2760], montepulciano:[2318,1930] };
   Object.entries(zoneLabelPos).forEach(([app,[x,y]])=>{
     inner += `<text class="zone-label" x="${x}" y="${y}">${APPELLATIONS[app].name}</text>`;
   });
