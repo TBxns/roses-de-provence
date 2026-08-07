@@ -262,6 +262,53 @@
   .quiz-restart:hover{ color: var(--shadow); }
   @media (max-width:480px){ .quiz-result-card{ flex-direction:column; } .quiz-result-card .bottle-icon{ width:56px; height:138px; } }
 
+  /* ---------- WAT EET JE VANAVOND? ----------
+     Dish-first snelkeuze: één klik op een gerecht toont direct de best passende
+     wijn(en) uit deze pagina, zonder de volledige 4-stappen-quiz te doorlopen.
+     Vult de bestaande quiz aan (die blijft voor wie liever alles op smaak/budget
+     laat afstemmen) met een snellere ingang voor wie het gerecht al weet. */
+  .dish-picker{ padding: 44px 40px 8px; max-width: 1100px; margin: 0 auto; }
+  .dish-picker-eyebrow{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--facade); font-weight:600; margin:0 0 8px; }
+  .dish-picker-title{ font-family: var(--font-display); font-style:italic; font-size:28px; margin:0 0 8px; }
+  .dish-picker-intro{ font-size:13.5px; line-height:1.6; color: rgba(44,30,24,.62); max-width:560px; margin:0 0 22px; }
+  .dish-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap:12px; }
+  .dish-tile{
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px;
+    padding:16px 10px; border-radius:12px; border:1.5px solid rgba(44,30,24,.14);
+    background: var(--paper); cursor:pointer; transition: all .18s ease;
+  }
+  .dish-tile svg{ width:26px; height:26px; stroke: var(--facade); flex-shrink:0; }
+  .dish-tile span{ font-size:11.5px; font-weight:600; line-height:1.3; color: var(--shadow); }
+  .dish-tile:hover{ border-color: var(--rose); transform: translateY(-2px); }
+  .dish-tile.active{ background: var(--facade); border-color: var(--facade); }
+  .dish-tile.active svg{ stroke: var(--paper); }
+  .dish-tile.active span{ color: var(--paper); }
+  .dish-result{ margin-top:24px; padding-top:24px; border-top:1px solid rgba(44,30,24,.12); display:none; }
+  .dish-result.show{ display:block; }
+  .dish-result-label{ font-size:11px; letter-spacing:.1em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 14px; }
+  .dish-result-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:16px; }
+  .dish-result-card{ border-radius:12px; border:1px solid rgba(44,30,24,.12); background: var(--paper); padding:18px; position:relative; }
+  .dish-result-card.is-primary{ border-color: var(--rose); border-width:1.5px; }
+  .dish-result-badge{
+    display:inline-flex; align-items:center; gap:5px; margin-bottom:8px;
+    background: var(--rose); color: var(--shadow); font-family: var(--font-ui);
+    font-size:9px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    padding:3px 9px; border-radius:999px;
+  }
+  .dish-result-house{ font-size:10px; letter-spacing:.08em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 4px; }
+  .dish-result-cuvee{ font-family: var(--font-display); font-style:italic; font-size:17px; margin:0 0 8px; }
+  .dish-result-notes{ font-size:12px; line-height:1.5; color: rgba(44,30,24,.68); margin:0 0 12px; }
+  .dish-result-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .dish-result-actions a, .dish-result-actions button{
+    font-size:11px; font-weight:600; letter-spacing:.02em; padding:8px 14px; border-radius:999px;
+    text-decoration:none; border:1px solid rgba(44,30,24,.2); background:none; color: var(--shadow); cursor:pointer;
+  }
+  .dish-result-actions .gall{ background: var(--rose); border-color: var(--rose); color: var(--shadow); }
+  .dish-result-actions .gall:hover{ opacity:.85; }
+  .dish-result-actions .detail:hover{ border-color: var(--facade); color: var(--facade); }
+  @media (max-width:760px){ .dish-picker{ padding: 34px 24px 4px; } .dish-grid{ grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width:420px){ .dish-grid{ grid-template-columns: repeat(2, 1fr); } }
+
   /* ---------- WERELDBOL ----------
      Interactieve 3D-globe (Three.js) met een echte NASA-aardetextuur, via een
      CSS-filter kleurgegradeerd naar het eigen palet van de site — zodat het
@@ -1026,6 +1073,42 @@
     </div>
     <div class="landscape-tile" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Vignoble_Chateauneuf_du_Pape.JPG?width=900')">
       <span class="landscape-caption">Galets roulés<b>Châteauneuf-du-Pape</b></span>
+    </div>
+  </section>
+
+  <section class="dish-picker" aria-label="Wat eet je vanavond?">
+    <p class="dish-picker-eyebrow">Wat eet je vanavond?</p>
+    <h2 class="dish-picker-title">Kies een gerecht, wij kiezen de fles</h2>
+    <p class="dish-picker-intro">Eén klik en je ziet direct welke wijn van deze pagina er het beste bij past — geen vragenlijst nodig.</p>
+    <div class="dish-grid" id="dish-grid">
+      <button class="dish-tile" data-dish="aperitief" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14l-2 9a5 5 0 0 1-10 0L5 3Z"/><path d="M12 16v5M9 21h6"/></svg>
+        <span>Aperitief &amp; borrel</span>
+      </button>
+      <button class="dish-tile" data-dish="salade" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 18 0Z"/><path d="M3 12h18M8 12c0-3 1-6 2-7M14 5c1 1 2 4 2 7"/></svg>
+        <span>Salade &amp; lichte gerechten</span>
+      </button>
+      <button class="dish-tile" data-dish="vis" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-5 9-5 9 5 9 5-3.5 5-9 5-9-5-9-5Z"/><circle cx="16.5" cy="10.5" r=".6" fill="currentColor" stroke="none"/><path d="M3 12c-1-.6-1.6-1.6-2-2.6M3 12c-1 .6-1.6 1.6-2 2.6"/></svg>
+        <span>Vis &amp; zeevruchten</span>
+      </button>
+      <button class="dish-tile" data-dish="gevogelte" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21c-3-1-5-4-5-7 0-5 4-9 9-9s7 3 7 6-2 4-4 4h-2l2 6"/><path d="M9 9l-3-3"/></svg>
+        <span>Gevogelte &amp; wit vlees</span>
+      </button>
+      <button class="dish-tile" data-dish="bbq" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13a7 7 0 0 1 14 0Z"/><path d="M2 13h20M12 13V4M9 6c0-1 1-2 1-3M12 6c0-1 1-2 1-3M15 6c0-1 1-2 1-3"/></svg>
+        <span>Rood vlees &amp; bbq</span>
+      </button>
+      <button class="dish-tile" data-dish="stoof" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16v3a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6v-3Z"/><path d="M8 11c-1-2 0-4 1-5M12 11c-1-2 0-4 1-5M16 11c-1-2 0-4 1-5"/><path d="M2 11h20"/></svg>
+        <span>Stoofpot, wild &amp; kaas</span>
+      </button>
+    </div>
+    <div class="dish-result" id="dish-result">
+      <p class="dish-result-label">Onze aanbeveling</p>
+      <div class="dish-result-grid" id="dish-result-grid"></div>
     </div>
   </section>
 
@@ -3514,6 +3597,91 @@ async function initApp(){
 }
 
 initApp();
+
+/* ---------- WAT EET JE VANAVOND? ----------
+   Snelkeuze op gerecht i.p.v. de volledige 4-stappen-quiz: scoort elke wijn op
+   deze pagina puur op de al afgeleide smaaktags (deriveStyles), zodat er geen
+   nieuw databestandveld nodig is en het gedrag vanzelf meegroeit met nieuwe
+   wijnhuizen. Werkt identiek op elke categoriepagina (Provence/Toscane/Rood) —
+   alleen de onderliggende HOUSES-data verschilt. */
+const DISH_TAGS = {
+  aperitief: ["Fris & licht","Bloemig","Fruitig"],
+  salade:    ["Fris & licht","Mineraal"],
+  vis:       ["Mineraal","Vol & structuurrijk"],
+  gevogelte: ["Kruidig","Fruitig"],
+  bbq:       ["Vol & structuurrijk","Kruidig"],
+  stoof:     ["Bewaarrosé","Bewaarwijn","Vol & structuurrijk","Kruidig"],
+};
+
+function dishPriceRank(wine){
+  if(typeof wine.price === "number") return wine.price;
+  const m = String(wine.price||"").match(/(\d+)/);
+  const euro = m ? parseInt(m[1],10) : 15;
+  if(euro < 10) return 1;
+  if(euro < 20) return 2;
+  if(euro < 35) return 3;
+  return 4;
+}
+
+function scoreDish(wine, dish){
+  const tags = DISH_TAGS[dish] || [];
+  const style = deriveStyles(wine);
+  return tags.reduce((n,t)=> n + (style.includes(t) ? 1 : 0), 0);
+}
+
+function findDishMatches(dish){
+  const all = [];
+  HOUSES.forEach(h=> h.wines.forEach(w=> all.push({ h, w, score: scoreDish(w, dish) })));
+  all.sort((a,b)=> b.score - a.score || dishPriceRank(a.w) - dishPriceRank(b.w));
+  // Top 3 verschillende wijnhuizen, geen dubbele huizen in de resultaten.
+  const seen = new Set();
+  const top = [];
+  for(const item of all){
+    if(seen.has(item.h.id)) continue;
+    seen.add(item.h.id);
+    top.push(item);
+    if(top.length === 3) break;
+  }
+  return top;
+}
+
+function renderDishResult(dish){
+  const matches = findDishMatches(dish);
+  const grid = document.getElementById("dish-result-grid");
+  if(!grid || !matches.length) return;
+  grid.innerHTML = matches.map(({h,w}, i)=> `
+    <div class="dish-result-card ${i===0?"is-primary":""}">
+      ${i===0 ? '<div class="dish-result-badge">Beste match</div>' : ""}
+      <p class="dish-result-house">${h.name}</p>
+      <h3 class="dish-result-cuvee">${w.cuvee}</h3>
+      <p class="dish-result-notes">${w.notes}</p>
+      <div class="dish-result-actions">
+        ${w.gall ? `<a class="gall" href="${w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>` : ""}
+        <button class="detail" type="button" data-house-id="${h.id}" data-cuvee="${w.cuvee.replace(/"/g,"&quot;")}">Bekijk details</button>
+      </div>
+    </div>
+  `).join("");
+  document.getElementById("dish-result").classList.add("show");
+}
+
+document.getElementById("dish-grid")?.addEventListener("click", (e)=>{
+  const tile = e.target.closest(".dish-tile");
+  if(!tile) return;
+  document.querySelectorAll(".dish-tile").forEach(t=> t.classList.remove("active"));
+  tile.classList.add("active");
+  renderDishResult(tile.dataset.dish);
+  document.getElementById("dish-result")?.scrollIntoView({ behavior:"smooth", block:"nearest" });
+});
+
+document.getElementById("dish-result-grid")?.addEventListener("click", (e)=>{
+  const btn = e.target.closest(".detail");
+  if(!btn) return;
+  const h = HOUSES.find(x=>x.id===btn.dataset.houseId);
+  const w = h && h.wines.find(x=>x.cuvee===btn.dataset.cuvee);
+  if(!h || !w) return;
+  if(typeof selectHouse === "function") selectHouse(h.id);
+  if(typeof openWineDetail === "function") openWineDetail(h, w);
+});
 
 /* ---------- PWA / OFFLINE ---------- */
 if("serviceWorker" in navigator){
