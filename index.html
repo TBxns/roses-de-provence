@@ -314,6 +314,52 @@
   .agecheck-box p{ font-size:14px; line-height:1.55; opacity:.85; margin:0 0 22px; }
   .agecheck-form{ display:flex; gap:10px; justify-content:center; }
   .agecheck-form input{ width:110px; padding:12px 14px; font-size:18px; text-align:center; border-radius:999px; border:1px solid rgba(233,216,198,.4); background:transparent; color:inherit; font-family:var(--font-ui); }
+
+  /* ---------- WAT EET JE VANAVOND? (cross-categorie) ----------
+     Zelfde dish-tile picker als op de categoriepagina's, maar dan over Rosé
+     (Provence + Toscane) én Rood heen — haalt bij een klik alle drie de
+     databestanden op en linkt door naar de juiste wijn op de juiste pagina. */
+  .dish-picker{ padding: 60px 40px 70px; max-width: 1100px; margin: 0 auto; }
+  .dish-picker-eyebrow{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--facade); font-weight:600; margin:0 0 8px; text-align:center; }
+  .dish-picker-title{ font-family: var(--font-display); font-style:italic; font-weight:400; font-size:30px; margin:0 0 10px; text-align:center; }
+  .dish-picker-intro{ font-size:14px; line-height:1.6; color: rgba(44,30,24,.62); max-width:520px; margin:0 auto 26px; text-align:center; }
+  .dish-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap:12px; }
+  .dish-tile{
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px;
+    padding:16px 10px; border-radius:12px; border:1.5px solid rgba(44,30,24,.14);
+    background: var(--paper); cursor:pointer; transition: all .18s ease;
+  }
+  .dish-tile svg{ width:26px; height:26px; stroke: var(--facade); flex-shrink:0; }
+  .dish-tile span{ font-size:11.5px; font-weight:600; line-height:1.3; color: var(--shadow); }
+  .dish-tile:hover{ border-color: var(--rose); transform: translateY(-2px); }
+  .dish-tile.active{ background: var(--facade); border-color: var(--facade); }
+  .dish-tile.active svg{ stroke: var(--paper); }
+  .dish-tile.active span{ color: var(--paper); }
+  .dish-result{ margin-top:24px; padding-top:24px; border-top:1px solid rgba(44,30,24,.12); display:none; }
+  .dish-result.show{ display:block; }
+  .dish-result-label{ font-size:11px; letter-spacing:.1em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 14px; text-align:center; }
+  .dish-result-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:16px; }
+  .dish-result-card{ border-radius:12px; border:1px solid rgba(44,30,24,.12); background: var(--paper); padding:18px; position:relative; }
+  .dish-result-card.is-primary{ border-color: var(--rose); border-width:1.5px; }
+  .dish-result-badge{
+    display:inline-flex; align-items:center; gap:5px; margin-bottom:8px;
+    background: var(--rose); color: var(--shadow); font-family: var(--font-ui);
+    font-size:9px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    padding:3px 9px; border-radius:999px;
+  }
+  .dish-result-house{ font-size:10px; letter-spacing:.08em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 4px; }
+  .dish-result-cuvee{ font-family: var(--font-display); font-style:italic; font-size:17px; margin:0 0 8px; }
+  .dish-result-notes{ font-size:12px; line-height:1.5; color: rgba(44,30,24,.68); margin:0 0 12px; }
+  .dish-result-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .dish-result-actions a{
+    font-size:11px; font-weight:600; letter-spacing:.02em; padding:8px 14px; border-radius:999px;
+    text-decoration:none; border:1px solid rgba(44,30,24,.2); background:none; color: var(--shadow);
+  }
+  .dish-result-actions .gall{ background: var(--rose); border-color: var(--rose); color: var(--shadow); }
+  .dish-result-actions .gall:hover{ opacity:.85; }
+  .dish-result-actions .detail:hover{ border-color: var(--facade); color: var(--facade); }
+  @media (max-width:760px){ .dish-picker{ padding: 44px 24px 50px; } .dish-grid{ grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width:420px){ .dish-grid{ grid-template-columns: repeat(2, 1fr); } }
   .agecheck-form button{ padding:12px 26px; border-radius:999px; border:none; background:var(--rose); color:var(--shadow); font-size:14px; font-weight:600; }
   .agecheck-error{ color:var(--rose); font-size:13px; margin-top:16px; min-height:18px; }
   .agecheck-nix{ margin-top:26px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; opacity:.6; }
@@ -434,6 +480,42 @@
 
     </div>
   </main>
+
+  <section class="dish-picker" aria-label="Wat eet je vanavond?">
+    <p class="dish-picker-eyebrow">Wat eet je vanavond?</p>
+    <h2 class="dish-picker-title">Kies een gerecht, wij kiezen de fles</h2>
+    <p class="dish-picker-intro">Eén klik en je ziet direct de best passende wijn uit de hele Proefwaaier — Rosé én Rood door elkaar.</p>
+    <div class="dish-grid" id="dish-grid">
+      <button class="dish-tile" data-dish="aperitief" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14l-2 9a5 5 0 0 1-10 0L5 3Z"/><path d="M12 16v5M9 21h6"/></svg>
+        <span>Aperitief &amp; borrel</span>
+      </button>
+      <button class="dish-tile" data-dish="salade" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 18 0Z"/><path d="M3 12h18M8 12c0-3 1-6 2-7M14 5c1 1 2 4 2 7"/></svg>
+        <span>Salade &amp; lichte gerechten</span>
+      </button>
+      <button class="dish-tile" data-dish="vis" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-5 9-5 9 5 9 5-3.5 5-9 5-9-5-9-5Z"/><circle cx="16.5" cy="10.5" r=".6" fill="currentColor" stroke="none"/><path d="M3 12c-1-.6-1.6-1.6-2-2.6M3 12c-1 .6-1.6 1.6-2 2.6"/></svg>
+        <span>Vis &amp; zeevruchten</span>
+      </button>
+      <button class="dish-tile" data-dish="gevogelte" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21c-3-1-5-4-5-7 0-5 4-9 9-9s7 3 7 6-2 4-4 4h-2l2 6"/><path d="M9 9l-3-3"/></svg>
+        <span>Gevogelte &amp; wit vlees</span>
+      </button>
+      <button class="dish-tile" data-dish="bbq" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13a7 7 0 0 1 14 0Z"/><path d="M2 13h20M12 13V4M9 6c0-1 1-2 1-3M12 6c0-1 1-2 1-3M15 6c0-1 1-2 1-3"/></svg>
+        <span>Rood vlees &amp; bbq</span>
+      </button>
+      <button class="dish-tile" data-dish="stoof" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16v3a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6v-3Z"/><path d="M8 11c-1-2 0-4 1-5M12 11c-1-2 0-4 1-5M16 11c-1-2 0-4 1-5"/><path d="M2 11h20"/></svg>
+        <span>Stoofpot, wild &amp; kaas</span>
+      </button>
+    </div>
+    <div class="dish-result" id="dish-result">
+      <p class="dish-result-label">Onze aanbeveling</p>
+      <div class="dish-result-grid" id="dish-result-grid"></div>
+    </div>
+  </section>
 
   <section class="picks">
     <p class="picks-intro">Om vandaag nog te bestellen</p>
@@ -617,6 +699,118 @@
       }
     });
   })();
+  </script>
+  <script>
+  /* ---------- WAT EET JE VANAVOND? (cross-categorie) ----------
+     Zelfde gerecht-taxonomie als op de categoriepagina's, maar dan over Rosé
+     (Provence + Toscane) én Rood heen. Rood-wijnen hebben hun stijl-tags al
+     los in data/rood.json staan; bij Rosé worden ze net als op de eigen pagina
+     afgeleid uit de proefnotities, omdat dat veld daar niet apart is opgeslagen. */
+  const DISH_TAGS = {
+    aperitief: ["Fris & licht","Bloemig","Fruitig"],
+    salade:    ["Fris & licht","Mineraal"],
+    vis:       ["Mineraal","Vol & structuurrijk"],
+    gevogelte: ["Kruidig","Fruitig"],
+    bbq:       ["Vol & structuurrijk","Kruidig"],
+    stoof:     ["Bewaarrosé","Bewaarwijn","Vol & structuurrijk","Kruidig"],
+  };
+
+  function deriveRoseStyles(wine){
+    const text = (wine.notes||"").toLowerCase();
+    const tags = new Set();
+    if(/fris|luchtig|toegankelijk|makkelijk drinkbaar|levendige zuren|frisse/.test(text)) tags.add("Fris & licht");
+    if(/fruit|perzik|citrus|\bbes\b|grapefruit|ananas|framboos|abrikoos|mango|steenfruit/.test(text)) tags.add("Fruitig");
+    if(/bloe|rozenblaad/.test(text)) tags.add("Bloemig");
+    if(/kruid|tijm|garrigue|venkelzaad|specerij|hazelnoot|peper/.test(text)) tags.add("Kruidig");
+    if(/mineraal|ziltig|zilte|schist|minerale|zoute afdronk/.test(text)) tags.add("Mineraal");
+    if(/\bvol\b|rijk,|romig|romige|structuur|geconcentreerd/.test(text)) tags.add("Vol & structuurrijk");
+    const m = (wine.aging||"").match(/(\d+)\s*jaar/);
+    if(m && parseInt(m[1],10) >= 3) tags.add("Bewaarrosé");
+    if(tags.size===0) tags.add("Fruitig");
+    return [...tags];
+  }
+
+  function dishPriceRank(wine){
+    if(typeof wine.price === "number") return wine.price;
+    const m = String(wine.price||"").match(/(\d+)/);
+    const euro = m ? parseInt(m[1],10) : 15;
+    if(euro < 10) return 1;
+    if(euro < 20) return 2;
+    if(euro < 35) return 3;
+    return 4;
+  }
+
+  function scoreDish(styleTags, dish){
+    const tags = DISH_TAGS[dish] || [];
+    return tags.reduce((n,t)=> n + (styleTags.includes(t) ? 1 : 0), 0);
+  }
+
+  let DISH_POOL = null;
+
+  async function loadDishPool(){
+    if(DISH_POOL) return DISH_POOL;
+    const sources = [
+      { url:"/rose/provence/data/rose.json",   base:"/rose/provence/", rose:true  },
+      { url:"/rose/toscane/data/toscane.json", base:"/rose/toscane/",  rose:true  },
+      { url:"/rood/data/rood.json",            base:"/rood/",          rose:false },
+    ];
+    const pool = [];
+    for(const src of sources){
+      try{
+        const res = await fetch(src.url);
+        if(!res.ok) continue;
+        const houses = await res.json();
+        houses.forEach(h=> h.wines.forEach(w=>{
+          const style = src.rose ? deriveRoseStyles(w) : (w.style && w.style.length ? w.style : ["Fruitig"]);
+          pool.push({ h, w, style, base: src.base });
+        }));
+      } catch(err){ console.error("Kon", src.url, "niet laden", err); }
+    }
+    DISH_POOL = pool;
+    return pool;
+  }
+
+  async function renderDishResult(dish){
+    const grid = document.getElementById("dish-result-grid");
+    if(!grid) return;
+    grid.innerHTML = `<p style="font-size:12.5px; color: rgba(44,30,24,.5); grid-column: 1/-1; text-align:center;">Even zoeken naar de beste match…</p>`;
+    document.getElementById("dish-result")?.classList.add("show");
+    const pool = await loadDishPool();
+    const scored = pool.map(item=> ({ ...item, score: scoreDish(item.style, dish) }));
+    scored.sort((a,b)=> b.score - a.score || dishPriceRank(a.w) - dishPriceRank(b.w));
+    const seen = new Set();
+    const top = [];
+    for(const item of scored){
+      if(seen.has(item.h.id)) continue;
+      seen.add(item.h.id);
+      top.push(item);
+      if(top.length === 3) break;
+    }
+    if(!top.length){ grid.innerHTML = ""; return; }
+    grid.innerHTML = top.map(({h,w,base}, i)=>{
+      const hash = `huis=${encodeURIComponent(h.id)}&wijn=${encodeURIComponent(w.cuvee)}`;
+      return `
+      <div class="dish-result-card ${i===0?"is-primary":""}">
+        ${i===0 ? '<div class="dish-result-badge">Beste match</div>' : ""}
+        <p class="dish-result-house">${h.name}</p>
+        <h3 class="dish-result-cuvee">${w.cuvee}</h3>
+        <p class="dish-result-notes">${w.notes}</p>
+        <div class="dish-result-actions">
+          ${w.gall ? `<a class="gall" href="${w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>` : ""}
+          <a class="detail" href="${base}#${hash}">Bekijk in de vergelijker →</a>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  document.getElementById("dish-grid")?.addEventListener("click", (e)=>{
+    const tile = e.target.closest(".dish-tile");
+    if(!tile) return;
+    document.querySelectorAll(".dish-tile").forEach(t=> t.classList.remove("active"));
+    tile.classList.add("active");
+    renderDishResult(tile.dataset.dish);
+    document.getElementById("dish-result")?.scrollIntoView({ behavior:"smooth", block:"nearest" });
+  });
   </script>
   <!-- Privacyvriendelijke, cookievrije bezoekersstatistieken (GoatCounter — geen
        cookiebanner nodig omdat er geen persoonsgegevens worden verzameld). -->
