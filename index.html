@@ -778,14 +778,29 @@
     const pool = await loadDishPool();
     const scored = pool.map(item=> ({ ...item, score: scoreDish(item.style, dish) }));
     scored.sort((a,b)=> b.score - a.score || dishPriceRank(a.w) - dishPriceRank(b.w));
+    /* Bij gelijke score wint anders altijd dezelfde regio (de eerst opgehaalde
+       databron) — dat oogt als een fout op een widget die juist Rosé én Rood
+       door elkaar belooft. Eerste ronde pakt daarom per categorie (base) hooguit
+       één huis, zodat de resultaten normaal gesproken over de databronnen heen
+       spreiden; alleen als een categorie geen enkele redelijke match heeft,
+       vult ronde twee de rest zonder die beperking aan. */
     const seen = new Set();
+    const seenCategory = new Set();
     const top = [];
     for(const item of scored){
+      if(top.length === 3) break;
+      if(seen.has(item.h.id) || seenCategory.has(item.base)) continue;
+      seen.add(item.h.id);
+      seenCategory.add(item.base);
+      top.push(item);
+    }
+    for(const item of scored){
+      if(top.length === 3) break;
       if(seen.has(item.h.id)) continue;
       seen.add(item.h.id);
       top.push(item);
-      if(top.length === 3) break;
     }
+    top.sort((a,b)=> b.score - a.score || dishPriceRank(a.w) - dishPriceRank(b.w));
     if(!top.length){ grid.innerHTML = ""; return; }
     grid.innerHTML = top.map(({h,w,base}, i)=>{
       const hash = `huis=${encodeURIComponent(h.id)}&wijn=${encodeURIComponent(w.cuvee)}`;
