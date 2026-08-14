@@ -349,6 +349,7 @@
   }
   .dish-result-house{ font-size:10px; letter-spacing:.08em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 4px; }
   .dish-result-cuvee{ font-family: var(--font-display); font-style:italic; font-size:17px; margin:0 0 8px; }
+  .dish-result-why{ font-size:12px; line-height:1.5; font-style:italic; color: var(--facade); margin:0 0 8px; }
   .dish-result-notes{ font-size:12px; line-height:1.5; color: rgba(44,30,24,.68); margin:0 0 12px; }
   .dish-result-actions{ display:flex; gap:8px; flex-wrap:wrap; }
   .dish-result-actions a{
@@ -745,6 +746,46 @@
     return tags.reduce((n,t)=> n + (styleTags.includes(t) ? 1 : 0), 0);
   }
 
+  /* Korte onderbouwing waarom een wijn bij het gekozen gerecht past, per
+     overlappende smaaktag. Max. 2 clausules per kaart, zodat de tekst kort blijft. */
+  const DISH_REASONS = {
+    aperitief: {
+      "Fris & licht": "licht en fris is — ideaal vóór het eten",
+      "Bloemig": "bloemige aroma's heeft die goed samengaan met borrelhapjes",
+      "Fruitig": "een fruitige toon heeft die de eetlust opwekt",
+    },
+    salade: {
+      "Fris & licht": "fris genoeg is om een salade niet te overheersen",
+      "Mineraal": "een minerale kant heeft die goed samengaat met groenten en dressing",
+    },
+    vis: {
+      "Mineraal": "een zilte, minerale toon heeft die vis en zeevruchten juist versterkt",
+      "Vol & structuurrijk": "genoeg body heeft om steviger visgerechten te dragen",
+    },
+    gevogelte: {
+      "Kruidig": "kruidige tonen heeft die goed samengaan met gevogelte",
+      "Fruitig": "rijp fruit heeft dat mals wit vlees mooi aanvult",
+    },
+    bbq: {
+      "Vol & structuurrijk": "genoeg body en structuur heeft om tegen rood vlees van de bbq op te boksen",
+      "Kruidig": "kruidige, specerijachtige tonen heeft die goed samengaan met gegrild vlees",
+    },
+    stoof: {
+      "Bewaarrosé": "een bewaarrosé is met genoeg diepte voor een stevig gerecht",
+      "Bewaarwijn": "een bewaarwijn is met genoeg rijping en diepte voor een stevig gerecht",
+      "Vol & structuurrijk": "vol en structuurrijk genoeg is om tegen stoofvlees en wild op te boksen",
+      "Kruidig": "kruidige tonen heeft die goed samengaan met wild en gerijpte kaas",
+    },
+  };
+
+  function dishReason(styleTags, dish){
+    const tags = DISH_TAGS[dish] || [];
+    const clauses = tags.filter(t=> styleTags.includes(t))
+      .map(t=> (DISH_REASONS[dish]||{})[t]).filter(Boolean).slice(0,2);
+    if(!clauses.length) return "";
+    return `Past hierbij omdat de wijn ${clauses.join(" en ")}.`;
+  }
+
   let DISH_POOL = null;
 
   async function loadDishPool(){
@@ -802,13 +843,14 @@
     }
     top.sort((a,b)=> b.score - a.score || dishPriceRank(a.w) - dishPriceRank(b.w));
     if(!top.length){ grid.innerHTML = ""; return; }
-    grid.innerHTML = top.map(({h,w,base}, i)=>{
+    grid.innerHTML = top.map(({h,w,base,style}, i)=>{
       const hash = `huis=${encodeURIComponent(h.id)}&wijn=${encodeURIComponent(w.cuvee)}`;
       return `
       <div class="dish-result-card ${i===0?"is-primary":""}">
         ${i===0 ? '<div class="dish-result-badge">Beste match</div>' : ""}
         <p class="dish-result-house">${h.name}</p>
         <h3 class="dish-result-cuvee">${w.cuvee}</h3>
+        <p class="dish-result-why">${dishReason(style, dish)}</p>
         <p class="dish-result-notes">${w.notes}</p>
         <div class="dish-result-actions">
           ${w.gall ? `<a class="gall" href="${w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>` : ""}
