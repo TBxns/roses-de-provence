@@ -161,7 +161,7 @@
   .landscape-caption b{ display:block; font-family: var(--font-display); font-style:italic; text-transform:none; letter-spacing:0; font-size:16px; margin-top:2px; }
 
   /* ---------- TWIJFEL JE? BEGIN HIER (curatie-instap, vóór de volledige lijst) ---------- */
-  .starter{ max-width:1100px; margin:36px auto 0; padding:0 32px; }
+  .starter{ max-width:1100px; margin:36px auto 48px; padding:0 32px; }
   .starter-eyebrow{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--facade); font-weight:600; margin:0 0 8px; }
   .starter-intro{ font-size:13px; line-height:1.6; color: rgba(44,30,24,.6); max-width:560px; margin:0 0 20px; }
   .starter-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
@@ -192,22 +192,17 @@
      bezoekers die liever niet de hele lijst doorspitten. Hergebruikt bewust
      dezelfde modal-opmaak als de detailkaart, zodat het geheel als één stijl
      aanvoelt. */
-  .quiz-cta{ margin: 32px auto 0; max-width:400px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-  .quiz-cta-badge{
-    width:72px; height:72px; border-radius:50%; border:1.5px solid var(--facade);
-    display:flex; align-items:center; justify-content:center; margin-bottom:14px;
+  .dish-picker-alt{
+    margin-top:22px; padding-top:18px; border-top:1px solid rgba(44,30,24,.12);
+    text-align:center; font-size:12.5px; color: rgba(44,30,24,.6);
   }
-  .quiz-cta-badge svg{ width:20px; height:44px; display:block; }
-  .quiz-cta-text{ font-size:13px; line-height:1.5; color: rgba(44,30,24,.62); margin:0 0 14px; }
-  .quiz-trigger{
-    display:inline-flex; align-items:center; gap:8px;
-    background: var(--facade); color: var(--paper); font-weight:700;
-    font-family: var(--font-ui); font-size:13px; letter-spacing:.01em;
-    border:none; border-radius:999px; padding:12px 24px; cursor:pointer;
-    box-shadow: 0 6px 14px rgba(44,30,24,.18), 0 2px 5px rgba(44,30,24,.12);
-    transition: transform .15s ease, box-shadow .15s ease;
+  .quiz-trigger-link{
+    background:none; border:none; padding:0; margin-left:4px;
+    font-family: var(--font-ui); font-size:12.5px; font-weight:700;
+    color: var(--facade); text-decoration:underline; text-underline-offset:3px;
+    cursor:pointer;
   }
-  .quiz-trigger:hover{ transform: translateY(-2px); box-shadow: 0 10px 22px rgba(44,30,24,.26), 0 3px 7px rgba(44,30,24,.16); }
+  .quiz-trigger-link:hover{ color: var(--shadow); }
   .quiz-backdrop{
     position: fixed; inset:0; background: rgba(44,30,24,.55); backdrop-filter: blur(2px);
     opacity:0; pointer-events:none; transition: opacity .28s ease; z-index:60;
@@ -300,6 +295,7 @@
   }
   .dish-result-house{ font-size:10px; letter-spacing:.08em; text-transform:uppercase; color: rgba(44,30,24,.5); margin:0 0 4px; }
   .dish-result-cuvee{ font-family: var(--font-display); font-style:italic; font-size:17px; margin:0 0 8px; }
+  .dish-result-why{ font-size:12px; line-height:1.5; font-style:italic; color: var(--facade); margin:0 0 8px; }
   .dish-result-notes{ font-size:12px; line-height:1.5; color: rgba(44,30,24,.68); margin:0 0 12px; }
   .dish-result-actions{ display:flex; gap:8px; flex-wrap:wrap; }
   .dish-result-actions a, .dish-result-actions button{
@@ -1111,11 +1107,12 @@
       <p class="dish-result-label">Onze aanbeveling</p>
       <div class="dish-result-grid" id="dish-result-grid"></div>
     </div>
+    <p class="dish-picker-alt">Liever een match op basis van budget en smaak? <button class="quiz-trigger-link" id="quiz-trigger" type="button">Doe de korte quiz →</button></p>
   </section>
 
-  <section class="starter" aria-label="Twijfel je? Begin hier">
-    <p class="starter-eyebrow">Twijfel je? Begin hier</p>
-    <p class="starter-intro">Nog een kleine selectie, maar met drie heel verschillende gezichten — van instapper tot de fles met de meeste allure.</p>
+  <section class="starter" aria-label="Onze vaste aanraders">
+    <p class="starter-eyebrow">Onze vaste aanraders</p>
+    <p class="starter-intro">Drie heel verschillende gezichten — van instapper tot de fles met de meeste allure.</p>
     <div class="starter-grid">
       <a class="starter-card" href="https://www.gall.nl/collezione-privata-rosato-toscana-rose-75cl-461407.html" target="_blank" rel="noopener">
         <p class="starter-tag">De instapper</p>
@@ -1138,17 +1135,6 @@
         <p class="starter-why">Van een wijnfamilie met 26 generaties en ruim zeshonderd jaar geschiedenis. Genoemd naar een negentiende-eeuwse bandiet uit Bolgheri.</p>
         <span class="starter-cta">Bestel bij Gall &amp; Gall →</span>
       </a>
-    </div>
-
-    <div class="quiz-cta">
-      <div class="quiz-cta-badge">
-        <svg viewBox="0 0 20 40" role="img" aria-label="Flesje rosé">
-          <path d="M7,1 L13,1 L13,9 C13,12 17,13 17,17 L17,35 C17,37.5 15,39 12,39 L8,39 C5,39 3,37.5 3,35 L3,17 C3,13 7,12 7,9 Z" style="fill:var(--rose); stroke:var(--shadow); stroke-width:0.8;"/>
-          <rect x="6.5" y="0.5" width="7" height="4" style="fill:var(--shadow);"/>
-        </svg>
-      </div>
-      <p class="quiz-cta-text">Nog twijfelend? Beantwoord 4 korte vragen en we adviseren de beste match voor jou.</p>
-      <button class="quiz-trigger" id="quiz-trigger" type="button">Vind jouw wijn →</button>
     </div>
   </section>
 
@@ -3601,6 +3587,46 @@ const DISH_TAGS = {
   stoof:     ["Bewaarrosé","Bewaarwijn","Vol & structuurrijk","Kruidig"],
 };
 
+/* Korte onderbouwing waarom een wijn bij het gekozen gerecht past, per
+   overlappende smaaktag. Max. 2 clausules per kaart, zodat de tekst kort blijft. */
+const DISH_REASONS = {
+  aperitief: {
+    "Fris & licht": "licht en fris is — ideaal vóór het eten",
+    "Bloemig": "bloemige aroma's heeft die goed samengaan met borrelhapjes",
+    "Fruitig": "een fruitige toon heeft die de eetlust opwekt",
+  },
+  salade: {
+    "Fris & licht": "fris genoeg is om een salade niet te overheersen",
+    "Mineraal": "een minerale kant heeft die goed samengaat met groenten en dressing",
+  },
+  vis: {
+    "Mineraal": "een zilte, minerale toon heeft die vis en zeevruchten juist versterkt",
+    "Vol & structuurrijk": "genoeg body heeft om steviger visgerechten te dragen",
+  },
+  gevogelte: {
+    "Kruidig": "kruidige tonen heeft die goed samengaan met gevogelte",
+    "Fruitig": "rijp fruit heeft dat mals wit vlees mooi aanvult",
+  },
+  bbq: {
+    "Vol & structuurrijk": "genoeg body en structuur heeft om tegen rood vlees van de bbq op te boksen",
+    "Kruidig": "kruidige, specerijachtige tonen heeft die goed samengaan met gegrild vlees",
+  },
+  stoof: {
+    "Bewaarrosé": "een bewaarrosé is met genoeg diepte voor een stevig gerecht",
+    "Bewaarwijn": "een bewaarwijn is met genoeg rijping en diepte voor een stevig gerecht",
+    "Vol & structuurrijk": "vol en structuurrijk genoeg is om tegen stoofvlees en wild op te boksen",
+    "Kruidig": "kruidige tonen heeft die goed samengaan met wild en gerijpte kaas",
+  },
+};
+
+function dishReason(styleTags, dish){
+  const tags = DISH_TAGS[dish] || [];
+  const clauses = tags.filter(t=> styleTags.includes(t))
+    .map(t=> (DISH_REASONS[dish]||{})[t]).filter(Boolean).slice(0,2);
+  if(!clauses.length) return "";
+  return `Past hierbij omdat de wijn ${clauses.join(" en ")}.`;
+}
+
 function dishPriceRank(wine){
   if(typeof wine.price === "number") return wine.price;
   const m = String(wine.price||"").match(/(\d+)/);
@@ -3642,6 +3668,7 @@ function renderDishResult(dish){
       ${i===0 ? '<div class="dish-result-badge">Beste match</div>' : ""}
       <p class="dish-result-house">${h.name}</p>
       <h3 class="dish-result-cuvee">${w.cuvee}</h3>
+      <p class="dish-result-why">${dishReason(deriveStyles(w), dish)}</p>
       <p class="dish-result-notes">${w.notes}</p>
       <div class="dish-result-actions">
         ${w.gall ? `<a class="gall" href="${w.gall}" target="_blank" rel="noopener">Bestel bij Gall &amp; Gall →</a>` : ""}
