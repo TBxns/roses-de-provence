@@ -24,7 +24,8 @@
         "price": "€ 11,-",
         "gall": "https://www.gall.nl/hoeve-nekum-pinot-noir-rose-rose-75cl-452688.html",
         "style": [
-          "Zacht & Fruitig"
+          "Fris & licht",
+          "Fruitig"
         ],
         "pairing": "Salade, tapas of als aperitief.",
         "servingTemp": "8 – 10°C",
@@ -41,7 +42,7 @@
         "price": "€ 11,-",
         "gall": "https://www.gall.nl/hoeve-nekum-rivaner-wit-75cl-127361.html",
         "style": [
-          "Licht & Fris"
+          "Fris & licht"
         ],
         "pairing": "Lichte visgerechten of als borrelwijn.",
         "servingTemp": "8 – 10°C",
@@ -58,7 +59,7 @@
         "price": "€ 11,-",
         "gall": "https://www.gall.nl/hoeve-nekum-auxerrois-wit-75cl-379980.html",
         "style": [
-          "Zacht & Fruitig"
+          "Fruitig"
         ],
         "pairing": "Gevogelte of zachte kaas.",
         "servingTemp": "9 – 11°C",
@@ -75,7 +76,7 @@
         "price": "€ 14,-",
         "gall": "https://www.gall.nl/hoeve-nekum-riesling-wit-75cl-127299.html",
         "style": [
-          "Licht & Fris"
+          "Fris & licht"
         ],
         "pairing": "Aziatische gerechten of Vis.",
         "servingTemp": "9 – 11°C",
@@ -110,7 +111,7 @@
         ],
         "price": "€ 18,79",
         "style": [
-          "Zacht & Fruitig"
+          "Fruitig"
         ],
         "pairing": "Aperitief of lichte gerechten.",
         "servingTemp": "9 – 11°C",
@@ -165,7 +166,8 @@
         ],
         "price": "€ 16,-",
         "style": [
-          "Ferm & Stevig"
+          "Vol & structuurrijk",
+          "Kruidig"
         ],
         "pairing": "Stoofpot, wild of gerijpte kaas.",
         "servingTemp": "16 – 18°C",
@@ -273,7 +275,8 @@
         "price": "€ 21,-",
         "gall": "https://www.gall.nl/laren-coulisse-cuvee-rood-rood-75cl-403997.html",
         "style": [
-          "Ferm & Stevig"
+          "Vol & structuurrijk",
+          "Kruidig"
         ],
         "pairing": "Stoofpot of gegrild vlees.",
         "servingTemp": "16 – 18°C",
@@ -290,7 +293,7 @@
         "price": "€ 18,-",
         "gall": "https://www.gall.nl/gelders-laren-coulisse-wit-solaris-wit-75cl-404012.html",
         "style": [
-          "Licht & Fris"
+          "Fris & licht"
         ],
         "pairing": "Salade of lichte visgerechten.",
         "servingTemp": "9 – 11°C",
@@ -325,7 +328,8 @@
         ],
         "price": "€ 15,-",
         "style": [
-          "Licht & Fris"
+          "Fris & licht",
+          "Fruitig"
         ],
         "pairing": "Aperitief of lichte visgerechten.",
         "servingTemp": "9 – 11°C",
@@ -342,7 +346,8 @@
         ],
         "price": "€ 19,-",
         "style": [
-          "Vol & structuurrijk"
+          "Vol & structuurrijk",
+          "Kruidig"
         ],
         "pairing": "Stoofpot of gerijpte kaas.",
         "servingTemp": "16 – 18°C",
@@ -377,7 +382,8 @@
         ],
         "price": "€ 18,-",
         "style": [
-          "Vol & structuurrijk"
+          "Vol & structuurrijk",
+          "Mineraal"
         ],
         "pairing": "Mosselen, oesters of Zeeuwse platvis.",
         "servingTemp": "10 – 12°C",
@@ -385,6 +391,59 @@
         "abv": 12,
         "aging": "Nu – 2 jaar",
         "notes": "100% pinot gris van voormalige zeebodem — de ziltige ondergrond geeft een herkenbare minerale toon."
+      }
+    ]
+  },
+  {
+    "id": "nederland-colonjes",
+    "category": "nederland",
+    "name": "Wijnhoeve De Colonjes",
+    "commune": "Groesbeek",
+    "country": "Nederland",
+    "lat": 51.7683775,
+    "lng": 5.9356249,
+    "website": "https://colonjes.nl/",
+    "appellation": "nijmegen",
+    "founded": "Sinds 2001",
+    "farming": "Biologisch, 13 hectare — grootste biologische wijngaard van Nederland",
+    "description": "De grootste biologische wijngaard van Nederland, op de lössbodem van de zuidhellingen bij het 'wijndorp' Groesbeek — samen met 6 andere wijngaarden onderdeel van het Nederlands Wijnbouwcentrum.",
+    "story": "Freek Verhoeven begon in 2001 als gepensioneerd sportdocent met een hobby op de zuidhelling langs de Colonjesbeek. Omdat gangbare druivenrassen niet tegen het natte Nederlandse klimaat kunnen, koos hij bewust voor schimmelbestendige hybriden als johanniter, cabernet blanc en regent. Wat begon als project van vrijwilligers groeide uit tot de grootste biologische wijngaard van het land, met wijnen die regelmatig internationale keuringen winnen.",
+    "x": 2274,
+    "y": 1359,
+    "wines": [
+      {
+        "cuvee": "Regent",
+        "grapes": [
+          "Regent"
+        ],
+        "price": "€ 15,95",
+        "style": [
+          "Vol & structuurrijk",
+          "Kruidig"
+        ],
+        "pairing": "Stevige stoofpotten of vleesgerechten.",
+        "servingTemp": "18°C",
+        "color": "#5A1420",
+        "abv": 13,
+        "aging": "8 maanden op eikenhouten vaten",
+        "notes": "Volle, krachtige rode wijn met kersen, bramen en kruidnagel, ondersteund door een lichte houttoets."
+      },
+      {
+        "cuvee": "Johanniter",
+        "grapes": [
+          "Johanniter"
+        ],
+        "price": "€ 16,25",
+        "style": [
+          "Fris & licht",
+          "Fruitig"
+        ],
+        "pairing": "Aperitief of visgerechten.",
+        "servingTemp": "10°C",
+        "color": "#E7DFA6",
+        "abv": 11,
+        "aging": "Nu – 2 jaar",
+        "notes": "Licht zoete, frisse biologische witte wijn met aroma's van perzik en geel fruit."
       }
     ]
   }
