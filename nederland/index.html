@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nederland — Nederlandse Wijnhuizen | Proefwaaier</title>
-<meta name="description" content="Vergelijk 8 Nederlandse wijnhuizen — van Zuid-Limburg tot Zeeland en de Betuwe. Ontdek terroir, druiven en karakter, en bestel direct bij Gall &amp; Gall.">
+<meta name="description" content="Vergelijk 9 Nederlandse wijnhuizen — van Zuid-Limburg tot Zeeland, de Betuwe en Nijmegen. Ontdek terroir, druiven en karakter, en bestel direct bij Gall &amp; Gall.">
 <link rel="canonical" href="https://proefwaaier.nl/nederland/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Proefwaaier">
 <meta property="og:title" content="Nederland — Nederlandse Wijnhuizen | Proefwaaier">
-<meta property="og:description" content="Vergelijk 8 Nederlandse wijnhuizen — van Zuid-Limburg tot Zeeland en de Betuwe. Bestel direct bij Gall &amp; Gall.">
+<meta property="og:description" content="Vergelijk 9 Nederlandse wijnhuizen — van Zuid-Limburg tot Zeeland, de Betuwe en Nijmegen. Bestel direct bij Gall &amp; Gall.">
 <meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Landscape%20between%20Epen%20and%20Sippenaeken.jpg?width=1200">
 <meta property="og:url" content="https://proefwaaier.nl/nederland/">
 <meta property="og:locale" content="nl_NL">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Nederland — Nederlandse Wijnhuizen | Proefwaaier">
-<meta name="twitter:description" content="Vergelijk 8 Nederlandse wijnhuizen — van Zuid-Limburg tot Zeeland en de Betuwe. Bestel direct bij Gall &amp; Gall.">
+<meta name="twitter:description" content="Vergelijk 9 Nederlandse wijnhuizen — van Zuid-Limburg tot Zeeland, de Betuwe en Nijmegen. Bestel direct bij Gall &amp; Gall.">
 <meta name="twitter:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Landscape%20between%20Epen%20and%20Sippenaeken.jpg?width=1200">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -41,6 +41,7 @@
     --zone-achterhoek: var(--lavender);
     --zone-betuwe: var(--facade);
     --zone-zeeland: #2E7D82;
+    --zone-nijmegen: #6B3350;
   }
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
@@ -1055,7 +1056,7 @@
   <header class="hero">
     <div class="hero-eyebrow">Zuid-Limburg, Betuwe &amp; Zeeland</div>
     <h1 class="hero-title">Wijn, uit<br>eigen land</h1>
-    <p class="hero-sub">Acht wijnhuizen, vier streken, van het krijt van Zuid-Limburg tot de zilte klei van Zeeland. Vergelijk terroirs, druiven en karakter — dichter bij huis dan je denkt.</p>
+    <p class="hero-sub">Negen wijnhuizen, vijf streken, van het krijt van Zuid-Limburg tot de zilte klei van Zeeland. Vergelijk terroirs, druiven en karakter — dichter bij huis dan je denkt.</p>
     <a class="hero-jump" href="#process">
       Van druif tot fles
       <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1467,6 +1468,7 @@ const APPELLATIONS = {
   achterhoek:  { name:"Achterhoek",   tag:"Coulissenlandschap",     zoneColor:"var(--zone-achterhoek)",  desc:"Het besloten coulissenlandschap van bossen, houtwallen en akkers in de oostelijke Gelderse Achterhoek." },
   betuwe:      { name:"Betuwe",       tag:"Rivierklei",             zoneColor:"var(--zone-betuwe)",      desc:"Het rivierengebied tussen Waal en Rijn, van oudsher fruitteeltgebied — de kleigrond die de Betuwe beroemd maakte om zijn boomgaarden blijkt ook uitstekend voor wijnstokken." },
   zeeland:     { name:"Zeeland",      tag:"Voormalige zeebodem",    zoneColor:"var(--zone-zeeland)",     desc:"Schouwen-Duiveland, op voormalige zeebodem in de Oosterschelde-delta — de zilte, mineraalrijke grond geeft de wijnen een unieke, gastronomische signatuur." },
+  nijmegen:    { name:"Rijk van Nijmegen", tag:"Groesbeekse stuwwallen", zoneColor:"var(--zone-nijmegen)", desc:"De glooiende stuwwallen rond het 'wijndorp' Groesbeek, tegen de Duitse grens — dezelfde lössbodem als Zuid-Limburg, een paar tientallen kilometer noordelijker." },
 };
 
 /* Wijnhuis- en wijndata: geladen uit een los JSON-bestand (data/nederland.json) i.p.v.
@@ -2000,8 +2002,9 @@ const REGIONS = {
       { app:"achterhoek",  d:"M2785,1015 C2748,1050 2699,1097 2662,1132 C2606,1138 2532,1146 2476,1151 C2454,1110 2424,1056 2401,1015 C2422,972 2450,915 2472,872 C2530,878 2608,886 2666,892 C2702,929 2749,978 2785,1015 Z" },
       { app:"betuwe",      d:"M2048,1224 C2022,1270 1989,1331 1964,1376 C1900,1369 1815,1359 1751,1351 C1714,1313 1665,1262 1628,1224 C1665,1187 1716,1137 1754,1099 C1816,1092 1899,1082 1961,1074 C1987,1119 2022,1179 2048,1224 Z" },
       { app:"zeeland",     d:"M1007,1426 C965,1468 910,1524 868,1566 C804,1573 718,1583 654,1590 C627,1541 593,1475 567,1426 C591,1375 624,1306 648,1255 C716,1262 806,1271 874,1278 C913,1322 967,1382 1007,1426 Z" },
+      { app:"nijmegen",    d:"M2471,1358 C2445,1404 2412,1465 2387,1510 C2323,1503 2238,1493 2174,1485 C2137,1447 2088,1396 2051,1358 C2088,1321 2139,1271 2177,1233 C2239,1226 2322,1216 2384,1208 C2410,1253 2445,1313 2471,1358 Z" },
     ],
-    zoneLabelPos: { zuidlimburg:[2110,2660], achterhoek:[2476,830], betuwe:[1751,1440], zeeland:[654,1660] },
+    zoneLabelPos: { zuidlimburg:[2110,2660], achterhoek:[2476,830], betuwe:[1751,1440], zeeland:[654,1660], nijmegen:[2274,1584] },
     massif: { name:"Nederland", cx:1800, cy:260 },
     compass: [3380,220],
   },
