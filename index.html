@@ -386,6 +386,7 @@
     <div class="hero-cta">
       <a class="hero-btn primary" href="/rose/">Bekijk Rosé →</a>
       <a class="hero-btn primary" href="/rood/">Bekijk Rood →</a>
+      <a class="hero-btn primary" href="/nederland/">Bekijk Nederland →</a>
     </div>
     <div class="value-props">
       <div class="vp">
@@ -398,7 +399,7 @@
       </div>
       <div class="vp">
         <p class="vp-title">Eén waaier, alle categorieën</p>
-        <p class="vp-desc">Rosé, rood en straks mousserend, wit en whisky — steeds dezelfde zorgvuldige aanpak.</p>
+        <p class="vp-desc">Rosé, rood en Nederland, en straks mousserend, wit en whisky — steeds dezelfde zorgvuldige aanpak.</p>
       </div>
     </div>
   </nav>
@@ -435,6 +436,22 @@
           <div class="tile-eyebrow">Rood · Bordeaux &amp; Rhône</div>
           <h2 class="tile-title">Rood</h2>
           <p class="tile-desc">20 wijnhuizen, 4 appellations — van het Médoc tot Cornas. Vergelijk terroir, druiven en karakter.</p>
+          <div class="tile-arrow">Bekijk de collectie →</div>
+        </div>
+      </a>
+
+      <a class="tile live" href="/nederland/" aria-label="Naar Wijnen van Nederland">
+        <div class="tile-bg" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Landscape%20between%20Epen%20and%20Sippenaeken.jpg?width=900')"></div>
+        <div class="tile-tint" style="background:linear-gradient(190deg, rgba(191,106,58,.5) 0%, rgba(47,76,114,.65) 100%);"></div>
+        <div class="tile-shade"></div>
+        <span class="tile-badge live">Live</span>
+        <svg class="tile-icon" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 4h28c0 12-4 18-12 20v16h8v4H10v-4h8V24C10 22 6 16 6 4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="tile-content">
+          <div class="tile-eyebrow">Nederland · Limburg tot Zeeland</div>
+          <h2 class="tile-title">Nederland</h2>
+          <p class="tile-desc">8 wijnhuizen, 4 streken — van de krijtheuvels van Zuid-Limburg tot de zilte klei van Zeeland. Vergelijk terroir, druiven en karakter.</p>
           <div class="tile-arrow">Bekijk de collectie →</div>
         </div>
       </a>
@@ -485,7 +502,7 @@
   <section class="dish-picker" aria-label="Wat eet je vanavond?">
     <p class="dish-picker-eyebrow">Wat eet je vanavond?</p>
     <h2 class="dish-picker-title">Kies een gerecht, wij kiezen de fles</h2>
-    <p class="dish-picker-intro">Eén klik en je ziet direct de best passende wijn uit de hele Proefwaaier — Rosé én Rood door elkaar.</p>
+    <p class="dish-picker-intro">Eén klik en je ziet direct de best passende wijn uit de hele Proefwaaier — Rosé, Rood en Nederland door elkaar.</p>
     <div class="dish-grid" id="dish-grid">
       <button class="dish-tile" data-dish="aperitief" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14l-2 9a5 5 0 0 1-10 0L5 3Z"/><path d="M12 16v5M9 21h6"/></svg>
@@ -794,6 +811,7 @@
       { url:"/rose/provence/data/rose.json",   base:"/rose/provence/", rose:true  },
       { url:"/rose/toscane/data/toscane.json", base:"/rose/toscane/",  rose:true  },
       { url:"/rood/data/rood.json",            base:"/rood/",          rose:false },
+      { url:"/nederland/data/nederland.json",  base:"/nederland/",     rose:false },
     ];
     const pool = [];
     for(const src of sources){
