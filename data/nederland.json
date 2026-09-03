@@ -1,0 +1,468 @@
+[
+  {
+    "id": "nederland-hoevenekum",
+    "category": "nederland",
+    "name": "Hoeve Nekum",
+    "commune": "Maastricht",
+    "country": "Nederland",
+    "lat": 50.845,
+    "lng": 5.685,
+    "website": "https://www.hoevenekum.nl/",
+    "appellation": "zuidlimburg",
+    "founded": "Wijngaard sinds 1988, hoeve vermeld sinds 1304",
+    "farming": "Conventioneel, BOB Mergelland",
+    "description": "Monumentale hoeve op de zuidhelling van de Louwberg in het Jekerdal, het oudste wijnbouwgebied van Nederland — sinds 1934 in handen van familie Bollen.",
+    "story": "In 1988 besloot de familie Bollen, al generaties boer op de hoeve, een deel van hun land om te zetten in wijngaard. Op 2 februari 2002 schonk het Koninklijk Huis zestig flessen van hun Riesling uit 1999 bij het huwelijk van Willem-Alexander en Máxima — een eer die het kleine wijngoed nooit meer is vergeten.",
+    "x": 2092,
+    "y": 2435,
+    "wines": [
+      {
+        "cuvee": "Pinot Noir Rosé",
+        "grapes": [
+          "Pinot Noir"
+        ],
+        "price": "€ 11,-",
+        "gall": "https://www.gall.nl/hoeve-nekum-pinot-noir-rose-rose-75cl-452688.html",
+        "style": [
+          "Fris & licht",
+          "Fruitig"
+        ],
+        "pairing": "Salade, tapas of als aperitief.",
+        "servingTemp": "8 – 10°C",
+        "color": "#D98A8A",
+        "abv": 11.5,
+        "aging": "Nu drinken",
+        "notes": "Zachte, fruitige rosé van de zuidhelling van de Louwberg."
+      },
+      {
+        "cuvee": "Rivaner",
+        "grapes": [
+          "Rivaner"
+        ],
+        "price": "€ 11,-",
+        "gall": "https://www.gall.nl/hoeve-nekum-rivaner-wit-75cl-127361.html",
+        "style": [
+          "Fris & licht"
+        ],
+        "pairing": "Lichte visgerechten of als borrelwijn.",
+        "servingTemp": "8 – 10°C",
+        "color": "#E7DFA6",
+        "abv": 11,
+        "aging": "Nu drinken",
+        "notes": "Licht en fris, met een zachte zuurgraad — toegankelijke dagelijkse wijn."
+      },
+      {
+        "cuvee": "Auxerrois",
+        "grapes": [
+          "Auxerrois"
+        ],
+        "price": "€ 11,-",
+        "gall": "https://www.gall.nl/hoeve-nekum-auxerrois-wit-75cl-379980.html",
+        "style": [
+          "Fruitig"
+        ],
+        "pairing": "Gevogelte of zachte kaas.",
+        "servingTemp": "9 – 11°C",
+        "color": "#E9E1A8",
+        "abv": 11.5,
+        "aging": "Nu drinken",
+        "notes": "Zachte, ronde witte wijn met rijp steenfruit."
+      },
+      {
+        "cuvee": "Riesling",
+        "grapes": [
+          "Riesling"
+        ],
+        "price": "€ 14,-",
+        "gall": "https://www.gall.nl/hoeve-nekum-riesling-wit-75cl-127299.html",
+        "style": [
+          "Fris & licht"
+        ],
+        "pairing": "Aziatische gerechten of Vis.",
+        "servingTemp": "9 – 11°C",
+        "color": "#E5DFA0",
+        "abv": 11.5,
+        "aging": "Nu – 2 jaar",
+        "notes": "De druif waarmee Hoeve Nekum in 2002 het Koninklijk Huis bediende — fris met een levendige zuurgraad."
+      }
+    ]
+  },
+  {
+    "id": "nederland-apostelhoeve",
+    "category": "nederland",
+    "name": "Apostelhoeve",
+    "commune": "Maastricht",
+    "country": "Nederland",
+    "lat": 50.833,
+    "lng": 5.686,
+    "website": "https://www.apostelhoeve.com/",
+    "appellation": "zuidlimburg",
+    "founded": "Sinds 1970 — oudste wijngaard van Nederland",
+    "farming": "Conventioneel, 20 hectare",
+    "description": "De oudste en grootste wijngaard van Nederland, op de Louwberg met uitzicht over het Jekerdal — drie generaties familie Hulst werken er inmiddels samen.",
+    "story": "In 1970 zag fruitteler Hugo Hulst iets wat niemand anders zag: dat de zuidhellingen van de Louwberg, net als eeuwen eerder onder de Romeinen, geschikt waren voor wijnstokken. De eerste oogst in 1973 leverde 1.400 flessen op — een voorzichtig begin van wat inmiddels 20 hectare en meer dan 180.000 flessen per jaar is.",
+    "x": 2128,
+    "y": 2456,
+    "wines": [
+      {
+        "cuvee": "Auxerrois",
+        "grapes": [
+          "Auxerrois"
+        ],
+        "price": "€ 18,79",
+        "style": [
+          "Fruitig"
+        ],
+        "pairing": "Aperitief of lichte gerechten.",
+        "servingTemp": "9 – 11°C",
+        "color": "#E9E1A8",
+        "abv": 12,
+        "aging": "Nu – 2 jaar",
+        "notes": "Het huiswijntje van de Apostelhoeve: rond en zacht met rijp fruit."
+      },
+      {
+        "cuvee": "Cuvée XII",
+        "grapes": [
+          "Auxerrois",
+          "Riesling",
+          "Pinot Gris"
+        ],
+        "price": "€ 19,95",
+        "style": [
+          "Vol & structuurrijk"
+        ],
+        "pairing": "Gevogelte, vis in romige saus.",
+        "servingTemp": "10 – 12°C",
+        "color": "#E4DB98",
+        "abv": 12,
+        "aging": "14 maanden op de gist",
+        "notes": "Blend van auxerrois, riesling en pinot gris, 14 maanden op de gist gerijpt voor extra structuur."
+      }
+    ]
+  },
+  {
+    "id": "nederland-stmartinus",
+    "category": "nederland",
+    "name": "Wijngaard St. Martinus",
+    "commune": "Vijlen (Rott)",
+    "country": "Nederland",
+    "lat": 50.757,
+    "lng": 5.985,
+    "website": "https://wijngaardmartinus.nl/",
+    "appellation": "zuidlimburg",
+    "founded": "Sinds 1988 — eerste rode wijn van Nederland",
+    "farming": "Conventioneel, ca. 28 hectare verspreid over meerdere percelen",
+    "description": "Wijngoed in het zuidelijkste puntje van Nederland, bij het 'bergdorpje' Vijlen — de eerste Nederlandse producent van rode wijn en meermaals verkozen tot beste wijngoed van het land.",
+    "story": "Toen St. Martinus in 1988 als eerste in Nederland rode wijn op de markt bracht, was dat een gok: rode druiven rijpen lastiger in een koel klimaat dan witte. Het pakte goed uit — in 2019 werd het wijngoed voor de vijfde keer verkozen tot beste van Nederland, en in 2021 pakte het acht gouden medailles op de Wijnkeuring van de Lage Landen.",
+    "x": 2310,
+    "y": 2536,
+    "wines": [
+      {
+        "cuvee": "Bergdorpje Rood",
+        "grapes": [
+          "Pinot Noir",
+          "Dornfelder",
+          "Regent"
+        ],
+        "price": "€ 16,-",
+        "style": [
+          "Vol & structuurrijk",
+          "Kruidig"
+        ],
+        "pairing": "Stoofpot, wild of gerijpte kaas.",
+        "servingTemp": "16 – 18°C",
+        "color": "#5A1420",
+        "abv": 12.5,
+        "aging": "Deels op eikenhout gelagerd",
+        "notes": "Vernoemd naar het 'bergdorpje' Vijlen — soepel, fruitig rood, deels op eikenhout gerijpt."
+      }
+    ]
+  },
+  {
+    "id": "nederland-holset",
+    "category": "nederland",
+    "name": "Domein Holset",
+    "commune": "Vaals (Holset)",
+    "country": "Nederland",
+    "lat": 50.762,
+    "lng": 6.02,
+    "website": "https://www.domeinholset.nl/",
+    "appellation": "zuidlimburg",
+    "founded": "Sinds 2008",
+    "farming": "Traditionele methode (flessengisting)",
+    "description": "Wijngoed aan de voet van de Vaalserberg, volledig gespecialiseerd in mousserende wijn volgens de traditionele methode.",
+    "story": "Marianne Blijdestein en Erik Leferink hadden geen enkele wijnervaring toen ze in Holset een vervallen boerderij vonden — alleen een idee. Vanaf 2017 groeide dat uit tot een volwaardig mousserend wijnhuis, met druiven van de kalkrijke Raarberg bij Meerssen als basis.",
+    "x": 2336,
+    "y": 2531,
+    "wines": [
+      {
+        "cuvee": "Rosé Brut",
+        "grapes": [
+          "Pinot Noir"
+        ],
+        "price": "€ 32,50",
+        "style": [
+          "Fris & licht",
+          "Bewaarwijn"
+        ],
+        "pairing": "Aperitief of als feestelijke bubbel.",
+        "servingTemp": "7 – 9°C",
+        "color": "#D9AFC0",
+        "abv": 12,
+        "aging": "Traditionele methode, jaren op de fles",
+        "notes": "100% pinot noir van de kalkhellingen van de Raarberg bij Meerssen, op traditionele wijze gegist voor een verfijnde mousse."
+      }
+    ]
+  },
+  {
+    "id": "nederland-thorn",
+    "category": "nederland",
+    "name": "Wijngoed Thorn",
+    "commune": "Thorn",
+    "country": "Nederland",
+    "lat": 51.196,
+    "lng": 5.892,
+    "website": "https://wijngoed-thorn.nl/",
+    "appellation": "zuidlimburg",
+    "founded": "Sinds 2001 — PDO Maasvallei Limburg",
+    "farming": "Conventioneel, ca. 10 hectare",
+    "description": "Wijngoed langs de Maas bij het 'witte stadje' Thorn, op een van de droogste plekken van de Benelux — sinds 2018 met beschermde oorsprongsbenaming Maasvallei Limburg.",
+    "story": "Het middeleeuwse marktplein van Thorn heet 'De Wingerd' — Limburgs voor wijngaard — een verwijzing naar wijnbouw die er al in de middeleeuwen bestond. Wijngoed Thorn pakte die draad in 2001 weer op, op de kleiige, zanderige grond van een drooggevallen zijarm van de Maas.",
+    "x": 2242,
+    "y": 2029,
+    "wines": [
+      {
+        "cuvee": "Pinot Gris",
+        "grapes": [
+          "Pinot Gris"
+        ],
+        "price": "€ 20,95",
+        "style": [
+          "Vol & structuurrijk"
+        ],
+        "pairing": "Gevogelte of romige pastagerechten.",
+        "servingTemp": "10 – 12°C",
+        "color": "#E6D8A0",
+        "abv": 12.5,
+        "aging": "Nu – 2 jaar",
+        "notes": "Goudgeel met tonen van peer, abrikoos en honing — een gastronomische afdronk."
+      }
+    ]
+  },
+  {
+    "id": "nederland-gelderslaren",
+    "category": "nederland",
+    "name": "Wijngoed Gelders Laren",
+    "commune": "Laren (Achterhoek)",
+    "country": "Nederland",
+    "lat": 52.06,
+    "lng": 6.35,
+    "website": "https://www.wijngoedgelderslaren.nl/",
+    "appellation": "achterhoek",
+    "founded": "Sinds 2005/2006",
+    "farming": "Kleinschalig, 2 hectare, zonder personeel",
+    "description": "Klein wijngoed van 2 hectare in het besloten coulissenlandschap van de Achterhoek, gerund door één echtpaar zonder personeel.",
+    "story": "Gert Jan en Diana legden hun wijngaard in 2005 en 2006 zelf aan, en deden al het werk sindsdien met z'n tweeën. De 'Coulisse'-lijn, genoemd naar het karakteristieke coulissenlandschap van bossen en houtwallen, verscheen in 2014. Door het uitblijven van opvolging en gezondheids- en leeftijdsredenen loopt het wijngoed nu op zijn einde — de bestaande wijnen zijn nog zo'n 1 à 2 jaar verkrijgbaar.",
+    "x": 2576,
+    "y": 1015,
+    "wines": [
+      {
+        "cuvee": "Coulisse Cuvée Rood",
+        "grapes": [
+          "Regent",
+          "Pinotin"
+        ],
+        "price": "€ 21,-",
+        "gall": "https://www.gall.nl/laren-coulisse-cuvee-rood-rood-75cl-403997.html",
+        "style": [
+          "Vol & structuurrijk",
+          "Kruidig"
+        ],
+        "pairing": "Stoofpot of gegrild vlees.",
+        "servingTemp": "16 – 18°C",
+        "color": "#54121C",
+        "abv": 12.5,
+        "aging": "Nu – 2 jaar",
+        "notes": "Stevige rode cuvée uit een van de laatste jaargangen van dit aflopende wijngoed."
+      },
+      {
+        "cuvee": "Coulisse Wit Solaris",
+        "grapes": [
+          "Solaris"
+        ],
+        "price": "€ 18,-",
+        "gall": "https://www.gall.nl/gelders-laren-coulisse-wit-solaris-wit-75cl-404012.html",
+        "style": [
+          "Fris & licht"
+        ],
+        "pairing": "Salade of lichte visgerechten.",
+        "servingTemp": "9 – 11°C",
+        "color": "#E8E0A2",
+        "abv": 11.5,
+        "aging": "Nu drinken",
+        "notes": "Frisse witte Solaris uit het coulissenlandschap van Laren."
+      }
+    ]
+  },
+  {
+    "id": "nederland-betuws",
+    "category": "nederland",
+    "name": "Betuws Wijndomein",
+    "commune": "Erichem (Betuwe)",
+    "country": "Nederland",
+    "lat": 51.883,
+    "lng": 5.35,
+    "website": "https://betuwswijndomein.nl/",
+    "appellation": "betuwe",
+    "founded": "Sinds 2004",
+    "farming": "Duurzaam sinds 2008, 7 hectare / ca. 21.500 stokken",
+    "description": "Wijndomein in de Betuwe, op rivierklei tussen de grote rivieren — begonnen als akkerbouwbedrijf, uitgegroeid tot een van de grotere wijngoederen van Nederland.",
+    "story": "Diederik Beker plantte in 2004 samen met zijn vader de eerste hectare op wat tot dan toe een akkerbouwbedrijf met graan en suikerbieten was. In 2017 werd hij uitgeroepen tot Wijnmaker van het Jaar bij de Wijnkeuring van de Lage Landen; inmiddels runt hij het bedrijf samen met zijn partner Arina op 7 hectare.",
+    "x": 1848,
+    "y": 1224,
+    "wines": [
+      {
+        "cuvee": "LingeWit Johanniter",
+        "grapes": [
+          "Johanniter"
+        ],
+        "price": "€ 15,-",
+        "style": [
+          "Fris & licht",
+          "Fruitig"
+        ],
+        "pairing": "Aperitief of lichte visgerechten.",
+        "servingTemp": "9 – 11°C",
+        "color": "#E7DFA4",
+        "abv": 11.5,
+        "aging": "Nu drinken",
+        "notes": "Fris bouquet van appel, peer en citrus, met een aangename bitterheid in de afdronk."
+      },
+      {
+        "cuvee": "LingeRood Cuvée Barrique",
+        "grapes": [
+          "Pinotin",
+          "Regent"
+        ],
+        "price": "€ 19,-",
+        "style": [
+          "Vol & structuurrijk",
+          "Kruidig"
+        ],
+        "pairing": "Stoofpot of gerijpte kaas.",
+        "servingTemp": "16 – 18°C",
+        "color": "#521018",
+        "abv": 12.5,
+        "aging": "12 maanden op eikenhouten vaten",
+        "notes": "Twaalf maanden op eiken vaten gerijpt, met zwarte kers en framboos en een subtiele houttoets."
+      }
+    ]
+  },
+  {
+    "id": "nederland-kleineschorre",
+    "category": "nederland",
+    "name": "Wijnhoeve De Kleine Schorre",
+    "commune": "Dreischor (Zeeland)",
+    "country": "Nederland",
+    "lat": 51.712,
+    "lng": 3.868,
+    "website": "https://www.dekleineschorre.nl/",
+    "appellation": "zeeland",
+    "founded": "Sinds 2001, i.s.m. Cep d'Or (Luxemburg)",
+    "farming": "Conventioneel, 12-14 hectare",
+    "description": "Wijnhoeve op Schouwen-Duiveland, op voormalige zeebodem in de Oosterschelde-delta — een van de grootste wijngoederen van Nederland.",
+    "story": "Wijnhoeve De Kleine Schorre werd in 2001 opgezet in samenwerking met het gerenommeerde Luxemburgse wijnhuis Cep d'Or, op grond die ooit onder de Oosterschelde lag. Die ziltige ondergrond geeft de wijnen een herkenbare minerale toon — reden waarom ze inmiddels ook in de World Business Class van KLM worden geschonken.",
+    "x": 769,
+    "y": 1426,
+    "wines": [
+      {
+        "cuvee": "Gris Blanc",
+        "grapes": [
+          "Pinot Gris"
+        ],
+        "price": "€ 18,-",
+        "style": [
+          "Vol & structuurrijk",
+          "Mineraal"
+        ],
+        "pairing": "Mosselen, oesters of Zeeuwse platvis.",
+        "servingTemp": "10 – 12°C",
+        "color": "#E6DDA0",
+        "abv": 12,
+        "aging": "Nu – 2 jaar",
+        "notes": "100% pinot gris van voormalige zeebodem — de ziltige ondergrond geeft een herkenbare minerale toon."
+      }
+    ]
+  },
+  {
+    "id": "nederland-colonjes",
+    "category": "nederland",
+    "name": "Wijnhoeve De Colonjes",
+    "commune": "Groesbeek",
+    "country": "Nederland",
+    "lat": 51.7683775,
+    "lng": 5.9356249,
+    "website": "https://colonjes.nl/",
+    "appellation": "nijmegen",
+    "founded": "Sinds 2001",
+    "farming": "Biologisch, 13 hectare — grootste biologische wijngaard van Nederland",
+    "description": "De grootste biologische wijngaard van Nederland, op de lössbodem van de zuidhellingen bij het 'wijndorp' Groesbeek — samen met 6 andere wijngaarden onderdeel van het Nederlands Wijnbouwcentrum.",
+    "story": "Freek Verhoeven begon in 2001 als gepensioneerd sportdocent met een hobby op de zuidhelling langs de Colonjesbeek. Omdat gangbare druivenrassen niet tegen het natte Nederlandse klimaat kunnen, koos hij bewust voor schimmelbestendige hybriden als johanniter, cabernet blanc en regent. Wat begon als project van vrijwilligers groeide uit tot de grootste biologische wijngaard van het land, met wijnen die regelmatig internationale keuringen winnen.",
+    "x": 2274,
+    "y": 1359,
+    "wines": [
+      {
+        "cuvee": "Regent",
+        "grapes": [
+          "Regent"
+        ],
+        "price": "€ 15,95",
+        "style": [
+          "Vol & structuurrijk",
+          "Kruidig"
+        ],
+        "pairing": "Stevige stoofpotten of vleesgerechten.",
+        "servingTemp": "18°C",
+        "color": "#5A1420",
+        "abv": 13,
+        "aging": "8 maanden op eikenhouten vaten",
+        "notes": "Volle, krachtige rode wijn met kersen, bramen en kruidnagel, ondersteund door een lichte houttoets."
+      },
+      {
+        "cuvee": "Johanniter",
+        "grapes": [
+          "Johanniter"
+        ],
+        "price": "€ 16,25",
+        "style": [
+          "Fris & licht",
+          "Fruitig"
+        ],
+        "pairing": "Aperitief of visgerechten.",
+        "servingTemp": "10°C",
+        "color": "#E7DFA6",
+        "abv": 11,
+        "aging": "Nu – 2 jaar",
+        "notes": "Licht zoete, frisse biologische witte wijn met aroma's van perzik en geel fruit."
+      },
+      {
+        "cuvee": "Rosé Frederique",
+        "grapes": [
+          "Pinotin",
+          "Cabernet Cortis"
+        ],
+        "price": "€ 16,25",
+        "style": [
+          "Fris & licht",
+          "Fruitig"
+        ],
+        "pairing": "Frisse zomersalades met vers fruit.",
+        "servingTemp": "10°C",
+        "color": "#E8B8C4",
+        "abv": 12.5,
+        "aging": "Nu – 2 jaar",
+        "notes": "Licht gekleurde, frisse rosé met framboos en aardbei, en het drinkplezier van een witte wijn."
+      }
+    ]
+  }
+]
